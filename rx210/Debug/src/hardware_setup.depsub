@@ -1,0 +1,1 @@
+ -x c   -nostdinc -I"C:\\PROGRA~2\\GCCFOR~1.201\\rx-elf\\rx-elf/rx-elf/optlibinc" -D__RX_LITTLE_ENDIAN__=1 -g2 -g -mlittle-endian-data -mcpu=rx200 -nofpu 

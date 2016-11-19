@@ -1,0 +1,368 @@
+
+Memory Configuration
+
+Name             Origin             Length             Attributes
+RAM              0x00000000         0x00010000
+ROM              0xfff80000         0x00080000
+*default*        0x00000000         0xffffffff
+
+Linker script and memory map
+
+
+.fvectors       0xffffff80       0x80
+ *(.fvectors)
+ .fvectors      0xffffff80       0x80 ./src/vector_table.o
+                0xffffff80                HardwareVectors
+
+.text           0xfff80000      0x71a
+ *(.text)
+ .text          0xfff80000       0x7a ./src/reset_program.o
+                0xfff80000                PowerON_Reset
+ *(.text.*)
+ *(P)
+ P              0xfff8007a       0xfb ./src/hardware_setup.o
+                0xfff8007a                HardwareSetup
+ P              0xfff80175      0x560 ./src/interrupt_handlers.o
+                0xfff80175                Excep_SuperVisorInst
+                0xfff8017d                Excep_UndefinedInst
+                0xfff80185                NonMaskableInterrupt
+                0xfff8018d                Dummy
+                0xfff80195                Excep_BRK
+                0xfff8019d                Excep_BSC_BUSERR
+                0xfff801a5                Excep_FCU_FIFERR
+                0xfff801ad                Excep_FCU_FRDYI
+                0xfff801b5                Excep_ICU_SWINT
+                0xfff801bd                Excep_CMT0_CMI0
+                0xfff801c5                Excep_CMT1_CMI1
+                0xfff801cd                Excep_CMT2_CMI2
+                0xfff801d5                Excep_CMT3_CMI3
+                0xfff801dd                Excep_CAC_FERRF
+                0xfff801e5                Excep_CAC_MENDF
+                0xfff801ed                Excep_CAC_OVFF
+                0xfff801f5                Excep_RSPI0_SPEI0
+                0xfff801fd                Excep_RSPI0_SPRI0
+                0xfff80205                Excep_RSPI0_SPTI0
+                0xfff8020d                Excep_RSPI0_SPII0
+                0xfff80215                Excep_DOC_DOPCF
+                0xfff8021d                Excep_CMPB_CMPB0
+                0xfff80225                Excep_CMPB_CMPB1
+                0xfff8022d                Excep_RTC_CUP
+                0xfff80235                Excep_ICU_IRQ0
+                0xfff8023d                Excep_ICU_IRQ1
+                0xfff80245                Excep_ICU_IRQ2
+                0xfff8024d                Excep_ICU_IRQ3
+                0xfff80255                Excep_ICU_IRQ4
+                0xfff8025d                Excep_ICU_IRQ5
+                0xfff80265                Excep_ICU_IRQ6
+                0xfff8026d                Excep_ICU_IRQ7
+                0xfff80275                Excep_LVD_LVD1
+                0xfff8027d                Excep_LVD_LVD2
+                0xfff80285                Excep_RTC_ALM
+                0xfff8028d                Excep_RTC_PRD
+                0xfff80295                Excep_S12AD_S12ADI0
+                0xfff8029d                Excep_S12AD_GBADI
+                0xfff802a5                Excep_ELC_ELSR18I
+                0xfff802ad                Excep_ELC_ELSR19I
+                0xfff802b5                Excep_MTU0_TGIA0
+                0xfff802bd                Excep_MTU0_TGIB0
+                0xfff802c5                Excep_MTU0_TGIC0
+                0xfff802cd                Excep_MTU0_TGID0
+                0xfff802d5                Excep_MTU0_TCIV0
+                0xfff802dd                Excep_MTU0_TGIE0
+                0xfff802e5                Excep_MTU0_TGIF0
+                0xfff802ed                Excep_MTU1_TGIA1
+                0xfff802f5                Excep_MTU1_TGIB1
+                0xfff802fd                Excep_MTU1_TCIV1
+                0xfff80305                Excep_MTU1_TCIU1
+                0xfff8030d                Excep_MTU2_TGIA2
+                0xfff80315                Excep_MTU2_TGIB2
+                0xfff8031d                Excep_MTU2_TCIV2
+                0xfff80325                Excep_MTU2_TCIU2
+                0xfff8032d                Excep_MTU3_TGIA3
+                0xfff80335                Excep_MTU3_TGIB3
+                0xfff8033d                Excep_MTU3_TGIC3
+                0xfff80345                Excep_MTU3_TGID3
+                0xfff8034d                Excep_MTU3_TCIV3
+                0xfff80355                Excep_MTU4_TGIA4
+                0xfff8035d                Excep_MTU4_TGIB4
+                0xfff80365                Excep_MTU4_TGIC4
+                0xfff8036d                Excep_MTU4_TGID4
+                0xfff80375                Excep_MTU4_TCIV4
+                0xfff8037d                Excep_MTU5_TGIU5
+                0xfff80385                Excep_MTU5_TGIV5
+                0xfff8038d                Excep_MTU5_TGIW5
+                0xfff80395                Excep_TPU0_TGI0A
+                0xfff8039d                Excep_TPU0_TGI0B
+                0xfff803a5                Excep_TPU0_TGI0C
+                0xfff803ad                Excep_TPU0_TGI0D
+                0xfff803b5                Excep_TPU0_TCI0V
+                0xfff803bd                Excep_TPU1_TGI1A
+                0xfff803c5                Excep_TPU1_TGI1B
+                0xfff803cd                Excep_TPU1_TCI1V
+                0xfff803d5                Excep_TPU1_TCI1U
+                0xfff803dd                Excep_TPU2_TGI2A
+                0xfff803e5                Excep_TPU2_TGI2B
+                0xfff803ed                Excep_TPU2_TCI2V
+                0xfff803f5                Excep_TPU2_TCI2U
+                0xfff803fd                Excep_TPU3_TGI3A
+                0xfff80405                Excep_TPU3_TGI3B
+                0xfff8040d                Excep_TPU3_TGI3C
+                0xfff80415                Excep_TPU3_TGI3D
+                0xfff8041d                Excep_TPU3_TCI3V
+                0xfff80425                Excep_TPU4_TGI4A
+                0xfff8042d                Excep_TPU4_TGI4B
+                0xfff80435                Excep_TPU4_TCI4V
+                0xfff8043d                Excep_TPU4_TCI4U
+                0xfff80445                Excep_TPU5_TGI5A
+                0xfff8044d                Excep_TPU5_TGI5B
+                0xfff80455                Excep_TPU5_TCI5V
+                0xfff8045d                Excep_TPU5_TCI5U
+                0xfff80465                Excep_POE_OEI1
+                0xfff8046d                Excep_POE_OEI2
+                0xfff80475                Excep_TMR0_CMIA0
+                0xfff8047d                Excep_TMR0_CMIB0
+                0xfff80485                Excep_TMR0_OVI0
+                0xfff8048d                Excep_TMR1_CMIA1
+                0xfff80495                Excep_TMR1_CMIB1
+                0xfff8049d                Excep_TMR1_OVI1
+                0xfff804a5                Excep_TMR2_CMIA2
+                0xfff804ad                Excep_TMR2_CMIB2
+                0xfff804b5                Excep_TMR2_OVI2
+                0xfff804bd                Excep_TMR3_CMIA3
+                0xfff804c5                Excep_TMR3_CMIB3
+                0xfff804cd                Excep_TMR3_OVI3
+                0xfff804d5                Excep_SCI2_ERI2
+                0xfff804dd                Excep_SCI2_RXI2
+                0xfff804e5                Excep_SCI2_TXI2
+                0xfff804ed                Excep_SCI2_TEI2
+                0xfff804f5                Excep_SCI3_ERI3
+                0xfff804fd                Excep_SCI3_RXI3
+                0xfff80505                Excep_SCI3_TXI3
+                0xfff8050d                Excep_SCI3_TEI3
+                0xfff80515                Excep_SCI4_ERI4
+                0xfff8051d                Excep_SCI4_RXI4
+                0xfff80525                Excep_SCI4_TXI4
+                0xfff8052d                Excep_SCI4_TEI4
+                0xfff80535                Excep_DMAC_DMAC0I
+                0xfff8053d                Excep_DMAC_DMAC1I
+                0xfff80545                Excep_DMAC_DMAC2I
+                0xfff8054d                Excep_DMAC_DMAC3I
+                0xfff80555                Excep_SCI7_ERI7
+                0xfff8055d                Excep_SCI7_RXI7
+                0xfff80565                Excep_SCI7_TXI7
+                0xfff8056d                Excep_SCI7_TEI7
+                0xfff80575                Excep_SCI10_ERI10
+                0xfff8057d                Excep_SCI10_RXI10
+                0xfff80585                Excep_SCI10_TXI10
+                0xfff8058d                Excep_SCI10_TEI10
+                0xfff80595                Excep_SCI0_ERI0
+                0xfff8059d                Excep_SCI0_RXI0
+                0xfff805a5                Excep_SCI0_TXI0
+                0xfff805ad                Excep_SCI0_TEI0
+                0xfff805b5                Excep_SCI1_ERI1
+                0xfff805bd                Excep_SCI1_RXI1
+                0xfff805c5                Excep_SCI1_TXI1
+                0xfff805cd                Excep_SCI1_TEI1
+                0xfff805d5                Excep_SCI5_ERI5
+                0xfff805dd                Excep_SCI5_RXI5
+                0xfff805e5                Excep_SCI5_TXI5
+                0xfff805ed                Excep_SCI5_TEI5
+                0xfff805f5                Excep_SCI6_ERI6
+                0xfff805fd                Excep_SCI6_RXI6
+                0xfff80605                Excep_SCI6_TXI6
+                0xfff8060d                Excep_SCI6_TEI6
+                0xfff80615                Excep_SCI8_ERI8
+                0xfff8061d                Excep_SCI8_RXI8
+                0xfff80625                Excep_SCI8_TXI8
+                0xfff8062d                Excep_SCI8_TEI8
+                0xfff80635                Excep_SCI9_ERI9
+                0xfff8063d                Excep_SCI9_RXI9
+                0xfff80645                Excep_SCI9_TXI9
+                0xfff8064d                Excep_SCI9_TEI9
+                0xfff80655                Excep_SCI12_ERI12
+                0xfff8065d                Excep_SCI12_RXI12
+                0xfff80665                Excep_SCI12_TXI12
+                0xfff8066d                Excep_SCI12_TEI12
+                0xfff80675                Excep_SCI12_SCIX0
+                0xfff8067d                Excep_SCI12_SCIX1
+                0xfff80685                Excep_SCI12_SCIX2
+                0xfff8068d                Excep_SCI12_SCIX3
+                0xfff80695                Excep_RIIC0_EEI0
+                0xfff8069d                Excep_RIIC0_RXI0
+                0xfff806a5                Excep_RIIC0_TXI0
+                0xfff806ad                Excep_RIIC0_TEI0
+                0xfff806b5                Excep_SCI11_ERI11
+                0xfff806bd                Excep_SCI11_RXI11
+                0xfff806c5                Excep_SCI11_TXI11
+                0xfff806cd                Excep_SCI11_TEI11
+ P              0xfff806d5        0x0 ./src/reset_program.o
+ P              0xfff806d5       0x45 ./src/rx210.o
+                0xfff806d5                main
+ P              0xfff8071a        0x0 ./src/vector_table.o
+                0xfff8071a                etext = .
+
+.rvectors       0xfff8071c      0x400
+                0xfff8071c                _rvectors_start = .
+ *(.rvectors)
+ .rvectors      0xfff8071c      0x400 ./src/vector_table.o
+                0xfff8071c                RelocatableVectors
+                0xfff80b1c                _rvectors_end = .
+
+.init           0xfff80b1c        0x0
+ *(.init)
+                0xfff80b1c                __preinit_array_start = .
+ *(.preinit_array)
+                0xfff80b1c                __preinit_array_end = .
+                0xfff80b1c                __init_array_start = ((. + 0x3) & 0xfffffffc)
+ *(.init_array)
+ *(SORT(.init_array.*))
+                0xfff80b1c                __init_array_end = .
+                0xfff80b1c                __fini_array_start = .
+ *(.fini_array)
+ *(SORT(.fini_array.*))
+                0xfff80b1c                __fini_array_end = .
+
+.fini
+ *(.fini)
+
+.got
+ *(.got)
+ *(.got.plt)
+
+.rodata         0xfff80b1c        0x0
+ *(.rodata)
+ *(.rodata.*)
+ *(C_1)
+ *(C_2)
+ *(C)
+                0xfff80b1c                _erodata = .
+
+.eh_frame_hdr
+ *(.eh_frame_hdr)
+
+.eh_frame
+ *(.eh_frame)
+
+.jcr
+ *(.jcr)
+
+.tors           0xfff80b1c        0x0
+                0xfff80b1c                __CTOR_LIST__ = .
+                0xfff80b1c                . = ALIGN (0x2)
+                0xfff80b1c                ___ctors = .
+ *(.ctors)
+                0xfff80b1c                ___ctors_end = .
+                0xfff80b1c                __CTOR_END__ = .
+                0xfff80b1c                __DTOR_LIST__ = .
+                0xfff80b1c                ___dtors = .
+ *(.dtors)
+                0xfff80b1c                ___dtors_end = .
+                0xfff80b1c                __DTOR_END__ = .
+                0xfff80b1c                . = ALIGN (0x2)
+                0xfff80b1c                _mdata = .
+
+.ustack         0x00000200        0x0
+                0x00000200                _ustack = .
+
+.istack         0x00000100        0x0
+                0x00000100                _istack = .
+
+.data           0x00000204        0x0 load address 0xfff80b1c
+                0x00000204                _data = .
+ *(.data)
+ *(.data.*)
+ *(D)
+ *(D_1)
+ D_1            0x00000204        0x0 ./src/hardware_setup.o
+ D_1            0x00000204        0x0 ./src/interrupt_handlers.o
+ D_1            0x00000204        0x0 ./src/reset_program.o
+ D_1            0x00000204        0x0 ./src/rx210.o
+ D_1            0x00000204        0x0 ./src/vector_table.o
+ *(D_2)
+                0x00000204                _edata = .
+
+.gcc_exc
+ *(.gcc_exc)
+
+.bss            0x00000204        0x0 load address 0xfff80b1c
+                0x00000204                _bss = .
+ *(.bss)
+ *(.bss.**)
+ *(COMMON)
+ *(B)
+ *(B_1)
+ B_1            0x00000204        0x0 ./src/hardware_setup.o
+ B_1            0x00000204        0x0 ./src/interrupt_handlers.o
+ B_1            0x00000204        0x0 ./src/reset_program.o
+ B_1            0x00000204        0x0 ./src/rx210.o
+ B_1            0x00000204        0x0 ./src/vector_table.o
+ *(B_2)
+                0x00000204                _ebss = .
+                0x00000204                _end = .
+LOAD ./src/hardware_setup.o
+LOAD ./src/interrupt_handlers.o
+LOAD ./src/reset_program.o
+LOAD ./src/rx210.o
+LOAD ./src/vector_table.o
+START GROUP
+LOAD C:\PROGRA~2\GCCFOR~1.201\rx-elf\rx-elf/rx-elf/lib/no-fpu-libs\liboptm.a
+LOAD C:\PROGRA~2\GCCFOR~1.201\rx-elf\rx-elf/rx-elf/lib/no-fpu-libs\liboptc.a
+LOAD C:\PROGRA~2\GCCFOR~1.201\rx-elf\rx-elf/rx-elf/lib/no-fpu-libs\libsim.a
+LOAD C:\PROGRA~2\GCCFOR~1.201\rx-elf\rx-elf/lib/gcc/rx-elf/4.8.0.201603-GNURX/no-fpu-libs\libgcc.a
+END GROUP
+OUTPUT(rx210.x elf32-rx-le)
+
+.debug_frame    0x00000000     0x161c
+ .debug_frame   0x00000000       0x40 ./src/hardware_setup.o
+ .debug_frame   0x00000040     0x1594 ./src/interrupt_handlers.o
+ .debug_frame   0x000015d4       0x48 ./src/rx210.o
+
+.debug_info     0x00000000     0x4909
+ .debug_info    0x00000000     0x36cf ./src/hardware_setup.o
+ .debug_info    0x000036cf      0xbf3 ./src/interrupt_handlers.o
+ .debug_info    0x000042c2       0x79 ./src/reset_program.o
+ .debug_info    0x0000433b      0x54a ./src/rx210.o
+ .debug_info    0x00004885       0x84 ./src/vector_table.o
+
+.debug_abbrev   0x00000000      0x279
+ .debug_abbrev  0x00000000       0xd4 ./src/hardware_setup.o
+ .debug_abbrev  0x000000d4       0x44 ./src/interrupt_handlers.o
+ .debug_abbrev  0x00000118       0x14 ./src/reset_program.o
+ .debug_abbrev  0x0000012c       0xe6 ./src/rx210.o
+ .debug_abbrev  0x00000212       0x67 ./src/vector_table.o
+
+.debug_aranges  0x00000000       0x98
+ .debug_aranges
+                0x00000000       0x20 ./src/hardware_setup.o
+ .debug_aranges
+                0x00000020       0x20 ./src/interrupt_handlers.o
+ .debug_aranges
+                0x00000040       0x20 ./src/reset_program.o
+ .debug_aranges
+                0x00000060       0x20 ./src/rx210.o
+ .debug_aranges
+                0x00000080       0x18 ./src/vector_table.o
+
+.debug_line     0x00000000      0x314
+ .debug_line    0x00000000       0x71 ./src/hardware_setup.o
+ .debug_line    0x00000071      0x1a2 ./src/interrupt_handlers.o
+ .debug_line    0x00000213       0x6d ./src/reset_program.o
+ .debug_line    0x00000280       0x5e ./src/rx210.o
+ .debug_line    0x000002de       0x36 ./src/vector_table.o
+
+.debug_str      0x00000000     0x10a0
+ .debug_str     0x00000000      0x503 ./src/hardware_setup.o
+                                0x508 (size before relaxing)
+ .debug_str     0x00000503      0xb47 ./src/interrupt_handlers.o
+                                0xbca (size before relaxing)
+ .debug_str     0x0000104a       0x1d ./src/rx210.o
+                                 0xff (size before relaxing)
+ .debug_str     0x00001067       0x39 ./src/vector_table.o
+                                 0xc5 (size before relaxing)
+
+.comment        0x00000000       0x2d
+ .comment       0x00000000       0x2d ./src/hardware_setup.o
+                                 0x2e (size before relaxing)
+ .comment       0x00000000       0x2e ./src/interrupt_handlers.o
+ .comment       0x00000000       0x2e ./src/rx210.o
+ .comment       0x00000000       0x2e ./src/vector_table.o
