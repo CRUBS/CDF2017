@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<project>
+	<configuration id="com.renesas.cdt.rz.debug.win32.configuration.Id.316581346" name="Debug">
+		<extension point="org.eclipse.cdt.core.LanguageSettingsProvider">
+			<provider id="RZGCCBuiltinSpecsDetector"/>
+		</extension>
+	</configuration>
+	<configuration id="com.renesas.cdt.rz.hardwaredebug.win32.configuration.Id.1078812318" name="HardwareDebug">
+		<extension point="org.eclipse.cdt.core.LanguageSettingsProvider">
+			<provider id="RZGCCBuiltinSpecsDetector"/>
+		</extension>
+	</configuration>
+</project>

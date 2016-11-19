@@ -12,37 +12,16 @@
 
 // function which initialyze the PWM of motor driver
 // it take a parameter which is the frequencie (between 0x0000 & 0xFFFF) of mcu speed
-void PWM1_init( int frequence){
-	MTU3.TCR.BYTE=0x48; // CCLR[2,0]=000 : cleaned by TGRA
+void PWM_asser_init( int frequence){
+	MTU3.TCR.BYTE=0x20; // CCLR[2,0]=001 : cleaned by TGRA
 						// CKEG[1,0]=00  : count on raise front
 						// TPSC[2,0]=000 : clk/1
-	MTU3.TIORH.BYTE=0x25;	// TGRA down and TGRB up the output signal
+	MTU3.TIORH.BYTE=0x52;	// TGRA up and TGRB down the output signal
+	MTU3.TIORL.BYTE=0x52;	// TGRC up and TGRD down the output signal
 	MTU3.TMDR.BYTE=0x02; //MD[3,0]=0010 : pwm mode 1
-	MTU3.TGRA=frequence; // used as the TCNT clearing source
-}
-
-void PWM2_init(int frequence){
-	MTU2.TCR.BYTE=0x48; // CCLR[2,0]=000 : cleaned by TGRA
-						// CKEG[1,0]=00  : count on raise front
-						// TPSC[2,0]=000 : clk/1
-	MTU2.TIOR.BYTE=0x25; 	// TGRA reinitialyse to 0 and TGRB put output at 1
-	MTU2.TMDR.BYTE=0x02; //MD[3,0]=0010 : pwm mode 1
-	MTU2.TGRA=frequence; // used as the TCNT clearing source
-}
-
-// function to start the pwm
-void start_pwm1(int valeur)
-{
-	MTU.TSTR.BIT.CST3=0;//désactive la pwm
-	if (valeur > MTU3.TGRA) valeur = MTU3.TGRA ; // tcheck if the value of 'valeur' is ok
-	MTU3.TGRB = valeur; // put valeur in TGRB <=> %of pwm
+	MTU3.TGRA=frequence; //définie la frequence du pwm par rapport à la fréquence du conteur
+	MTU3.TGRC=frequence; //définie la frequence du pwm par rapport à la fréquence du conteur
+	MTU3.TGRB=0x01F4; // duty cycle pwm 1 = 0%
+	MTU3.TGRD=0x00FA; // duty cylce pwm 2 = 0%
 	MTU.TSTR.BIT.CST3=1; // active la pwm
-}
-
-
-void start_pwm2(int valeur)
-{
-//	TPU3.TGRB=0x0F;
-	MTU.TSTR.BIT.CST2=0;
-
-}
+	}

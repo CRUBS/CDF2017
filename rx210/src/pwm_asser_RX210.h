@@ -8,10 +8,7 @@
 #define DEF_PWM_ASSER	// on def la constante
 
 // declaration des fonctions
-
-void PWM1_init(int frequence);
-void PWM2_init(int frequence);
-void start_pwm1(int valeur);
-void start_pwm2(int valeur);
-
+void PWM_asser_init(int frequence);
+#define pwm_g MTU3.TGRB //port PC1
+#define pwm_d MTU3.TGRD //port PC0
 #endif

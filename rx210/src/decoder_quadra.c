@@ -2,31 +2,19 @@
 #include "RPBRX210.h"
 #include "interrupt_handlers.h"
 #include "typedefine.h"
-
 #include "decoder_quadra.h"
-
-
-
-// fonctions
 
 void mtclk_init(void)
 {
 
-	SYSTEM.PRCR.WORD=0xA502;
-	// gestion des interruptions
-	// MTU(MTU0 to MTU5) module stop state is canceled
-	MSTP(MTU) = 0;
-                      
+	SYSTEM.PRCR.WORD=0xA502; //write enable for the register related to operating mode
+
+	MSTP(MTU) = 0; // MTU(MTU0 to MTU5) module stop state is canceled
+
 	// on désactive toutes les intérruptions de MTU1 et 2
 	MTU1.TIER.BYTE=0x00;
 	MTU2.TIER.BYTE=0x00;
 	while(MTU2.TIER.BYTE!=0x00){} // on attend la fin de la désactivation
-
-	//on passe les flags à 0;
-	//CLR(MTU1,TCIV1)=1;		// on nettoie le overflows de MTU1
-	//CLR(MTU1,TCIU1)=1;		// on supprime le flag le underflow
-	//CLR(MTU2,TCIV2)=1;		//on supprime flag overflow MTU2
-	//CLR(MTU2,TCIU2)=0x01;		//on supprime flag underflow MTU2
 
 	// mise en plase du MTU
 	// les compteurs fonctionnent de manière indépendantes
@@ -48,7 +36,7 @@ void mtclk_init(void)
 	MTU1.TMDR.BYTE=0x04;
 	MTU2.TMDR.BYTE=0x04;
 
-
+	SYSTEM.PRCR.WORD=0xA500; //write disable for all register
 // fin de l'initialisation
 }
 

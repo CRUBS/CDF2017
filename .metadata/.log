@@ -1,0 +1,200 @@
+!SESSION 2016-11-19 19:14:05.450 -----------------------------------------------
+eclipse.buildId=v5.1.0.022
+java.version=1.8.0_65
+java.vendor=Oracle Corporation
+BootLoader constants: OS=win32, ARCH=x86, WS=win32, NL=fr_FR
+Command-line arguments:  -os win32 -ws win32 -arch x86 -data C:\Users\Mickael Leconte\Documents\GitHub\CDF2017
+
+!ENTRY org.eclipse.equinox.p2.publisher.eclipse 4 0 2016-11-19 19:14:29.758
+!MESSAGE Unable to acquire PluginConverter service during generation for: C:\Renesas\e2_studio\eclipse\plugins\com.renesas.cg_2.5.0.201609011802.
+
+!ENTRY org.eclipse.equinox.p2.publisher.eclipse 4 0 2016-11-19 19:14:29.774
+!MESSAGE Unable to acquire PluginConverter service during generation for: C:\Renesas\e2_studio\eclipse\features\com.renesas.smc.rx.feature_1.0.0.201609070708.
+
+!ENTRY org.eclipse.equinox.p2.publisher.eclipse 4 0 2016-11-19 19:14:29.937
+!MESSAGE Unable to acquire PluginConverter service during generation for: C:\Renesas\e2_studio\eclipse\plugins\com.renesas.cg_2.5.0.201609011802.
+
+!ENTRY org.eclipse.equinox.p2.publisher.eclipse 4 0 2016-11-19 19:14:29.952
+!MESSAGE Unable to acquire PluginConverter service during generation for: C:\Renesas\e2_studio\eclipse\features\com.renesas.smc.rx.feature_1.0.0.201609070708.
+
+!ENTRY org.eclipse.cdt.core 1 0 2016-11-19 19:16:57.843
+!MESSAGE Indexed 'New' (4 sources, 1 headers) in 1,26 sec: 2 142 declarations; 1 127 references; 0 unresolved inclusions; 0 syntax errors; 0 unresolved names (0 %)
+
+!ENTRY org.eclipse.cdt.core 1 0 2016-11-19 19:19:30.143
+!MESSAGE Indexed 'rx210' (6 sources, 7 headers) in 0,812 sec: 8 624 declarations; 663 references; 0 unresolved inclusions; 0 syntax errors; 0 unresolved names (0 %)
+
+!ENTRY org.eclipse.jface 2 0 2016-11-19 19:48:55.742
+!MESSAGE Keybinding conflicts occurred.  They may interfere with normal accelerator operation.
+!SUBENTRY 1 org.eclipse.jface 2 0 2016-11-19 19:48:55.742
+!MESSAGE A conflict occurred for SHIFT+F7:
+Binding(SHIFT+F7,
+	ParameterizedCommand(Command(org.eclipse.ui.project.buildAll,Build All,
+		Build all projects,
+		Category(org.eclipse.ui.category.project,Project,null,true),
+		org.eclipse.ui.internal.WorkbenchHandlerServiceHandler@b4a6,
+		,,true),null),
+	org.eclipse.ui.defaultAcceleratorConfiguration,
+	org.eclipse.cdt.debug.ui.debugging,,,system)
+Binding(SHIFT+F7,
+	ParameterizedCommand(Command(org.eclipse.cdt.debug.ui.command.uncall,Uncall,
+		Perform Uncall,
+		Category(org.eclipse.cdt.debug.ui.category.reverseDebugging,Reverse Debugging Commands,Set of commands for Reverse Debugging,true),
+		org.eclipse.ui.internal.WorkbenchHandlerServiceHandler@1b162f2,
+		,,true),null),
+	org.eclipse.ui.defaultAcceleratorConfiguration,
+	org.eclipse.cdt.debug.ui.debugging,,,system)
+
+!ENTRY com.renesas.cdt.debug.ioview.dsf 1 0 2016-11-19 19:48:56.283
+!MESSAGE Creating new Model for gdb[0].proc[1].threadGroup[i1]
+
+!ENTRY com.renesas.cdt.debug.ioview.dsf 1 0 2016-11-19 19:48:56.289
+!MESSAGE Loading Io Map: C:\Renesas\e2_studio\internal\IoFiles\RX\RX210.sfrx
+
+!ENTRY com.renesas.cdt.debug.ioview.dsf 1 0 2016-11-19 19:52:15.153
+!MESSAGE Saving model state for session 0
+
+!ENTRY com.renesas.cdt.debug.ioview.dsf 1 0 2016-11-19 19:52:15.328
+!MESSAGE Removing model for session 0
+
+!ENTRY com.renesas.cdt.debug.adm 4 0 2016-11-19 19:53:55.043
+!MESSAGE Failed, getting target status, ADM timed out
+!STACK 0
+com.renesas.cdt.debug.adm.TargetTimeoutException: target time out on message:'$qrenesas.ITarget:getTargetStatus#a5'
+	at com.renesas.cdt.debug.adm.messages.Message.waitForResponse(Message.java:630)
+	at com.renesas.cdt.debug.adm.messages.Message.send(Message.java:175)
+	at com.renesas.cdt.debug.adm.Target.getStatus(Target.java:18)
+	at com.renesas.cdt.debug.adm.Target.pollTarget(Target.java:48)
+	at com.renesas.cdt.debug.adm.Target$MonitorTargetThread.run(Target.java:118)
+	at java.lang.Thread.run(Thread.java:745)
+
+!ENTRY com.renesas.cdt.debug.ioview.dsf 1 0 2016-11-19 19:57:18.747
+!MESSAGE Creating new Model for gdb[1].proc[1].threadGroup[i1]
+
+!ENTRY com.renesas.cdt.debug.ioview.dsf 1 0 2016-11-19 19:57:18.764
+!MESSAGE Loading Io Map: C:\Renesas\e2_studio\internal\IoFiles\RX\RX210.sfrx
+
+!ENTRY com.renesas.cdt.debug.ioview.dsf 1 0 2016-11-19 20:03:21.879
+!MESSAGE Saving model state for session 1
+
+!ENTRY com.renesas.cdt.debug.ioview.dsf 1 0 2016-11-19 20:03:21.966
+!MESSAGE Removing model for session 1
+
+!ENTRY com.renesas.cdt.debug.ioview.dsf 1 0 2016-11-19 20:10:31.518
+!MESSAGE Creating new Model for gdb[2].proc[1].threadGroup[i1]
+
+!ENTRY com.renesas.cdt.debug.ioview.dsf 1 0 2016-11-19 20:10:31.536
+!MESSAGE Loading Io Map: C:\Renesas\e2_studio\internal\IoFiles\RX\RX210.sfrx
+
+!ENTRY com.renesas.cdt.debug.ioview.dsf 1 0 2016-11-19 20:12:33.020
+!MESSAGE Saving model state for session 2
+
+!ENTRY com.renesas.cdt.debug.ioview.dsf 1 0 2016-11-19 20:12:33.092
+!MESSAGE Removing model for session 2
+
+!ENTRY com.renesas.cdt.debug.ioview.dsf 1 0 2016-11-19 20:12:46.026
+!MESSAGE Creating new Model for gdb[3].proc[1].threadGroup[i1]
+
+!ENTRY com.renesas.cdt.debug.ioview.dsf 1 0 2016-11-19 20:12:46.040
+!MESSAGE Loading Io Map: C:\Renesas\e2_studio\internal\IoFiles\RX\RX210.sfrx
+
+!ENTRY com.renesas.cdt.debug.ioview.dsf 1 0 2016-11-19 20:29:48.156
+!MESSAGE Saving model state for session 3
+
+!ENTRY com.renesas.cdt.debug.ioview.dsf 1 0 2016-11-19 20:29:48.214
+!MESSAGE Removing model for session 3
+
+!ENTRY com.renesas.cdt.debug.ioview.dsf 1 0 2016-11-19 20:31:01.394
+!MESSAGE Creating new Model for gdb[4].proc[1].threadGroup[i1]
+
+!ENTRY com.renesas.cdt.debug.ioview.dsf 1 0 2016-11-19 20:31:01.407
+!MESSAGE Loading Io Map: C:\Renesas\e2_studio\internal\IoFiles\RX\RX210.sfrx
+
+!ENTRY com.renesas.cdt.debug.ioview.dsf 1 0 2016-11-19 20:36:42.083
+!MESSAGE Saving model state for session 4
+
+!ENTRY com.renesas.cdt.debug.ioview.dsf 1 0 2016-11-19 20:36:42.143
+!MESSAGE Removing model for session 4
+
+!ENTRY com.renesas.cdt.debug.ioview.dsf 1 0 2016-11-19 20:37:07.560
+!MESSAGE Creating new Model for gdb[6].proc[1].threadGroup[i1]
+
+!ENTRY com.renesas.cdt.debug.ioview.dsf 1 0 2016-11-19 20:37:07.593
+!MESSAGE Loading Io Map: C:\Renesas\e2_studio\internal\IoFiles\RX\RX210.sfrx
+
+!ENTRY com.renesas.cdt.debug.visualexpression 4 0 2016-11-19 20:37:21.329
+!MESSAGE 
+!STACK 0
+java.lang.NullPointerException
+	at org.eclipse.cdt.dsf.mi.service.MIVariableManager.<init>(MIVariableManager.java:2645)
+	at org.eclipse.cdt.dsf.mi.service.MIExpressions.createMIVariableManager(MIExpressions.java:1026)
+	at org.eclipse.cdt.dsf.mi.service.MIExpressions.doInitialize(MIExpressions.java:1006)
+	at org.eclipse.cdt.dsf.mi.service.MIExpressions.access$0(MIExpressions.java:983)
+	at org.eclipse.cdt.dsf.mi.service.MIExpressions$1.handleSuccess(MIExpressions.java:970)
+	at org.eclipse.cdt.dsf.concurrent.RequestMonitor.handleCompleted(RequestMonitor.java:385)
+	at org.eclipse.cdt.dsf.concurrent.RequestMonitor$2.run(RequestMonitor.java:312)
+	at org.eclipse.cdt.dsf.concurrent.ImmediateExecutor.execute(ImmediateExecutor.java:63)
+	at org.eclipse.cdt.dsf.concurrent.RequestMonitor.done(RequestMonitor.java:309)
+	at org.eclipse.cdt.dsf.service.AbstractDsfService.initialize(AbstractDsfService.java:93)
+	at org.eclipse.cdt.dsf.mi.service.MIExpressions.initialize(MIExpressions.java:967)
+	at com.renesas.cdt.debug.visualexpression.expression.VEExpressionManager$6.run(VEExpressionManager.java:842)
+	at java.util.concurrent.Executors$RunnableAdapter.call(Executors.java:511)
+	at java.util.concurrent.FutureTask.run(FutureTask.java:266)
+	at java.util.concurrent.ScheduledThreadPoolExecutor$ScheduledFutureTask.access$201(ScheduledThreadPoolExecutor.java:180)
+	at java.util.concurrent.ScheduledThreadPoolExecutor$ScheduledFutureTask.run(ScheduledThreadPoolExecutor.java:293)
+	at java.util.concurrent.ThreadPoolExecutor.runWorker(ThreadPoolExecutor.java:1142)
+	at java.util.concurrent.ThreadPoolExecutor$Worker.run(ThreadPoolExecutor.java:617)
+	at java.lang.Thread.run(Thread.java:745)
+
+!ENTRY com.renesas.cdt.debug.ioview.dsf 1 0 2016-11-19 20:37:21.340
+!MESSAGE Saving model state for session 6
+
+!ENTRY com.renesas.cdt.debug.ioview.dsf 1 0 2016-11-19 20:37:21.379
+!MESSAGE Removing model for session 6
+
+!ENTRY com.renesas.cdt.debug.ioview.dsf 1 0 2016-11-19 20:38:18.547
+!MESSAGE Creating new Model for gdb[7].proc[1].threadGroup[i1]
+
+!ENTRY com.renesas.cdt.debug.ioview.dsf 1 0 2016-11-19 20:38:18.567
+!MESSAGE Loading Io Map: C:\Renesas\e2_studio\internal\IoFiles\RX\RX210.sfrx
+
+!ENTRY com.renesas.cdt.debug.ioview.dsf 1 0 2016-11-19 20:38:38.503
+!MESSAGE Saving model state for session 7
+
+!ENTRY com.renesas.cdt.debug.ioview.dsf 1 0 2016-11-19 20:38:38.574
+!MESSAGE Removing model for session 7
+
+!ENTRY com.renesas.cdt.debug.ioview.dsf 1 0 2016-11-19 20:39:05.105
+!MESSAGE Creating new Model for gdb[8].proc[1].threadGroup[i1]
+
+!ENTRY com.renesas.cdt.debug.ioview.dsf 1 0 2016-11-19 20:39:05.129
+!MESSAGE Loading Io Map: C:\Renesas\e2_studio\internal\IoFiles\RX\RX210.sfrx
+
+!ENTRY com.renesas.cdt.debug.ioview.dsf 1 0 2016-11-19 21:12:30.137
+!MESSAGE Saving model state for session 8
+
+!ENTRY com.renesas.cdt.debug.ioview.dsf 1 0 2016-11-19 21:12:30.208
+!MESSAGE Removing model for session 8
+
+!ENTRY com.renesas.cdt.debug.ioview.dsf 1 0 2016-11-19 21:12:39.456
+!MESSAGE Creating new Model for gdb[9].proc[1].threadGroup[i1]
+
+!ENTRY com.renesas.cdt.debug.ioview.dsf 1 0 2016-11-19 21:12:39.488
+!MESSAGE Loading Io Map: C:\Renesas\e2_studio\internal\IoFiles\RX\RX210.sfrx
+
+!ENTRY com.renesas.cdt.debug.ioview.dsf 1 0 2016-11-19 21:31:13.616
+!MESSAGE Saving model state for session 9
+
+!ENTRY com.renesas.cdt.debug.ioview.dsf 1 0 2016-11-19 21:31:13.677
+!MESSAGE Removing model for session 9
+
+!ENTRY com.renesas.cdt.debug.ioview.dsf 1 0 2016-11-19 22:06:30.639
+!MESSAGE Creating new Model for gdb[10].proc[1].threadGroup[i1]
+
+!ENTRY com.renesas.cdt.debug.ioview.dsf 1 0 2016-11-19 22:06:30.659
+!MESSAGE Loading Io Map: C:\Renesas\e2_studio\internal\IoFiles\RX\RX210.sfrx
+
+!ENTRY com.renesas.cdt.debug.ioview.dsf 1 0 2016-11-19 22:12:04.948
+!MESSAGE Saving model state for session 10
+
+!ENTRY com.renesas.cdt.debug.ioview.dsf 1 0 2016-11-19 22:12:05.064
+!MESSAGE Removing model for session 10

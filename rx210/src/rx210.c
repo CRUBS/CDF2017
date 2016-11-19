@@ -49,10 +49,7 @@ int main(void)
 	LED2_OFF;
 	mtclk_init();		// fonction d'initialisation du module de comptage
 	mtclk_start();		// démarre le décodage en quadrature
-	PWM1_init(0xEFFF);
-	PWM2_init(0xEFFF);
-	//start_pwm1(0x00FF);
-	//start_pwm2(0x00FF);
+	PWM_asser_init(0x03E8);
 	while(1){
 		if(compteur_g>compteur+50||compteur_g<compteur-50)
 		{

@@ -87,99 +87,93 @@
   51:../src/rx210.c **** 	mtclk_start();		// démarre le décodage en quadrature
   40                             		.loc 1 51 0
   41 0032 05 00 00 00             		bsr	_mtclk_start
-  52:../src/rx210.c **** 	PWM1_init(0xEFFF);
+  52:../src/rx210.c **** 	PWM_asser_init(0x03E8);
   42                             		.loc 1 52 0
-  43 0036 FB 1E FF EF 00          		mov.L	#0xefff, r1
-  44 003b 05 00 00 00             		bsr	_PWM1_init
-  53:../src/rx210.c **** 	PWM2_init(0xEFFF);
-  45                             		.loc 1 53 0
-  46 003f FB 1E FF EF 00          		mov.L	#0xefff, r1
-  47 0044 05 00 00 00             		bsr	_PWM2_init
-  48                             	.L5:
-  54:../src/rx210.c **** 	//start_pwm1(0x00FF);
-  55:../src/rx210.c **** 	//start_pwm2(0x00FF);
-  56:../src/rx210.c **** 	while(1){
-  57:../src/rx210.c **** 		if(compteur_g>compteur+50||compteur_g<compteur-50)
-  49                             		.loc 1 57 0
-  50 0048 FB AE 90 86 08          		mov.L	#0x88690, r10
-  51 004d DD AA 7B                		mov.W	246[r10], r10
-  52 0050 5F AB                   		movu.W	r10, r11
-  53 0052 FB A2 00 00 00 00       		mov.L	#_compteur, r10
-  54 0058 EC AA                   		mov.L	[r10], r10
-  55 005a 71 AA 32                		add	#50, r10
-  56 005d 47 AB                   		cmp	r10, r11
-  57 005f 2A 1B                   		bgt	.L2
-  58                             		.loc 1 57 0 is_stmt 0 discriminator 1
-  59 0061 FB AE 90 86 08          		mov.L	#0x88690, r10
-  60 0066 DD AA 7B                		mov.W	246[r10], r10
-  61 0069 5F AB                   		movu.W	r10, r11
-  62 006b FB A2 00 00 00 00       		mov.L	#_compteur, r10
-  63 0071 EC AA                   		mov.L	[r10], r10
-  64 0073 71 AA CE                		add	#-50, r10
-  65 0076 47 AB                   		cmp	r10, r11
-  66 0078 28 7F                   		bge	.L3
-  67                             	.L2:
-  58:../src/rx210.c **** 		{
-  59:../src/rx210.c **** 			LED1=~LED1;
-  68                             		.loc 1 59 0 is_stmt 1
-  69 007a FB AE 01 C0 08          		mov.L	#0x8c001, r10
-  70 007f FB BE 01 C0 08          		mov.L	#0x8c001, r11
-  71 0084 CD BB 20                		mov.B	32[r11], r11
-  72 0087 5B BB                   		movu.B	r11, r11
-  73 0089 68 6B                   		shlr	#6, r11
-  74 008b 64 1B                   		and	#1, r11
-  75 008d 7E 0B                   		not	r11
-  76 008f 64 1B                   		and	#1, r11
-  77 0091 64 1B                   		and	#1, r11
-  78 0093 6C 6B                   		shll	#6, r11
-  79 0095 CD AC 20                		mov.B	32[r10], r12
-  80 0098 75 2C BF                		and	#0xffffffbf, r12
-  81 009b 57 CB                   		or	r12, r11
-  82 009d C7 AB 20                		mov.B	r11, 32[r10]
-  60:../src/rx210.c **** 			compteur = compteur_g;
-  83                             		.loc 1 60 0
-  84 00a0 FB AE 90 86 08          		mov.L	#0x88690, r10
-  85 00a5 DD AA 7B                		mov.W	246[r10], r10
-  86 00a8 5F AB                   		movu.W	r10, r11
-  87 00aa FB A2 00 00 00 00       		mov.L	#_compteur, r10
-  88 00b0 E3 AB                   		mov.L	r11, [r10]
-  61:../src/rx210.c **** 			if(sens_rot_g==1){LED0_ON;}
-  89                             		.loc 1 61 0
-  90 00b2 FB AE 90 86 08          		mov.L	#0x88690, r10
-  91 00b7 CD AA F5                		mov.B	245[r10], r10
-  92 00ba 5B AA                   		movu.B	r10, r10
-  93 00bc 68 7A                   		shlr	#7, r10
-  94 00be 5B AA                   		movu.B	r10, r10
-  95 00c0 61 1A                   		cmp	#1, r10
-  96 00c2 21 12                   		bne	.L4
-  97                             		.loc 1 61 0 is_stmt 0 discriminator 1
-  98 00c4 FB AE 01 C0 08          		mov.L	#0x8c001, r10
-  99 00c9 CD AB 20                		mov.B	32[r10], r11
- 100 00cc 75 2B 7F                		and	#0x7f, r11
- 101 00cf C7 AB 20                		mov.B	r11, 32[r10]
- 102 00d2 2E 25                   		bra	.L3
- 103                             	.L4:
-  62:../src/rx210.c **** 			else if (sens_rot_g==0){LED0_OFF;}
- 104                             		.loc 1 62 0 is_stmt 1
- 105 00d4 FB AE 90 86 08          		mov.L	#0x88690, r10
- 106 00d9 CD AA F5                		mov.B	245[r10], r10
- 107 00dc 5B AA                   		movu.B	r10, r10
- 108 00de 68 7A                   		shlr	#7, r10
- 109 00e0 5B AA                   		movu.B	r10, r10
- 110 00e2 61 0A                   		cmp	#0, r10
- 111 00e4 21 13                   		bne	.L3
- 112                             		.loc 1 62 0 is_stmt 0 discriminator 1
- 113 00e6 FB AE 01 C0 08          		mov.L	#0x8c001, r10
- 114 00eb CD AB 20                		mov.B	32[r10], r11
- 115 00ee 75 3B 80                		or	#0xffffff80, r11
- 116 00f1 C7 AB 20                		mov.B	r11, 32[r10]
-  63:../src/rx210.c **** 
-  64:../src/rx210.c **** 	}}
- 117                             		.loc 1 64 0 is_stmt 1 discriminator 1
- 118 00f4 38 54 FF                		bra	.L5
- 119                             	.L3:
- 120                             		.loc 1 64 0 is_stmt 0
- 121 00f7 38 51 FF                		bra	.L5
- 122                             	.LFE0:
- 172                             	.Letext0:
- 173                             		.file 2 "../src/iodefine.h"
+  43 0036 FB 1A E8 03             		mov.L	#0x3e8, r1
+  44 003a 05 00 00 00             		bsr	_PWM_asser_init
+  45                             	.L5:
+  53:../src/rx210.c **** 	while(1){
+  54:../src/rx210.c **** 		if(compteur_g>compteur+50||compteur_g<compteur-50)
+  46                             		.loc 1 54 0
+  47 003e FB AE 90 86 08          		mov.L	#0x88690, r10
+  48 0043 DD AA 7B                		mov.W	246[r10], r10
+  49 0046 5F AB                   		movu.W	r10, r11
+  50 0048 FB A2 00 00 00 00       		mov.L	#_compteur, r10
+  51 004e EC AA                   		mov.L	[r10], r10
+  52 0050 71 AA 32                		add	#50, r10
+  53 0053 47 AB                   		cmp	r10, r11
+  54 0055 2A 1B                   		bgt	.L2
+  55                             		.loc 1 54 0 is_stmt 0 discriminator 1
+  56 0057 FB AE 90 86 08          		mov.L	#0x88690, r10
+  57 005c DD AA 7B                		mov.W	246[r10], r10
+  58 005f 5F AB                   		movu.W	r10, r11
+  59 0061 FB A2 00 00 00 00       		mov.L	#_compteur, r10
+  60 0067 EC AA                   		mov.L	[r10], r10
+  61 0069 71 AA CE                		add	#-50, r10
+  62 006c 47 AB                   		cmp	r10, r11
+  63 006e 28 7F                   		bge	.L3
+  64                             	.L2:
+  55:../src/rx210.c **** 		{
+  56:../src/rx210.c **** 			LED1=~LED1;
+  65                             		.loc 1 56 0 is_stmt 1
+  66 0070 FB AE 01 C0 08          		mov.L	#0x8c001, r10
+  67 0075 FB BE 01 C0 08          		mov.L	#0x8c001, r11
+  68 007a CD BB 20                		mov.B	32[r11], r11
+  69 007d 5B BB                   		movu.B	r11, r11
+  70 007f 68 6B                   		shlr	#6, r11
+  71 0081 64 1B                   		and	#1, r11
+  72 0083 7E 0B                   		not	r11
+  73 0085 64 1B                   		and	#1, r11
+  74 0087 64 1B                   		and	#1, r11
+  75 0089 6C 6B                   		shll	#6, r11
+  76 008b CD AC 20                		mov.B	32[r10], r12
+  77 008e 75 2C BF                		and	#0xffffffbf, r12
+  78 0091 57 CB                   		or	r12, r11
+  79 0093 C7 AB 20                		mov.B	r11, 32[r10]
+  57:../src/rx210.c **** 			compteur = compteur_g;
+  80                             		.loc 1 57 0
+  81 0096 FB AE 90 86 08          		mov.L	#0x88690, r10
+  82 009b DD AA 7B                		mov.W	246[r10], r10
+  83 009e 5F AB                   		movu.W	r10, r11
+  84 00a0 FB A2 00 00 00 00       		mov.L	#_compteur, r10
+  85 00a6 E3 AB                   		mov.L	r11, [r10]
+  58:../src/rx210.c **** 			if(sens_rot_g==1){LED0_ON;}
+  86                             		.loc 1 58 0
+  87 00a8 FB AE 90 86 08          		mov.L	#0x88690, r10
+  88 00ad CD AA F5                		mov.B	245[r10], r10
+  89 00b0 5B AA                   		movu.B	r10, r10
+  90 00b2 68 7A                   		shlr	#7, r10
+  91 00b4 5B AA                   		movu.B	r10, r10
+  92 00b6 61 1A                   		cmp	#1, r10
+  93 00b8 21 12                   		bne	.L4
+  94                             		.loc 1 58 0 is_stmt 0 discriminator 1
+  95 00ba FB AE 01 C0 08          		mov.L	#0x8c001, r10
+  96 00bf CD AB 20                		mov.B	32[r10], r11
+  97 00c2 75 2B 7F                		and	#0x7f, r11
+  98 00c5 C7 AB 20                		mov.B	r11, 32[r10]
+  99 00c8 2E 25                   		bra	.L3
+ 100                             	.L4:
+  59:../src/rx210.c **** 			else if (sens_rot_g==0){LED0_OFF;}
+ 101                             		.loc 1 59 0 is_stmt 1
+ 102 00ca FB AE 90 86 08          		mov.L	#0x88690, r10
+ 103 00cf CD AA F5                		mov.B	245[r10], r10
+ 104 00d2 5B AA                   		movu.B	r10, r10
+ 105 00d4 68 7A                   		shlr	#7, r10
+ 106 00d6 5B AA                   		movu.B	r10, r10
+ 107 00d8 61 0A                   		cmp	#0, r10
+ 108 00da 21 13                   		bne	.L3
+ 109                             		.loc 1 59 0 is_stmt 0 discriminator 1
+ 110 00dc FB AE 01 C0 08          		mov.L	#0x8c001, r10
+ 111 00e1 CD AB 20                		mov.B	32[r10], r11
+ 112 00e4 75 3B 80                		or	#0xffffff80, r11
+ 113 00e7 C7 AB 20                		mov.B	r11, 32[r10]
+  60:../src/rx210.c **** 
+  61:../src/rx210.c **** 	}}
+ 114                             		.loc 1 61 0 is_stmt 1 discriminator 1
+ 115 00ea 38 54 FF                		bra	.L5
+ 116                             	.L3:
+ 117                             		.loc 1 61 0 is_stmt 0
+ 118 00ed 38 51 FF                		bra	.L5
+ 119                             	.LFE0:
+ 169                             	.Letext0:
+ 170                             		.file 2 "../src/iodefine.h"

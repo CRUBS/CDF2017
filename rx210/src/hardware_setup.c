@@ -29,6 +29,13 @@ extern "C"
 void
 HardwareSetup (void)
 {
+//Modification de l'horloge
+SYSTEM.PRCR.WORD=0xA501; //write enable for clock register
+SYSTEM.SCKCR3.BIT.CKSEL=1; //modification de la main clock ( 001 -> HOCO -> 32MHz)
+SYSTEM.SCKCR.LONG=0x00000000;
+SYSTEM.PRCR.WORD=0xA500; //write disable for all register
+
+
 //Autoriser l'écriture des registres PFS
 MPC.PWPR.BIT.B0WI=0;
 MPC.PWPR.BIT.PFSWE=1;
@@ -81,5 +88,9 @@ MPC.PC1PFS.BYTE = 0x01 ;	// port = MTIOC3A (output)
 PORTC.PMR.BYTE  = 0b00000011 ;    // port 0 & 1 use as function
 PORTC.PODR.BYTE = 0x00 ; 	// all output are low
 PORTC.PDR.BYTE = 0xFF ;	// all are output
+
+//Fin des droits d'écriture des registres PFS
+MPC.PWPR.BIT.B0WI=1;
+MPC.PWPR.BIT.PFSWE=0;
 }
 
