@@ -21,6 +21,7 @@
 #include "decoder_quadra.h"
 #include "pwm_asser_RX210.h"
 
+
 #ifdef CPPAPP
 //Initialize global constructors
 extern "C" void __main()
@@ -51,13 +52,12 @@ int main(void)
 	mtclk_start();		// démarre le décodage en quadrature
 	PWM_asser_init(0x03E8);
 	while(1){
-		if(compteur_g>compteur+50||compteur_g<compteur-50)
+		if(compteur_g>compteur+4096||compteur_g<compteur-4096)
 		{
 			LED1=~LED1;
 			compteur = compteur_g;
 			if(sens_rot_g==1){LED0_ON;}
 			else if (sens_rot_g==0){LED0_OFF;}
-
 	}}
   return 0;
 }

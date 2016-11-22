@@ -1,36 +1,28 @@
-22:06:15 **** Incremental Build of configuration HardwareDebug for project rx210 ****
+18:03:04 **** Incremental Build of configuration HardwareDebug for project rx210 ****
 make -j2 all 
-'Scanning and building file: ../src/hardware_setup.c'
+'Scanning and building file: ../src/interrupt_handlers.c'
+'Invoking: Scanner and Compiler'
 'Scanning and building file: ../src/decoder_quadra.c'
 'Invoking: Scanner and Compiler'
-'Invoking: Scanner and Compiler'
-rx-elf-gcc -MM -MP -MF "src/hardware_setup.d" -MT"src/hardware_setup.o" -MT"src/hardware_setup.d" -x c   -nostdinc -I"C:\PROGRA~2\GCCFOR~1.201\rx-elf\rx-elf/rx-elf/optlibinc" -Wstack-usage=256 -D__RX_LITTLE_ENDIAN__=1 -g2 -g -mlittle-endian-data -mcpu=rx200 -nofpu "../src/hardware_setup.c"
+rx-elf-gcc -MM -MP -MF "src/interrupt_handlers.d" -MT"src/interrupt_handlers.o" -MT"src/interrupt_handlers.d" -x c   -nostdinc -I"C:\PROGRA~2\GCCFOR~1.201\rx-elf\rx-elf/rx-elf/optlibinc" -Wstack-usage=256 -D__RX_LITTLE_ENDIAN__=1 -g2 -g -mlittle-endian-data -mcpu=rx200 -nofpu "../src/interrupt_handlers.c"
 rx-elf-gcc -MM -MP -MF "src/decoder_quadra.d" -MT"src/decoder_quadra.o" -MT"src/decoder_quadra.d" -x c   -nostdinc -I"C:\PROGRA~2\GCCFOR~1.201\rx-elf\rx-elf/rx-elf/optlibinc" -Wstack-usage=256 -D__RX_LITTLE_ENDIAN__=1 -g2 -g -mlittle-endian-data -mcpu=rx200 -nofpu "../src/decoder_quadra.c"
-In file included from ../src/hardware_setup.c:19:0:
-../src/hardware_setup.c: In function 'HardwareSetup':
-../src/iodefine.h:15494:40: warning: large integer implicitly truncated to unsigned type [-Woverflow]
- #define    PORTB    (*(volatile struct st_portb  *)0x8C00B)
-                                        ^
-../src/hardware_setup.c:81:1: note: in expansion of macro 'PORTB'
- PORTB.PDR.BYTE = 0b110111111 ; // port 6 as input rest as output
- ^
 rx-elf-gcc -c -x c  -Wa,-adlhn="decoder_quadra.lst" -nostdinc -I"C:\PROGRA~2\GCCFOR~1.201\rx-elf\rx-elf/rx-elf/optlibinc" -Wstack-usage=256 -D__RX_LITTLE_ENDIAN__=1 -g2 -g -mlittle-endian-data -mcpu=rx200 -nofpu -o "src/decoder_quadra.o" "../src/decoder_quadra.c"
+rx-elf-gcc -c -x c  -Wa,-adlhn="interrupt_handlers.lst" -nostdinc -I"C:\PROGRA~2\GCCFOR~1.201\rx-elf\rx-elf/rx-elf/optlibinc" -Wstack-usage=256 -D__RX_LITTLE_ENDIAN__=1 -g2 -g -mlittle-endian-data -mcpu=rx200 -nofpu -o "src/interrupt_handlers.o" "../src/interrupt_handlers.c"
 'Finished scanning and building: ../src/decoder_quadra.c'
+'Finished scanning and building: ../src/interrupt_handlers.c'
 
-'Scanning and building file: ../src/pwm_asser_RX210.c'
-'Invoking: Scanner and Compiler'
-rx-elf-gcc -c -x c  -Wa,-adlhn="hardware_setup.lst" -nostdinc -I"C:\PROGRA~2\GCCFOR~1.201\rx-elf\rx-elf/rx-elf/optlibinc" -Wstack-usage=256 -D__RX_LITTLE_ENDIAN__=1 -g2 -g -mlittle-endian-data -mcpu=rx200 -nofpu -o "src/hardware_setup.o" "../src/hardware_setup.c"
-'Finished scanning and building: ../src/hardware_setup.c'
-rx-elf-gcc -MM -MP -MF "src/pwm_asser_RX210.d" -MT"src/pwm_asser_RX210.o" -MT"src/pwm_asser_RX210.d" -x c   -nostdinc -I"C:\PROGRA~2\GCCFOR~1.201\rx-elf\rx-elf/rx-elf/optlibinc" -Wstack-usage=256 -D__RX_LITTLE_ENDIAN__=1 -g2 -g -mlittle-endian-data -mcpu=rx200 -nofpu "../src/pwm_asser_RX210.c"
 
 'Scanning and building file: ../src/rx210.c'
+'Scanning and building file: ../src/vector_table.c'
+'Invoking: Scanner and Compiler'
 'Invoking: Scanner and Compiler'
 rx-elf-gcc -MM -MP -MF "src/rx210.d" -MT"src/rx210.o" -MT"src/rx210.d" -x c   -nostdinc -I"C:\PROGRA~2\GCCFOR~1.201\rx-elf\rx-elf/rx-elf/optlibinc" -Wstack-usage=256 -D__RX_LITTLE_ENDIAN__=1 -g2 -g -mlittle-endian-data -mcpu=rx200 -nofpu "../src/rx210.c"
-rx-elf-gcc -c -x c  -Wa,-adlhn="pwm_asser_RX210.lst" -nostdinc -I"C:\PROGRA~2\GCCFOR~1.201\rx-elf\rx-elf/rx-elf/optlibinc" -Wstack-usage=256 -D__RX_LITTLE_ENDIAN__=1 -g2 -g -mlittle-endian-data -mcpu=rx200 -nofpu -o "src/pwm_asser_RX210.o" "../src/pwm_asser_RX210.c"
-'Finished scanning and building: ../src/pwm_asser_RX210.c'
-
+rx-elf-gcc -MM -MP -MF "src/vector_table.d" -MT"src/vector_table.o" -MT"src/vector_table.d" -x c   -nostdinc -I"C:\PROGRA~2\GCCFOR~1.201\rx-elf\rx-elf/rx-elf/optlibinc" -Wstack-usage=256 -D__RX_LITTLE_ENDIAN__=1 -g2 -g -mlittle-endian-data -mcpu=rx200 -nofpu "../src/vector_table.c"
 rx-elf-gcc -c -x c  -Wa,-adlhn="rx210.lst" -nostdinc -I"C:\PROGRA~2\GCCFOR~1.201\rx-elf\rx-elf/rx-elf/optlibinc" -Wstack-usage=256 -D__RX_LITTLE_ENDIAN__=1 -g2 -g -mlittle-endian-data -mcpu=rx200 -nofpu -o "src/rx210.o" "../src/rx210.c"
 'Finished scanning and building: ../src/rx210.c'
+rx-elf-gcc -c -x c  -Wa,-adlhn="vector_table.lst" -nostdinc -I"C:\PROGRA~2\GCCFOR~1.201\rx-elf\rx-elf/rx-elf/optlibinc" -Wstack-usage=256 -D__RX_LITTLE_ENDIAN__=1 -g2 -g -mlittle-endian-data -mcpu=rx200 -nofpu -o "src/vector_table.o" "../src/vector_table.c"
+
+'Finished scanning and building: ../src/vector_table.c'
 
 'Invoking: Linker'
 'Building target:'
@@ -44,5 +36,5 @@ rx-elf-objcopy -O srec -I elf32-rx-be-ns   rx210.x "rx210.mot"
 
 'Build complete.'
 
-22:06:19 Build Finished. 0 errors, 2 warnings. (took 3s.579ms)
+18:03:09 Build Finished. 0 errors, 0 warnings. (took 4s.938ms)
 

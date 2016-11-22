@@ -56,23 +56,23 @@
   34 0036 FB AE 00 86 08          		mov.L	#0x88600, r10
   35 003b EC 6B                   		mov.L	[r6], r11
   36 003d D7 AB 12                		mov.W	r11, 36[r10]
-  24:../src/pwm_asser_RX210.c **** 	MTU3.TGRB=0x01F4; // duty cycle pwm 1 = 0%
+  24:../src/pwm_asser_RX210.c **** 	MTU3.TGRB=0x00; // duty cycle pwm 1 = 0%
   37                             		.loc 1 24 0
   38 0040 FB AE 00 86 08          		mov.L	#0x88600, r10
-  39 0045 F9 A9 0D F4 01          		mov.W	#0x1f4, 26[r10]
-  25:../src/pwm_asser_RX210.c **** 	MTU3.TGRD=0x00FA; // duty cylce pwm 2 = 0%
+  39 0045 F9 A5 0D 00             		mov.W	#0, 26[r10]
+  25:../src/pwm_asser_RX210.c **** 	MTU3.TGRD=0x0; // duty cylce pwm 2 = 0%
   40                             		.loc 1 25 0
-  41 004a FB AE 00 86 08          		mov.L	#0x88600, r10
-  42 004f F9 A9 13 FA 00          		mov.W	#0xfa, 38[r10]
+  41 0049 FB AE 00 86 08          		mov.L	#0x88600, r10
+  42 004e F9 A5 13 00             		mov.W	#0, 38[r10]
   26:../src/pwm_asser_RX210.c **** 	MTU.TSTR.BIT.CST3=1; // active la pwm
   43                             		.loc 1 26 0
-  44 0054 FB AE 0A 86 08          		mov.L	#0x8860a, r10
-  45 0059 CD AB 76                		mov.B	118[r10], r11
-  46 005c 75 3B 40                		or	#64, r11
-  47 005f C7 AB 76                		mov.B	r11, 118[r10]
+  44 0052 FB AE 0A 86 08          		mov.L	#0x8860a, r10
+  45 0057 CD AB 76                		mov.B	118[r10], r11
+  46 005a 75 3B 40                		or	#64, r11
+  47 005d C7 AB 76                		mov.B	r11, 118[r10]
   27:../src/pwm_asser_RX210.c **** 	}
   48                             		.loc 1 27 0
-  49 0062 3F 6B 07                		rtsd	#28, r6-r11
+  49 0060 3F 6B 07                		rtsd	#28, r6-r11
   50                             	.LFE0:
  103                             	.Letext0:
  104                             		.file 2 "../src/iodefine.h"

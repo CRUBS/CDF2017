@@ -15,6 +15,10 @@ void mtclk_init(void)
 	MTU1.TIER.BYTE=0x00;
 	MTU2.TIER.BYTE=0x00;
 	while(MTU2.TIER.BYTE!=0x00){} // on attend la fin de la désactivation
+	MTU1.TIER.BIT.TCIEU=1;	//activation des interrup under et over flow
+	MTU1.TIER.BIT.TCIEV=1;
+	MTU2.TIER.BIT.TCIEU=1;
+	MTU2.TIER.BIT.TCIEV=1;
 
 	// mise en plase du MTU
 	// les compteurs fonctionnent de manière indépendantes
@@ -38,6 +42,7 @@ void mtclk_init(void)
 
 	SYSTEM.PRCR.WORD=0xA500; //write disable for all register
 // fin de l'initialisation
+
 }
 
 void mtclk_start(void)

@@ -20,7 +20,12 @@
 
 #define DEF_DECODER_QUADRA 		 // On définit la constante pour que la prochaine fois le fichier ne soit plus inclus
 
+
 // les différents flags
+#define flag_over_MTU1 IR(MTU1,TCIV1)			//flag over et underflow MTU1
+#define flag_under_MTU1 IR(MTU1,TCIU1)
+#define flag_over_MTU2 IR(MTU2,TCIV2)			//flag over et underflow MTU2
+#define flag_under_MTU2 IR(MTU2,TCIV2)
 #define sens_rot_g  MTU1.TSR.BIT.TCFD		// changement de sens de rotation MTU1
 #define sens_rot_d  MTU2.TSR.BIT.TCFD		// idem MTU2
 

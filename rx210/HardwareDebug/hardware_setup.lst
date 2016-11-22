@@ -138,19 +138,19 @@
   78                             		.loc 1 61 0
   79 00c5 FB AE 0A C0 08          		mov.L	#0x8c00a, r10
   80 00ca F9 A4 60 00             		mov.B	#0, 96[r10]
-  62:../src/hardware_setup.c **** MPC.PA4PFS.BYTE = 0x02 ;    // port = MTCLKA (input)
+  62:../src/hardware_setup.c **** MPC.PA4PFS.BYTE = 0x02 ;    // port = MTCLKA (input) 16_J3
   81                             		.loc 1 62 0
   82 00ce FB AE 00 C1 08          		mov.L	#0x8c100, r10
   83 00d3 F9 A4 94 02             		mov.B	#2, 148[r10]
-  63:../src/hardware_setup.c **** MPC.PA6PFS.BYTE = 0x02 ;	// port = MTCLKB (input)
+  63:../src/hardware_setup.c **** MPC.PA6PFS.BYTE = 0x02 ;	// port = MTCLKB (input) 14_J3
   84                             		.loc 1 63 0
   85 00d7 FB AE 00 C1 08          		mov.L	#0x8c100, r10
   86 00dc F9 A4 96 02             		mov.B	#2, 150[r10]
-  64:../src/hardware_setup.c **** MPC.PA1PFS.BYTE = 0x02 ;	// port = MTCLKC (input)
+  64:../src/hardware_setup.c **** MPC.PA1PFS.BYTE = 0x02 ;	// port = MTCLKC (input) 19_J3
   87                             		.loc 1 64 0
   88 00e0 FB AE 00 C1 08          		mov.L	#0x8c100, r10
   89 00e5 F9 A4 91 02             		mov.B	#2, 145[r10]
-  65:../src/hardware_setup.c **** MPC.PA3PFS.BYTE = 0x02 ;	// port = MTCLKD (input)
+  65:../src/hardware_setup.c **** MPC.PA3PFS.BYTE = 0x02 ;	// port = MTCLKD (input) 25_J3
   90                             		.loc 1 65 0
   91 00e9 FB AE 00 C1 08          		mov.L	#0x8c100, r10
   92 00ee F9 A4 93 02             		mov.B	#2, 147[r10]

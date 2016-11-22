@@ -21,7 +21,7 @@ void PWM_asser_init( int frequence){
 	MTU3.TMDR.BYTE=0x02; //MD[3,0]=0010 : pwm mode 1
 	MTU3.TGRA=frequence; //définie la frequence du pwm par rapport à la fréquence du conteur
 	MTU3.TGRC=frequence; //définie la frequence du pwm par rapport à la fréquence du conteur
-	MTU3.TGRB=0x01F4; // duty cycle pwm 1 = 0%
-	MTU3.TGRD=0x00FA; // duty cylce pwm 2 = 0%
+	MTU3.TGRB=0x00; // duty cycle pwm 1 = 0%
+	MTU3.TGRD=0x0; // duty cylce pwm 2 = 0%
 	MTU.TSTR.BIT.CST3=1; // active la pwm
 	}

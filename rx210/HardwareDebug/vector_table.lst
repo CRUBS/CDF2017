@@ -164,12 +164,12 @@
  168 01e0 00 00 00 00             		.long	_Excep_MTU0_TGIF0
  169 01e4 00 00 00 00             		.long	_Excep_MTU1_TGIA1
  170 01e8 00 00 00 00             		.long	_Excep_MTU1_TGIB1
- 171 01ec 00 00 00 00             		.long	_Excep_MTU1_TCIV1
- 172 01f0 00 00 00 00             		.long	_Excep_MTU1_TCIU1
+ 171 01ec 00 00 00 00             		.long	0
+ 172 01f0 00 00 00 00             		.long	0
  173 01f4 00 00 00 00             		.long	_Excep_MTU2_TGIA2
  174 01f8 00 00 00 00             		.long	_Excep_MTU2_TGIB2
- 175 01fc 00 00 00 00             		.long	_Excep_MTU2_TCIV2
- 176 0200 00 00 00 00             		.long	_Excep_MTU2_TCIU2
+ 175 01fc 00 00 00 00             		.long	0
+ 176 0200 00 00 00 00             		.long	0
  177 0204 00 00 00 00             		.long	_Excep_MTU3_TGIA3
  178 0208 00 00 00 00             		.long	_Excep_MTU3_TGIB3
  179 020c 00 00 00 00             		.long	_Excep_MTU3_TGIC3

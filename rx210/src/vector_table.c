@@ -372,10 +372,10 @@ const fp RelocatableVectors[] RVECT_SECT  = {
     Excep_MTU1_TGIB1,
 
 // MTU1 TCI1V
-    Excep_MTU1_TCIV1,
+    (fp)0, //demappage
 
 // MTU1 TCI1U
-    Excep_MTU1_TCIU1,
+    (fp)0, //demappage
 
 // MTU2 TGI2A
     Excep_MTU2_TGIA2,
@@ -384,10 +384,10 @@ const fp RelocatableVectors[] RVECT_SECT  = {
     Excep_MTU2_TGIB2,
 
 // MTU2 TCI2V
-    Excep_MTU2_TCIV2,
+    (fp)0, //demappage
 
 // MTU2 TCI2U
-    Excep_MTU2_TCIU2,
+    (fp)0, //demappage
 
 // MTU3 TGI3A
     Excep_MTU3_TGIA3,
