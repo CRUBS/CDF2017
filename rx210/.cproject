@@ -132,6 +132,10 @@
 								<option id="com.renesas.cdt.core.Compiler.option.deviceShortName.669924202" name="DeviceShortName" superClass="com.renesas.cdt.core.Compiler.option.deviceShortName" value="R5F52108AxFP" valueType="string"/>
 								<option IS_BUILTIN_EMPTY="false" IS_VALUE_EMPTY="false" id="com.renesas.cdt.core.Compiler.option.includeFileDir.772613957" name="Include file directories" superClass="com.renesas.cdt.core.Compiler.option.includeFileDir" valueType="includePath">
 									<listOptionValue builtIn="false" value="&quot;${TCINSTALL}/rx-elf/optlibinc&quot;"/>
+									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/${ProjName}/src/interrupt}&quot;"/>
+									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/${ProjName}/src/pwm}&quot;"/>
+									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/${ProjName}/src/encoder}&quot;"/>
+									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/${ProjName}/src}&quot;"/>
 								</option>
 								<option id="com.renesas.cdt.core.Compiler.option.CPUSeries.66427690" name="Cpu Series" superClass="com.renesas.cdt.core.Compiler.option.CPUSeries" value="RX210" valueType="string"/>
 								<option id="com.renesas.cdt.core.Compiler.option.stackSizeInDecimal.1967724862" name="Decimal representation of '-Wsatck-usage'" superClass="com.renesas.cdt.core.Compiler.option.stackSizeInDecimal" value="256" valueType="string"/>

@@ -4,43 +4,43 @@
    4                             		.global	_mtclk_init
    6                             	_mtclk_init:
    7                             	.LFB0:
-   8                             		.file 1 "../src/decoder_quadra.c"
-   1:../src/decoder_quadra.c **** #include "iodefine.h"
-   2:../src/decoder_quadra.c **** #include "RPBRX210.h"
-   3:../src/decoder_quadra.c **** #include "interrupt_handlers.h"
-   4:../src/decoder_quadra.c **** #include "typedefine.h"
-   5:../src/decoder_quadra.c **** #include "decoder_quadra.h"
-   6:../src/decoder_quadra.c **** 
-   7:../src/decoder_quadra.c **** void mtclk_init(void)
-   8:../src/decoder_quadra.c **** {
+   8                             		.file 1 "../src/encoder/decoder_quadra.c"
+   1:../src/encoder/decoder_quadra.c **** #include "iodefine.h"
+   2:../src/encoder/decoder_quadra.c **** #include "RPBRX210.h"
+   3:../src/encoder/decoder_quadra.c **** #include "interrupt_handlers.h"
+   4:../src/encoder/decoder_quadra.c **** #include "typedefine.h"
+   5:../src/encoder/decoder_quadra.c **** #include "decoder_quadra.h"
+   6:../src/encoder/decoder_quadra.c **** 
+   7:../src/encoder/decoder_quadra.c **** void mtclk_init(void)
+   8:../src/encoder/decoder_quadra.c **** {
    9                             		.loc 1 8 0
   10 0000 6E 6B                   		pushm	r6-r11
   11                             	.LCFI0:
   12 0002 EF 06                   		mov.L	r0, r6
   13                             	.LCFI1:
-   9:../src/decoder_quadra.c **** 
-  10:../src/decoder_quadra.c **** 	SYSTEM.PRCR.WORD=0xA502; //write enable for the register related to operating mode
+   9:../src/encoder/decoder_quadra.c **** 
+  10:../src/encoder/decoder_quadra.c **** 	SYSTEM.PRCR.WORD=0xA502; //write enable for the register related to operating mode
   14                             		.loc 1 10 0
   15 0004 FB AE 00 00 08          		mov.L	#0x80000, r10
   16 0009 FA A9 FF 01 02 A5       		mov.W	#0xffffa502, 1022[r10]
-  11:../src/decoder_quadra.c **** 
-  12:../src/decoder_quadra.c **** 	MSTP(MTU) = 0; // MTU(MTU0 to MTU5) module stop state is canceled
+  11:../src/encoder/decoder_quadra.c **** 
+  12:../src/encoder/decoder_quadra.c **** 	MSTP(MTU) = 0; // MTU(MTU0 to MTU5) module stop state is canceled
   17                             		.loc 1 12 0
   18 000f FB AE 00 00 08          		mov.L	#0x80000, r10
   19 0014 ED AB 04                		mov.L	16[r10], r11
   20 0017 76 2B FF FD             		and	#0xfffffdff, r11
   21 001b E7 AB 04                		mov.L	r11, 16[r10]
-  13:../src/decoder_quadra.c **** 
-  14:../src/decoder_quadra.c **** 	// on désactive toutes les intérruptions de MTU1 et 2
-  15:../src/decoder_quadra.c **** 	MTU1.TIER.BYTE=0x00;
+  13:../src/encoder/decoder_quadra.c **** 
+  14:../src/encoder/decoder_quadra.c **** 	// on désactive toutes les intérruptions de MTU1 et 2
+  15:../src/encoder/decoder_quadra.c **** 	MTU1.TIER.BYTE=0x00;
   22                             		.loc 1 15 0
   23 001e FB AE 90 86 08          		mov.L	#0x88690, r10
   24 0023 F9 A4 F4 00             		mov.B	#0, 244[r10]
-  16:../src/decoder_quadra.c **** 	MTU2.TIER.BYTE=0x00;
+  16:../src/encoder/decoder_quadra.c **** 	MTU2.TIER.BYTE=0x00;
   25                             		.loc 1 16 0
   26 0027 FB AE 92 86 08          		mov.L	#0x88692, r10
   27 002c FA A4 72 01 00          		mov.B	#0, 370[r10]
-  17:../src/decoder_quadra.c **** 	while(MTU2.TIER.BYTE!=0x00){} // on attend la fin de la désactivation
+  17:../src/encoder/decoder_quadra.c **** 	while(MTU2.TIER.BYTE!=0x00){} // on attend la fin de la désactivation
   28                             		.loc 1 17 0
   29 0031 03                      		nop
   30                             	.L2:
@@ -50,94 +50,94 @@
   34 003b 5B AA                   		movu.B	r10, r10
   35 003d 61 0A                   		cmp	#0, r10
   36 003f 21 F3                   		bne	.L2
-  18:../src/decoder_quadra.c **** 	MTU1.TIER.BIT.TCIEU=1;	//activation des interrup under et over flow
+  18:../src/encoder/decoder_quadra.c **** 	MTU1.TIER.BIT.TCIEU=1;	//activation des interrup under et over flow
   37                             		.loc 1 18 0 is_stmt 1
   38 0041 FB AE 90 86 08          		mov.L	#0x88690, r10
   39 0046 CD AB F4                		mov.B	244[r10], r11
   40 0049 75 3B 20                		or	#32, r11
   41 004c C7 AB F4                		mov.B	r11, 244[r10]
-  19:../src/decoder_quadra.c **** 	MTU1.TIER.BIT.TCIEV=1;
+  19:../src/encoder/decoder_quadra.c **** 	MTU1.TIER.BIT.TCIEV=1;
   42                             		.loc 1 19 0
   43 004f FB AE 90 86 08          		mov.L	#0x88690, r10
   44 0054 CD AB F4                		mov.B	244[r10], r11
   45 0057 75 3B 10                		or	#16, r11
   46 005a C7 AB F4                		mov.B	r11, 244[r10]
-  20:../src/decoder_quadra.c **** 	MTU2.TIER.BIT.TCIEU=1;
+  20:../src/encoder/decoder_quadra.c **** 	MTU2.TIER.BIT.TCIEU=1;
   47                             		.loc 1 20 0
   48 005d FB AE 92 86 08          		mov.L	#0x88692, r10
   49 0062 CE AB 72 01             		mov.B	370[r10], r11
   50 0066 75 3B 20                		or	#32, r11
   51 0069 CB AB 72 01             		mov.B	r11, 370[r10]
-  21:../src/decoder_quadra.c **** 	MTU2.TIER.BIT.TCIEV=1;
+  21:../src/encoder/decoder_quadra.c **** 	MTU2.TIER.BIT.TCIEV=1;
   52                             		.loc 1 21 0
   53 006d FB AE 92 86 08          		mov.L	#0x88692, r10
   54 0072 CE AB 72 01             		mov.B	370[r10], r11
   55 0076 75 3B 10                		or	#16, r11
   56 0079 CB AB 72 01             		mov.B	r11, 370[r10]
-  22:../src/decoder_quadra.c **** 
-  23:../src/decoder_quadra.c **** 	// mise en plase du MTU
-  24:../src/decoder_quadra.c **** 	// les compteurs fonctionnent de manière indépendantes
-  25:../src/decoder_quadra.c **** 	MTU.TSYR.BYTE=0x00;
+  22:../src/encoder/decoder_quadra.c **** 
+  23:../src/encoder/decoder_quadra.c **** 	// mise en plase du MTU
+  24:../src/encoder/decoder_quadra.c **** 	// les compteurs fonctionnent de manière indépendantes
+  25:../src/encoder/decoder_quadra.c **** 	MTU.TSYR.BYTE=0x00;
   57                             		.loc 1 25 0
   58 007d FB AE 0A 86 08          		mov.L	#0x8860a, r10
   59 0082 F9 A4 77 00             		mov.B	#0, 119[r10]
-  26:../src/decoder_quadra.c **** 
-  27:../src/decoder_quadra.c **** 	// on efface les compteurs
-  28:../src/decoder_quadra.c **** 	compteur_g=0x0000;		//mise a 0 du compteur gauche
+  26:../src/encoder/decoder_quadra.c **** 
+  27:../src/encoder/decoder_quadra.c **** 	// on efface les compteurs
+  28:../src/encoder/decoder_quadra.c **** 	compteur_g=0x0000;		//mise a 0 du compteur gauche
   60                             		.loc 1 28 0
   61 0086 FB AE 90 86 08          		mov.L	#0x88690, r10
   62 008b F9 A5 7B 00             		mov.W	#0, 246[r10]
-  29:../src/decoder_quadra.c **** 	compteur_d=0x0000;		//mise à 0 compteur droite
+  29:../src/encoder/decoder_quadra.c **** 	compteur_d=0x0000;		//mise à 0 compteur droite
   63                             		.loc 1 29 0
   64 008f FB AE 92 86 08          		mov.L	#0x88692, r10
   65 0094 F9 A5 BA 00             		mov.W	#0, 372[r10]
-  30:../src/decoder_quadra.c **** 
-  31:../src/decoder_quadra.c **** 	// netoyage des TGRA et TGRB
-  32:../src/decoder_quadra.c **** 	MTU1.TGRA=0;
+  30:../src/encoder/decoder_quadra.c **** 
+  31:../src/encoder/decoder_quadra.c **** 	// netoyage des TGRA et TGRB
+  32:../src/encoder/decoder_quadra.c **** 	MTU1.TGRA=0;
   66                             		.loc 1 32 0
   67 0098 FB AE 90 86 08          		mov.L	#0x88690, r10
   68 009d F9 A5 7C 00             		mov.W	#0, 248[r10]
-  33:../src/decoder_quadra.c **** 	MTU1.TGRB=0;
+  33:../src/encoder/decoder_quadra.c **** 	MTU1.TGRB=0;
   69                             		.loc 1 33 0
   70 00a1 FB AE 90 86 08          		mov.L	#0x88690, r10
   71 00a6 F9 A5 7D 00             		mov.W	#0, 250[r10]
-  34:../src/decoder_quadra.c **** 
-  35:../src/decoder_quadra.c **** 	//on désactive le clearing
-  36:../src/decoder_quadra.c **** 	MTU1.TCR.BYTE=0x0;		// clearing TCNT is disable
+  34:../src/encoder/decoder_quadra.c **** 
+  35:../src/encoder/decoder_quadra.c **** 	//on désactive le clearing
+  36:../src/encoder/decoder_quadra.c **** 	MTU1.TCR.BYTE=0x0;		// clearing TCNT is disable
   72                             		.loc 1 36 0
   73 00aa FB AE 90 86 08          		mov.L	#0x88690, r10
   74 00af F9 A4 F0 00             		mov.B	#0, 240[r10]
-  37:../src/decoder_quadra.c **** 	MTU2.TCR.BYTE=0x0;
+  37:../src/encoder/decoder_quadra.c **** 	MTU2.TCR.BYTE=0x0;
   75                             		.loc 1 37 0
   76 00b3 FB AE 92 86 08          		mov.L	#0x88692, r10
   77 00b8 FA A4 6E 01 00          		mov.B	#0, 366[r10]
-  38:../src/decoder_quadra.c **** 
-  39:../src/decoder_quadra.c **** 	// sélection du phase counting mode 1
-  40:../src/decoder_quadra.c **** 	MTU1.TMDR.BYTE=0x04;
+  38:../src/encoder/decoder_quadra.c **** 
+  39:../src/encoder/decoder_quadra.c **** 	// sélection du phase counting mode 1
+  40:../src/encoder/decoder_quadra.c **** 	MTU1.TMDR.BYTE=0x04;
   78                             		.loc 1 40 0
   79 00bd FB AE 90 86 08          		mov.L	#0x88690, r10
   80 00c2 F9 A4 F1 04             		mov.B	#4, 241[r10]
-  41:../src/decoder_quadra.c **** 	MTU2.TMDR.BYTE=0x04;
+  41:../src/encoder/decoder_quadra.c **** 	MTU2.TMDR.BYTE=0x04;
   81                             		.loc 1 41 0
   82 00c6 FB AE 92 86 08          		mov.L	#0x88692, r10
   83 00cb FA A4 6F 01 04          		mov.B	#4, 367[r10]
-  42:../src/decoder_quadra.c **** 
-  43:../src/decoder_quadra.c **** 	SYSTEM.PRCR.WORD=0xA500; //write disable for all register
+  42:../src/encoder/decoder_quadra.c **** 
+  43:../src/encoder/decoder_quadra.c **** 	SYSTEM.PRCR.WORD=0xA500; //write disable for all register
   84                             		.loc 1 43 0
   85 00d0 FB AE 00 00 08          		mov.L	#0x80000, r10
   86 00d5 FA A9 FF 01 00 A5       		mov.W	#0xffffa500, 1022[r10]
-  44:../src/decoder_quadra.c **** // fin de l'initialisation
-  45:../src/decoder_quadra.c **** 
-  46:../src/decoder_quadra.c **** }
+  44:../src/encoder/decoder_quadra.c **** // fin de l'initialisation
+  45:../src/encoder/decoder_quadra.c **** 
+  46:../src/encoder/decoder_quadra.c **** }
   87                             		.loc 1 46 0
   88 00db 3F 6B 06                		rtsd	#24, r6-r11
   89                             	.LFE0:
   91                             		.global	_mtclk_start
   93                             	_mtclk_start:
   94                             	.LFB1:
-  47:../src/decoder_quadra.c **** 
-  48:../src/decoder_quadra.c **** void mtclk_start(void)
-  49:../src/decoder_quadra.c **** {
+  47:../src/encoder/decoder_quadra.c **** 
+  48:../src/encoder/decoder_quadra.c **** void mtclk_start(void)
+  49:../src/encoder/decoder_quadra.c **** {
   95                             		.loc 1 49 0
   96 00de 7E AA                   		push.l	r10
   97                             	.LCFI2:
@@ -145,16 +145,16 @@
   99                             	.LCFI3:
  100 00e2 EF 06                   		mov.L	r0, r6
  101                             	.LCFI4:
-  50:../src/decoder_quadra.c **** 	//démarrer le comptage
-  51:../src/decoder_quadra.c **** 	MTU.TSTR.BYTE = 0x06; // demarrer compteur MTU1.TCNT et MTU2.TCNT
+  50:../src/encoder/decoder_quadra.c **** 	//démarrer le comptage
+  51:../src/encoder/decoder_quadra.c **** 	MTU.TSTR.BYTE = 0x06; // demarrer compteur MTU1.TCNT et MTU2.TCNT
  102                             		.loc 1 51 0
  103 00e4 FB AE 0A 86 08          		mov.L	#0x8860a, r10
  104 00e9 F9 A4 76 06             		mov.B	#6, 118[r10]
-  52:../src/decoder_quadra.c **** }
+  52:../src/encoder/decoder_quadra.c **** }
  105                             		.loc 1 52 0
  106 00ed 7E B6                   		pop	r6
  107 00ef 7E BA                   		pop	r10
  108 00f1 02                      		rts
  109                             	.LFE1:
  181                             	.Letext0:
- 182                             		.file 2 "../src/iodefine.h"
+ 182                             		.file 2 "C:\\Users\\Mickael Leconte\\Documents\\GitHub\\CDF2017\\rx210\\src/iodefine.h"

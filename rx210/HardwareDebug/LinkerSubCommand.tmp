@@ -1,1 +1,1 @@
-"./src/decoder_quadra.o" "./src/hardware_setup.o" "./src/interrupt_handlers.o" "./src/pwm_asser_RX210.o" "./src/reset_program.o" "./src/rx210.o" "./src/vector_table.o" 
+"./src/encoder/decoder_quadra.o" "./src/hardware_setup.o" "./src/reset_program.o" "./src/rx210.o" "./src/vector_table.o" "./src/interrupt/interrupt_handlers.o" "./src/pwm/pwm_asser_RX210.o" 

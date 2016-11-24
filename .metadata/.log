@@ -822,3 +822,110 @@ Caused by: java.lang.NullPointerException
 	at org.eclipse.swt.widgets.RunnableLock.run(RunnableLock.java:35)
 	at org.eclipse.swt.widgets.Synchronizer.runAsyncMessages(Synchronizer.java:135)
 	... 48 more
+!SESSION 2016-11-22 19:13:08.651 -----------------------------------------------
+eclipse.buildId=v5.1.0.022
+java.version=1.8.0_65
+java.vendor=Oracle Corporation
+BootLoader constants: OS=win32, ARCH=x86, WS=win32, NL=fr_FR
+Command-line arguments:  -os win32 -ws win32 -arch x86
+
+!ENTRY org.eclipse.equinox.p2.publisher.eclipse 4 0 2016-11-22 19:14:17.714
+!MESSAGE Unable to acquire PluginConverter service during generation for: C:\Renesas\e2_studio\eclipse\plugins\com.renesas.cg_2.5.0.201609011802.
+
+!ENTRY org.eclipse.equinox.p2.publisher.eclipse 4 0 2016-11-22 19:14:17.751
+!MESSAGE Unable to acquire PluginConverter service during generation for: C:\Renesas\e2_studio\eclipse\features\com.renesas.smc.rx.feature_1.0.0.201609070708.
+
+!ENTRY org.eclipse.equinox.p2.publisher.eclipse 4 0 2016-11-22 19:14:17.919
+!MESSAGE Unable to acquire PluginConverter service during generation for: C:\Renesas\e2_studio\eclipse\plugins\com.renesas.cg_2.5.0.201609011802.
+
+!ENTRY org.eclipse.equinox.p2.publisher.eclipse 4 0 2016-11-22 19:14:17.929
+!MESSAGE Unable to acquire PluginConverter service during generation for: C:\Renesas\e2_studio\eclipse\features\com.renesas.smc.rx.feature_1.0.0.201609070708.
+!SESSION 2016-11-23 12:20:48.800 -----------------------------------------------
+eclipse.buildId=v5.1.0.022
+java.version=1.8.0_65
+java.vendor=Oracle Corporation
+BootLoader constants: OS=win32, ARCH=x86, WS=win32, NL=fr_FR
+Command-line arguments:  -os win32 -ws win32 -arch x86
+
+!ENTRY org.eclipse.equinox.p2.publisher.eclipse 4 0 2016-11-23 12:23:40.443
+!MESSAGE Unable to acquire PluginConverter service during generation for: C:\Renesas\e2_studio\eclipse\plugins\com.renesas.cg_2.5.0.201609011802.
+
+!ENTRY org.eclipse.equinox.p2.publisher.eclipse 4 0 2016-11-23 12:23:40.571
+!MESSAGE Unable to acquire PluginConverter service during generation for: C:\Renesas\e2_studio\eclipse\features\com.renesas.smc.rx.feature_1.0.0.201609070708.
+
+!ENTRY org.eclipse.equinox.p2.publisher.eclipse 4 0 2016-11-23 12:23:40.752
+!MESSAGE Unable to acquire PluginConverter service during generation for: C:\Renesas\e2_studio\eclipse\plugins\com.renesas.cg_2.5.0.201609011802.
+
+!ENTRY org.eclipse.equinox.p2.publisher.eclipse 4 0 2016-11-23 12:23:40.763
+!MESSAGE Unable to acquire PluginConverter service during generation for: C:\Renesas\e2_studio\eclipse\features\com.renesas.smc.rx.feature_1.0.0.201609070708.
+!SESSION 2016-11-24 15:53:42.641 -----------------------------------------------
+eclipse.buildId=v5.1.0.022
+java.version=1.8.0_65
+java.vendor=Oracle Corporation
+BootLoader constants: OS=win32, ARCH=x86, WS=win32, NL=fr_FR
+Command-line arguments:  -os win32 -ws win32 -arch x86
+
+!ENTRY org.eclipse.equinox.p2.publisher.eclipse 4 0 2016-11-24 15:55:05.790
+!MESSAGE Unable to acquire PluginConverter service during generation for: C:\Renesas\e2_studio\eclipse\plugins\com.renesas.cg_2.5.0.201609011802.
+
+!ENTRY org.eclipse.equinox.p2.publisher.eclipse 4 0 2016-11-24 15:55:05.937
+!MESSAGE Unable to acquire PluginConverter service during generation for: C:\Renesas\e2_studio\eclipse\features\com.renesas.smc.rx.feature_1.0.0.201609070708.
+
+!ENTRY org.eclipse.equinox.p2.publisher.eclipse 4 0 2016-11-24 15:55:06.126
+!MESSAGE Unable to acquire PluginConverter service during generation for: C:\Renesas\e2_studio\eclipse\plugins\com.renesas.cg_2.5.0.201609011802.
+
+!ENTRY org.eclipse.equinox.p2.publisher.eclipse 4 0 2016-11-24 15:55:06.138
+!MESSAGE Unable to acquire PluginConverter service during generation for: C:\Renesas\e2_studio\eclipse\features\com.renesas.smc.rx.feature_1.0.0.201609070708.
+
+!ENTRY org.eclipse.core.resources 4 568 2016-11-24 16:01:17.204
+!MESSAGE Internal error in history store
+!STACK 1
+org.eclipse.core.internal.resources.ResourceException: Could not read metadata for 'C:\Users\Mickael Leconte\Documents\GitHub\CDF2017\.metadata\.plugins\org.eclipse.core.resources\.projects\rx210\.indexes\history.index'. Unexpected version: 0.
+	at org.eclipse.core.internal.localstore.Bucket.load(Bucket.java:303)
+	at org.eclipse.core.internal.localstore.Bucket.load(Bucket.java:274)
+	at org.eclipse.core.internal.localstore.BucketTree.loadBucketFor(BucketTree.java:115)
+	at org.eclipse.core.internal.localstore.HistoryStore2.addState(HistoryStore2.java:96)
+	at org.eclipse.core.internal.localstore.FileSystemResourceManager.write(FileSystemResourceManager.java:1137)
+	at org.eclipse.core.internal.resources.File.internalSetContents(File.java:295)
+	at org.eclipse.core.internal.resources.File.setContents(File.java:331)
+	at org.eclipse.core.internal.resources.File.setContents(File.java:426)
+	at com.renesas.cdt.managedbuilder.gnu.makefile.RenesasGnuMakefileGenerator.save(RenesasGnuMakefileGenerator.java:6686)
+	at com.renesas.cdt.managedbuilder.gnu.makefile.RenesasGnuMakefileGenerator.populateInitMakefile(RenesasGnuMakefileGenerator.java:1203)
+	at com.renesas.cdt.managedbuilder.gnu.makefile.RenesasGnuMakefileGenerator.regenerateMakefiles(RenesasGnuMakefileGenerator.java:1115)
+	at org.eclipse.cdt.managedbuilder.internal.core.CommonBuilder.performMakefileGeneration(CommonBuilder.java:1006)
+	at org.eclipse.cdt.managedbuilder.internal.core.CommonBuilder.performPrebuildGeneration(CommonBuilder.java:873)
+	at org.eclipse.cdt.managedbuilder.internal.core.CommonBuilder.build(CommonBuilder.java:748)
+	at org.eclipse.cdt.managedbuilder.internal.core.CommonBuilder.build(CommonBuilder.java:510)
+	at org.eclipse.cdt.managedbuilder.internal.core.CommonBuilder.build(CommonBuilder.java:459)
+	at org.eclipse.core.internal.events.BuildManager$2.run(BuildManager.java:734)
+	at org.eclipse.core.runtime.SafeRunner.run(SafeRunner.java:42)
+	at org.eclipse.core.internal.events.BuildManager.basicBuild(BuildManager.java:205)
+	at org.eclipse.core.internal.events.BuildManager.basicBuild(BuildManager.java:245)
+	at org.eclipse.core.internal.events.BuildManager$1.run(BuildManager.java:300)
+	at org.eclipse.core.runtime.SafeRunner.run(SafeRunner.java:42)
+	at org.eclipse.core.internal.events.BuildManager.basicBuild(BuildManager.java:303)
+	at org.eclipse.core.internal.events.BuildManager.basicBuildLoop(BuildManager.java:359)
+	at org.eclipse.core.internal.events.BuildManager.build(BuildManager.java:382)
+	at org.eclipse.core.internal.resources.Workspace.buildInternal(Workspace.java:486)
+	at org.eclipse.core.internal.resources.Workspace.build(Workspace.java:405)
+	at org.eclipse.ui.actions.BuildAction$1.runInWorkspace(BuildAction.java:287)
+	at org.eclipse.core.internal.resources.InternalWorkspaceJob.run(InternalWorkspaceJob.java:39)
+	at org.eclipse.core.internal.jobs.Worker.run(Worker.java:55)
+!SUBENTRY 1 org.eclipse.core.resources 4 567 2016-11-24 16:01:17.243
+!MESSAGE Could not read metadata for 'C:\Users\Mickael Leconte\Documents\GitHub\CDF2017\.metadata\.plugins\org.eclipse.core.resources\.projects\rx210\.indexes\history.index'. Unexpected version: 0.
+
+!ENTRY org.eclipse.core.resources 4 273 2016-11-24 16:02:21.115
+!MESSAGE Problems cleaning up history store.
+!STACK 1
+org.eclipse.core.internal.resources.ResourceException: Could not read metadata for 'C:\Users\Mickael Leconte\Documents\GitHub\CDF2017\.metadata\.plugins\org.eclipse.core.resources\.projects\rx210\.indexes\history.index'. Unexpected version: 0.
+	at org.eclipse.core.internal.localstore.Bucket.load(Bucket.java:303)
+	at org.eclipse.core.internal.localstore.Bucket.load(Bucket.java:274)
+	at org.eclipse.core.internal.localstore.BucketTree.internalAccept(BucketTree.java:98)
+	at org.eclipse.core.internal.localstore.BucketTree.accept(BucketTree.java:73)
+	at org.eclipse.core.internal.localstore.HistoryStore2.clean(HistoryStore2.java:164)
+	at org.eclipse.core.internal.resources.SaveManager.save(SaveManager.java:1211)
+	at org.eclipse.core.internal.resources.Workspace.save(Workspace.java:2270)
+	at org.eclipse.ui.internal.ide.application.IDEWorkbenchAdvisor$4.run(IDEWorkbenchAdvisor.java:453)
+	at org.eclipse.jface.operation.ModalContext$ModalContextThread.run(ModalContext.java:119)
+!SUBENTRY 1 org.eclipse.core.resources 4 567 2016-11-24 16:02:21.115
+!MESSAGE Could not read metadata for 'C:\Users\Mickael Leconte\Documents\GitHub\CDF2017\.metadata\.plugins\org.eclipse.core.resources\.projects\rx210\.indexes\history.index'. Unexpected version: 0.

@@ -8,7 +8,10 @@ RM := rm -rf *.lst *.lis *.lpp *.map libgcc.a rx210_HardwareDebug_auto.gsi
 
 # All of the sources participating in the build are defined here
 -include sources.mk
+-include src/encoder/subdir.mk
 -include src/subdir.mk
+-include src/interrupt/subdir.mk
+-include src/pwm/subdir.mk
 -include objects.mk
 
 ifneq ($(MAKECMDGOALS),clean)
@@ -184,7 +187,10 @@ ifneq ($(strip $(CPP_DEPS)),)
 	-@$(RM) clean_CPP_DEPS.tmp
 endif
 
+	rm -rf ./"src/encoder"/*.tmp1 
 	rm -rf ./"src"/*.tmp1 
+	rm -rf ./"src/interrupt"/*.tmp1 
+	rm -rf ./"src/pwm"/*.tmp1 
 	rm -rf   rx210.mot
 
 	@echo.
