@@ -4,7 +4,7 @@
 
 *.pydevproject
 .project
-.metadata
+.metadata/
 bin/
 tmp/
 *.tmp
@@ -18,6 +18,8 @@ local.properties
 .sub
 .depsub
 .o
+.log
+.ini
 
 # External tool builders
 .externalToolBuilders/
