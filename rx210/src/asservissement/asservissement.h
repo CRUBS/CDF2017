@@ -13,16 +13,16 @@
 
 
 //definition des différentes flags
-#define flag_over_te TPU0.TSR.BIT.TCFV	//flag overflow timer
+#define flag_over_te IR(MTU0,TCIV0)	//flag overflow timer
 
 //definition activation/désactivation timer echantillonnage
-#define echant_on TPU0.TIER.BYTE=0x10
-#define echant_off TPU0.TIER.BYTE=0x00;
+#define echant_on MTU0.TIER.BYTE=0x10
+#define echant_off MTU0.TIER.BYTE=0x00
 
 // definition du compteur
-#define compteur_timer_te TPU0.TSTR.CST0
+#define compteur_timer_te MTU0.TSTR.CST0
 
-void init_echant(short double t_echant)		// temps échantillonnage en seconde
-void start_echant(void)				// active le compteur
+void init_echant(double t_echant);		// temps échantillonnage en seconde
+void start_echant(void);		// active le compteur
 
 #endif

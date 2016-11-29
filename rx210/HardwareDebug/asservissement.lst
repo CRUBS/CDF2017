@@ -1,0 +1,146 @@
+   1                             		.file	"asservissement.c"
+   2                             		.section P,"ax"
+   3                             	.Ltext0:
+   4                             		.global	___mulsf3
+   5                             		.global	___divsf3
+   6                             		.global	___subsf3
+   7                             		.global	___fixsfsi
+   8                             		.global	_init_echant
+  10                             	_init_echant:
+  11                             	.LFB0:
+  12                             		.file 1 "../src/asservissement/asservissement.c"
+   1:../src/asservissement/asservissement.c **** /* description du fichier et des fonction
+   2:../src/asservissement/asservissement.c **** *  auteur lebansais yoann
+   3:../src/asservissement/asservissement.c **** *  date: 22/11/2016
+   4:../src/asservissement/asservissement.c **** *  pour le CRUBS cdf 2017
+   5:../src/asservissement/asservissement.c **** */
+   6:../src/asservissement/asservissement.c **** 
+   7:../src/asservissement/asservissement.c **** #include "asservissement.h"
+   8:../src/asservissement/asservissement.c **** #include "iodefine.h"
+   9:../src/asservissement/asservissement.c **** #include "RPBRX210.h"
+  10:../src/asservissement/asservissement.c **** #include "interrupt_handlers.h"
+  11:../src/asservissement/asservissement.c **** #include "typedefine.h"
+  12:../src/asservissement/asservissement.c **** 
+  13:../src/asservissement/asservissement.c **** 
+  14:../src/asservissement/asservissement.c **** 
+  15:../src/asservissement/asservissement.c **** void init_echant(double t_echant){
+  13                             		.loc 1 15 0
+  14 0000 6E 6B                   		pushm	r6-r11
+  15                             	.LCFI0:
+  16 0002 71 06 F4                		add	#-12, r0, r6
+  17                             	.LCFI1:
+  18 0005 EF 60                   		mov.L	r6, r0
+  19                             	.LCFI2:
+  20 0007 A0 E1                   		mov.L	r1, 8[r6]
+  16:../src/asservissement/asservissement.c **** 	double post_diviseur_flot= post_diviseur *1.;	//post_diviseur passer en flottant pour le calcul
+  21                             		.loc 1 16 0
+  22 0009 F8 62 00 00 80 42       		mov.L	#0x42800000, [r6]
+  17:../src/asservissement/asservissement.c **** 	int valeur_compteur=(int)(65535-(t_echant*clock/(pre_diviseur*post_diviseur_flot))); // calcul of 
+  23                             		.loc 1 17 0
+  24 000f A8 E1                   		mov.L	8[r6], r1
+  25 0011 FB 22 00 24 F4 4B       		mov.L	#0x4bf42400, r2
+  26 0017 05 00 00 00             		bsr	___mulsf3
+  27 001b EF 1B                   		mov.L	r1, r11
+  28 001d EF BA                   		mov.L	r11, r10
+  29 001f EF A1                   		mov.L	r10, r1
+  30 0021 EC 62                   		mov.L	[r6], r2
+  31 0023 05 00 00 00             		bsr	___divsf3
+  32 0027 EF 1B                   		mov.L	r1, r11
+  33 0029 EF BA                   		mov.L	r11, r10
+  34 002b FB 12 00 FF 7F 47       		mov.L	#0x477fff00, r1
+  35 0031 EF A2                   		mov.L	r10, r2
+  36 0033 05 00 00 00             		bsr	___subsf3
+  37 0037 EF 1B                   		mov.L	r1, r11
+  38 0039 EF BA                   		mov.L	r11, r10
+  39 003b EF A1                   		mov.L	r10, r1
+  40 003d 05 00 00 00             		bsr	___fixsfsi
+  41 0041 EF 1A                   		mov.L	r1, r10
+  42 0043 E7 6A 01                		mov.L	r10, 4[r6]
+  18:../src/asservissement/asservissement.c **** 
+  19:../src/asservissement/asservissement.c **** 	SYSTEM.PRCR.WORD=0xA502;
+  43                             		.loc 1 19 0
+  44 0046 FB AE 00 00 08          		mov.L	#0x80000, r10
+  45 004b FA A9 FF 01 02 A5       		mov.W	#0xffffa502, 1022[r10]
+  20:../src/asservissement/asservissement.c **** 	SYSTEM.MSTPCRA.BIT.ACSE=0;
+  46                             		.loc 1 20 0
+  47 0051 FB AE 00 00 08          		mov.L	#0x80000, r10
+  48 0056 ED AB 04                		mov.L	16[r10], r11
+  49 0059 74 2B FF FF FF 7F       		and	#0x7fffffff, r11
+  50 005f E7 AB 04                		mov.L	r11, 16[r10]
+  21:../src/asservissement/asservissement.c **** 	MSTP(MTU);
+  51                             		.loc 1 21 0
+  52 0062 FB AE 00 00 08          		mov.L	#0x80000, r10
+  53 0067 ED AA 04                		mov.L	16[r10], r10
+  22:../src/asservissement/asservissement.c **** 	MTU0.TCR.BYTE=0x03;			//clock frequencies divise by 64
+  54                             		.loc 1 22 0
+  55 006a FB AE 90 86 08          		mov.L	#0x88690, r10
+  56 006f F9 A4 70 03             		mov.B	#3, 112[r10]
+  23:../src/asservissement/asservissement.c **** 	MTU0.TMDR.BYTE=0x00;		//timer in normal mode
+  57                             		.loc 1 23 0
+  58 0073 FB AE 90 86 08          		mov.L	#0x88690, r10
+  59 0078 F9 A4 71 00             		mov.B	#0, 113[r10]
+  24:../src/asservissement/asservissement.c **** 	MTU0.TCNT=valeur_compteur;	//initialize the value of timer
+  60                             		.loc 1 24 0
+  61 007c FB AE 90 86 08          		mov.L	#0x88690, r10
+  62 0081 ED 6B 01                		mov.L	4[r6], r11
+  63 0084 D7 AB 3B                		mov.W	r11, 118[r10]
+  25:../src/asservissement/asservissement.c **** 	MTU0.TIER.BYTE=0x10;		// set the interrupt but don't active the counter
+  64                             		.loc 1 25 0
+  65 0087 FB AE 90 86 08          		mov.L	#0x88690, r10
+  66 008c F9 A4 74 10             		mov.B	#16, 116[r10]
+  26:../src/asservissement/asservissement.c **** 	IEN(MTU0,TCIV0)=1;
+  67                             		.loc 1 26 0
+  68 0090 FB AE 00 70 08          		mov.L	#0x87000, r10
+  69 0095 CE AB 0E 02             		mov.B	526[r10], r11
+  70 0099 75 3B 40                		or	#64, r11
+  71 009c CB AB 0E 02             		mov.B	r11, 526[r10]
+  27:../src/asservissement/asservissement.c **** 	IPR(MTU0,TCIV0)=0x2;
+  72                             		.loc 1 27 0
+  73 00a0 FB AE 00 70 08          		mov.L	#0x87000, r10
+  74 00a5 CE AB 76 03             		mov.B	886[r10], r11
+  75 00a9 75 2B F0                		and	#-16, r11
+  76 00ac 65 2B                   		or	#2, r11
+  77 00ae CB AB 76 03             		mov.B	r11, 886[r10]
+  28:../src/asservissement/asservissement.c **** 	
+  29:../src/asservissement/asservissement.c **** 	while(MTU0.TIER.BYTE!=0x10);
+  78                             		.loc 1 29 0
+  79 00b2 03                      		nop
+  80                             	.L2:
+  81                             		.loc 1 29 0 is_stmt 0 discriminator 1
+  82 00b3 FB AE 90 86 08          		mov.L	#0x88690, r10
+  83 00b8 CD AA 74                		mov.B	116[r10], r10
+  84 00bb 5B AA                   		movu.B	r10, r10
+  85 00bd 75 5A 10                		cmp	#16, r10
+  86 00c0 21 F3                   		bne	.L2
+  30:../src/asservissement/asservissement.c **** 	SYSTEM.PRCR.WORD=0xA500;
+  87                             		.loc 1 30 0 is_stmt 1
+  88 00c2 FB AE 00 00 08          		mov.L	#0x80000, r10
+  89 00c7 FA A9 FF 01 00 A5       		mov.W	#0xffffa500, 1022[r10]
+  31:../src/asservissement/asservissement.c **** 
+  32:../src/asservissement/asservissement.c **** }
+  90                             		.loc 1 32 0
+  91 00cd 3F 6B 09                		rtsd	#36, r6-r11
+  92                             	.LFE0:
+  94                             		.global	_start_echant
+  96                             	_start_echant:
+  97                             	.LFB1:
+  33:../src/asservissement/asservissement.c **** 
+  34:../src/asservissement/asservissement.c **** void start_echant()
+  35:../src/asservissement/asservissement.c **** {
+  98                             		.loc 1 35 0
+  99 00d0 6E 6B                   		pushm	r6-r11
+ 100                             	.LCFI3:
+ 101 00d2 EF 06                   		mov.L	r0, r6
+ 102                             	.LCFI4:
+  36:../src/asservissement/asservissement.c **** 	MTU.TSTR.BIT.CST0=1;	// activation du compteur
+ 103                             		.loc 1 36 0
+ 104 00d4 FB AE 0A 86 08          		mov.L	#0x8860a, r10
+ 105 00d9 CD AB 76                		mov.B	118[r10], r11
+ 106 00dc 65 1B                   		or	#1, r11
+ 107 00de C7 AB 76                		mov.B	r11, 118[r10]
+  37:../src/asservissement/asservissement.c **** }
+ 108                             		.loc 1 37 0
+ 109 00e1 3F 6B 06                		rtsd	#24, r6-r11
+ 110                             	.LFE1:
+ 191                             	.Letext0:
+ 192                             		.file 2 "C:\\Users\\Mickael Leconte\\Documents\\GitHub\\CDF2017\\rx210\\src/iodefine.h"

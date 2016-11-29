@@ -6,7 +6,6 @@
 
 void mtclk_init(void)
 {
-
 	SYSTEM.PRCR.WORD=0xA502; //write enable for the register related to operating mode
 
 	MSTP(MTU) = 0; // MTU(MTU0 to MTU5) module stop state is canceled
@@ -41,9 +40,8 @@ void mtclk_init(void)
 	MTU2.TMDR.BYTE=0x04;
 
 	SYSTEM.PRCR.WORD=0xA500; //write disable for all register
-// fin de l'initialisation
-
 }
+
 
 void mtclk_start(void)
 {

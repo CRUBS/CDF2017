@@ -14,8 +14,8 @@
 * History       : DD.MM.YYYY     Version     Description
 *                 23.11.2016     Ver. 1 
 *******************************************************************************/
-#ifndef // multiple inclusion guard
-#define 
+#ifndef UART_H // multiple inclusion guard
+#define UART_H
 
 /*******************************************************************************
 Macro definitions

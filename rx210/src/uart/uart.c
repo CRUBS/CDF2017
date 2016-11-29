@@ -42,14 +42,14 @@ Private global variables and function
 void uart9_init(void)
 {
 	SYSTEM.PRCR.WORD=0xA502;	//unlock protection
-	SYSTEM.MSTPCRC.BIT.ACSE=0;	//clear ACSE bit (all-module clock stop mode enable
+	SYSTEM.MSTPCRA.BIT.ACSE=0;	//clear ACSE bit (all-module clock stop mode enable
 	MSTP(SCI9)=0;			// cancel state of SCI9 peripheral to enable writing
 	SYSTEM.PRCR.WORD=0xA500;	// relocking
 
 	SCI9.SCR.BYTE=0x00;		// unable TIE, RXI, TX, RX and set cke to internal
 	
 	SCI9.SIMR1.BIT.IICM=0;		//clear to use uart
-	SCI9.SPMR.BIT.CKPA=0;		// clock polarity not invert
+	SCI9.SPMR.BIT.CKPOL=0;		// clock polarity not invert
 	SCI9.SPMR.BIT.CKPH=0;		// clock phase not invert
 	SCI9.SMR.BYTE=0x00;		//b[0:1] =0b00 -> pclk/1
 					//b2 no multiprocess mode
