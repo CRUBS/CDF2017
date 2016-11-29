@@ -42,15 +42,16 @@ Private global variables and function
 void uart9_init(void)
 {
 	SYSTEM.PRCR.WORD=0xA502;	//unlock protection
-	SYSTEM.MSTPCRC.BIT.ACSE=0;	//clear ACSE bit (all-module clock stop mode enable
+	SYSTEM.MSTPCRA.BIT.ACSE=0;	//clear ACSE bit (all-module clock stop mode enable
 	MSTP(SCI9)=0;			// cancel state of SCI9 peripheral to enable writing
 	SYSTEM.PRCR.WORD=0xA500;	// relocking
 
 	SCI9.SCR.BYTE=0x00;		// unable TIE, RXI, TX, RX and set cke to internal
 	
 	SCI9.SIMR1.BIT.IICM=0;		//clear to use uart
-	SCI9.SPMR.BIT.CKPA=0;		// clock polarity not invert
+	SCI9.SPMR.BIT.CKPOL=0;		// clock polarity not invert
 	SCI9.SPMR.BIT.CKPH=0;		// clock phase not invert
+
 	SCI9.SMR.BYTE=0x00;		//b[0:1] =0b00 -> pclk/1
 					//b2 no multiprocess mode
 					//b3 1 stop bit
@@ -64,7 +65,17 @@ void uart9_init(void)
 					//b[4:6] should be write at 1
 					// BCP2 =1 to have clock diviser 32
 	SCI9.BRR=0x10;			// bps = 115200
-		
+	SCI9.SCR=0x0b11110100;		//b0,b1 internal clock select
+					//b2 transmit end interrupt enable
+					//b3 multipro unable
+					//b4 reception enable
+					//b5 transmission enable
+					//b6 recept interrupt enable
+					//b7 transmission interrupt enable
 	
-
+// reste à activer les interrupts et gérer les priorité avec l'echantillonnage
+}
+void send_byte(int* data)
+{
+	//ici un code pour envoyer les donnée sur 8bits
 }
