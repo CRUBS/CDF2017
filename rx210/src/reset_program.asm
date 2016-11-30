@@ -42,8 +42,8 @@ _PowerON_Reset :
     mvtc    #_istack,ISP
 
 #ifdef __RXv2__
-/* setup exception vector */
-    mvtc    #_ExceptVectors, extb    /* EXCEPTION VECTOR ADDRESS    */
+#/* setup exception vector */
+#    mvtc    #_ExceptVectors, extb    /* EXCEPTION VECTOR ADDRESS    */
 #endif
 
 /* setup intb */

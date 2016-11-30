@@ -12,9 +12,7 @@
 
 
 
-void init_echant(double t_echant){
-	double post_diviseur_flot= post_diviseur *1.;	//post_diviseur passer en flottant pour le calcul
-	int valeur_compteur=(int)(65535-(t_echant*clock/(pre_diviseur*post_diviseur_flot))); // calcul of the initial value of timer to have an t_echant corresponding between clock
+void init_echant(){
 
 	SYSTEM.PRCR.WORD=0xA502;
 	SYSTEM.MSTPCRA.BIT.ACSE=0;
