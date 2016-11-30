@@ -46,9 +46,7 @@ int compteur=0;
 
 int main(void)
 {
-	LED1_OFF;
-	LED0_OFF;
-	LED2_OFF;
+	LED1_OFF;LED0_OFF;LED2_OFF;
 	mtclk_init();		// fonction d'initialisation du module de comptage
 	mtclk_start();		// démarre le décodage en quadrature
 	PWM_asser_init(0x03E8);
