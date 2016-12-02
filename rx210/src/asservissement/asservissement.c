@@ -16,7 +16,7 @@ void init_echant(){
 
 	SYSTEM.PRCR.WORD=0xA502;
 	SYSTEM.MSTPCRA.BIT.ACSE=0;
-	MSTP(MTU);
+	MSTP(MTU)=0;
 	MTU0.TCR.BYTE=0x03;			//clock frequencies divise by 64
 	MTU0.TMDR.BYTE=0x00;		//timer in normal mode
 	MTU0.TCNT=valeur_compteur;	//initialize the value of timer

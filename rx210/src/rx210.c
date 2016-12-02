@@ -52,7 +52,7 @@ int main(void)
 	PWM_asser_init(0x03E8);
 	INA_D=1;INB_D=~INA_D;
 	INA_G=1;INB_G=~INA_G;
-	init_echant(0.1);
+	init_echant();
 	start_echant();
 	while(1){
 /*
