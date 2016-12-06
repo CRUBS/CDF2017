@@ -219,3 +219,9 @@ pip-log.txt
 
 #Mr Developer
 .mr.developer.cfg
+*.resources
+.metadata/.plugins/org.eclipse.cdt.core/.log
+.metadata/.plugins/org.eclipse.cdt.core/rx210.1479579569299.pdom
+.metadata/.plugins/org.eclipse.core.resources/.safetable/org.eclipse.core.resources
+.metadata/.plugins/org.eclipse.cdt.core/.log
+.metadata/.plugins/org.eclipse.core.resources/.safetable/org.eclipse.core.resources

@@ -1,1 +1,0 @@
- -Wa,-gdwarf2 -c -x assembler-with-cpp   -nostdinc -I"C:\\PROGRA~2\\GCCFOR~1.201\\rx-elf\\rx-elf/rx-elf/optlibinc" -Wstack-usage=256 -D__RX_LITTLE_ENDIAN__=1 -g2 -g -mlittle-endian-data -mcpu=rx200 -nofpu 

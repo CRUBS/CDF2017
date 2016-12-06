@@ -14,8 +14,8 @@
 * History       : DD.MM.YYYY     Version     Description
 *                 23.11.2016     Ver. 1 
 *******************************************************************************/
-#ifndef // multiple inclusion guard
-#define 
+#ifndef UART_H // multiple inclusion guard
+#define UART_H
 
 /*******************************************************************************
 Macro definitions
@@ -25,6 +25,7 @@ Macro definitions
 /*******************************************************************************
 Exported global functions (to be accessed by other files)
 *******************************************************************************/
-
+void uart9_init();			//fonction d'initialisation de l'uart n°9
+void uart_send(char* data);		//fonction permettant d'envoyer une trame sur l'uart 9
 
 #endif

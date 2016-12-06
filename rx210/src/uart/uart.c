@@ -35,6 +35,7 @@ Private global variables and function
 /******************************************************************************
 * Function Name	:uart9_init 
 * Description	: initialise la communication de l'uart n°9 a 115200 bauds 
+		8 bits data//pas de parité//1 bits de stop// MSB
 * Arguments     : none
 * Return value	: none
 *******************************************************************************/
