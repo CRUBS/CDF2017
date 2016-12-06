@@ -234,3 +234,5 @@ pip-log.txt
 rx210/HardwareDebug/rx210.x
 *.map
 *.lst
+*.mk
+*.init
