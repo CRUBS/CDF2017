@@ -1,3 +1,19 @@
-19:13:39 **** Incremental Build of configuration HardwareDebug for project rx210 ****
+15:27:06 **** Incremental Build of configuration HardwareDebug for project rx210 ****
 make -j2 all 
+'Scanning and building file: ../src/rx210.c'
+'Invoking: Scanner and Compiler'
+rx-elf-gcc -MM -MP -MF "src/rx210.d" -MT"src/rx210.o" -MT"src/rx210.d" -x c   -nostdinc -I"C:\PROGRA~2\GCCFOR~1.201\rx-elf\rx-elf/rx-elf/optlibinc" -I"C:\Users\Mickael Leconte\Documents\GitHub\CDF2017\rx210\src\asservissement" -I"C:\Users\Mickael Leconte\Documents\GitHub\CDF2017\rx210\src\uart" -I"C:\Users\Mickael Leconte\Documents\GitHub\CDF2017\rx210\src\interrupt" -I"C:\Users\Mickael Leconte\Documents\GitHub\CDF2017\rx210\src\pwm" -I"C:\Users\Mickael Leconte\Documents\GitHub\CDF2017\rx210\src\encoder" -I"C:\Users\Mickael Leconte\Documents\GitHub\CDF2017\rx210\src" -Wstack-usage=256 -D__RX_LITTLE_ENDIAN__=1 -g2 -g -mlittle-endian-data -mcpu=rx200 -nofpu "../src/rx210.c"
+rx-elf-gcc -c -x c  -Wa,-adlhn="rx210.lst" -nostdinc -I"C:\PROGRA~2\GCCFOR~1.201\rx-elf\rx-elf/rx-elf/optlibinc" -I"C:\Users\Mickael Leconte\Documents\GitHub\CDF2017\rx210\src\asservissement" -I"C:\Users\Mickael Leconte\Documents\GitHub\CDF2017\rx210\src\uart" -I"C:\Users\Mickael Leconte\Documents\GitHub\CDF2017\rx210\src\interrupt" -I"C:\Users\Mickael Leconte\Documents\GitHub\CDF2017\rx210\src\pwm" -I"C:\Users\Mickael Leconte\Documents\GitHub\CDF2017\rx210\src\encoder" -I"C:\Users\Mickael Leconte\Documents\GitHub\CDF2017\rx210\src" -Wstack-usage=256 -D__RX_LITTLE_ENDIAN__=1 -g2 -g -mlittle-endian-data -mcpu=rx200 -nofpu -o "src/rx210.o" "../src/rx210.c"
+'Finished scanning and building: ../src/rx210.c'
+
+'Invoking: Linker'
+'Building target:'
+rx-elf-ld -o "rx210.x" -T"C:\Users\Mickael Leconte\Documents\GitHub\CDF2017\rx210\HardwareDebug\rx210_HardwareDebug_auto.gsi" @"C:\Users\Mickael Leconte\Documents\GitHub\CDF2017\rx210\HardwareDebug\LinkerSubCommand.tmp"    -M=rx210.map -L"C:\PROGRA~2\GCCFOR~1.201\rx-elf\rx-elf/lib/gcc/rx-elf/4.8.0.201603-GNURX/no-fpu-libs" -L"C:\PROGRA~2\GCCFOR~1.201\rx-elf\rx-elf/rx-elf/lib/no-fpu-libs" --start-group -loptm -loptc -lgcc --end-group -e_PowerON_Reset
+'Finished building:'
+
+'Invoking: Objcopy'
+'Building target:'
+rx-elf-objcopy -O srec -I elf32-rx-be-ns   rx210.x "rx210.mot"
+'Finished building target:'
+
 'Build complete.'

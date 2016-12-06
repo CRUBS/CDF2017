@@ -63,119 +63,134 @@
   18                             		.loc 1 48 0
   19 0000 6E 6C                   		pushm	r6-r12
   20                             	.LCFI0:
-  21 0002 EF 06                   		mov.L	r0, r6
+  21 0002 71 06 FC                		add	#-4, r0, r6
   22                             	.LCFI1:
-  49:../src/rx210.c **** 	LED1_OFF;
-  23                             		.loc 1 49 0
-  24 0004 FB AE 01 C0 08          		mov.L	#0x8c001, r10
-  25 0009 CD AB 20                		mov.B	32[r10], r11
-  26 000c 75 3B 40                		or	#64, r11
-  27 000f C7 AB 20                		mov.B	r11, 32[r10]
-  50:../src/rx210.c **** 	LED0_OFF;
-  28                             		.loc 1 50 0
-  29 0012 FB AE 01 C0 08          		mov.L	#0x8c001, r10
-  30 0017 CD AB 20                		mov.B	32[r10], r11
-  31 001a 75 3B 80                		or	#0xffffff80, r11
-  32 001d C7 AB 20                		mov.B	r11, 32[r10]
-  51:../src/rx210.c **** 	LED2_OFF;
-  33                             		.loc 1 51 0
-  34 0020 FB AE 01 C0 08          		mov.L	#0x8c001, r10
-  35 0025 CD AB 20                		mov.B	32[r10], r11
-  36 0028 75 3B 20                		or	#32, r11
-  37 002b C7 AB 20                		mov.B	r11, 32[r10]
-  52:../src/rx210.c **** 	mtclk_init();		// fonction d'initialisation du module de comptage
-  38                             		.loc 1 52 0
-  39 002e 05 00 00 00             		bsr	_mtclk_init
-  53:../src/rx210.c **** 	mtclk_start();		// démarre le décodage en quadrature
-  40                             		.loc 1 53 0
-  41 0032 05 00 00 00             		bsr	_mtclk_start
-  54:../src/rx210.c **** 	PWM_asser_init(0x03E8);
-  42                             		.loc 1 54 0
-  43 0036 FB 1A E8 03             		mov.L	#0x3e8, r1
-  44 003a 05 00 00 00             		bsr	_PWM_asser_init
-  55:../src/rx210.c **** 	INA_D=1;INB_D=~INA_D;
-  45                             		.loc 1 55 0
-  46 003e FB AE 0B C0 08          		mov.L	#0x8c00b, r10
-  47 0043 CD AB 20                		mov.B	32[r10], r11
-  48 0046 65 1B                   		or	#1, r11
-  49 0048 C7 AB 20                		mov.B	r11, 32[r10]
-  50 004b FB AE 0B C0 08          		mov.L	#0x8c00b, r10
-  51 0050 FB BE 0B C0 08          		mov.L	#0x8c00b, r11
-  52 0055 CD BB 20                		mov.B	32[r11], r11
-  53 0058 64 1B                   		and	#1, r11
-  54 005a 7E 0B                   		not	r11
-  55 005c 64 1B                   		and	#1, r11
-  56 005e 64 1B                   		and	#1, r11
-  57 0060 4B BB                   		add	r11, r11
-  58 0062 CD AC 20                		mov.B	32[r10], r12
-  59 0065 75 2C FD                		and	#-3, r12
-  60 0068 57 CB                   		or	r12, r11
-  61 006a C7 AB 20                		mov.B	r11, 32[r10]
-  56:../src/rx210.c **** 	INA_G=1;INB_G=~INA_G;
-  62                             		.loc 1 56 0
-  63 006d FB AE 0B C0 08          		mov.L	#0x8c00b, r10
-  64 0072 CD AB 20                		mov.B	32[r10], r11
-  65 0075 65 4B                   		or	#4, r11
-  66 0077 C7 AB 20                		mov.B	r11, 32[r10]
-  67 007a FB AE 0B C0 08          		mov.L	#0x8c00b, r10
-  68 007f FB BE 0B C0 08          		mov.L	#0x8c00b, r11
-  69 0084 CD BB 20                		mov.B	32[r11], r11
-  70 0087 5B BB                   		movu.B	r11, r11
-  71 0089 68 2B                   		shlr	#2, r11
-  72 008b 64 1B                   		and	#1, r11
-  73 008d 7E 0B                   		not	r11
-  74 008f 64 1B                   		and	#1, r11
-  75 0091 64 1B                   		and	#1, r11
-  76 0093 6C 3B                   		shll	#3, r11
-  77 0095 CD AC 20                		mov.B	32[r10], r12
-  78 0098 75 2C F7                		and	#-9, r12
-  79 009b 57 CB                   		or	r12, r11
-  80 009d C7 AB 20                		mov.B	r11, 32[r10]
-  57:../src/rx210.c **** 	init_echant(1);
-  81                             		.loc 1 57 0
-  82 00a0 FB 12 00 00 80 3F       		mov.L	#0x3f800000, r1
-  83 00a6 05 00 00 00             		bsr	_init_echant
-  58:../src/rx210.c **** 	start_echant();
-  84                             		.loc 1 58 0
-  85 00aa 05 00 00 00             		bsr	_start_echant
-  86                             	.L2:
-  59:../src/rx210.c **** 	while(1){
-  60:../src/rx210.c **** /*
-  61:../src/rx210.c **** 		if(compteur_g>compteur+4096||compteur_g<compteur-4096)
-  62:../src/rx210.c **** 		{
-  63:../src/rx210.c **** 			LED1=~LED1;
-  64:../src/rx210.c **** 			compteur = compteur_g;
-  65:../src/rx210.c **** 			if(sens_rot_g==1){LED0_ON;}
-  66:../src/rx210.c **** 			else if (sens_rot_g==0){LED0_OFF;}
-  67:../src/rx210.c **** 			}
-  68:../src/rx210.c **** 		pwm_g=0x01F4;
-  69:../src/rx210.c **** 		pwm_d=0x01F4;
-  70:../src/rx210.c **** 
-  71:../src/rx210.c **** 		if (flag_over_MTU2==1){
-  72:../src/rx210.c **** 			flag_over_MTU2=0;
-  73:../src/rx210.c **** 			INA_D=~INA_D;
-  74:../src/rx210.c **** 			INB_D=~INB_D;
-  75:../src/rx210.c **** 		}
-  76:../src/rx210.c **** 		if (flag_under_MTU2==1){
-  77:../src/rx210.c **** 			flag_under_MTU2=0;
-  78:../src/rx210.c **** 			INA_D=~INA_D;
-  79:../src/rx210.c **** 			INB_D=~INB_D;
-  80:../src/rx210.c **** 		}
-  81:../src/rx210.c **** 		if (flag_over_MTU1==1){
-  82:../src/rx210.c **** 			flag_over_MTU1=0;
-  83:../src/rx210.c **** 			INA_G=~INA_G;
-  84:../src/rx210.c **** 			INB_G=~INB_G;
-  85:../src/rx210.c **** 		}
-  86:../src/rx210.c **** 		if (flag_under_MTU1==1){
-  87:../src/rx210.c **** 			flag_under_MTU1=0;
-  88:../src/rx210.c **** 			INA_G=~INA_G;
-  89:../src/rx210.c **** 			INB_G=~INB_G;
-  90:../src/rx210.c **** 		}
-  91:../src/rx210.c **** 
-  92:../src/rx210.c **** */
-  93:../src/rx210.c **** }
-  87                             		.loc 1 93 0 discriminator 1
-  88 00ae 2E 00                   		bra	.L2
-  89                             	.LFE0:
- 139                             	.Letext0:
- 140                             		.file 2 "../src/iodefine.h"
+  23 0005 EF 60                   		mov.L	r6, r0
+  24                             	.LCFI2:
+  49:../src/rx210.c **** 	LED1_OFF;LED0_OFF;LED2_OFF;
+  25                             		.loc 1 49 0
+  26 0007 FB AE 01 C0 08          		mov.L	#0x8c001, r10
+  27 000c CD AB 20                		mov.B	32[r10], r11
+  28 000f 75 3B 40                		or	#64, r11
+  29 0012 C7 AB 20                		mov.B	r11, 32[r10]
+  30 0015 FB AE 01 C0 08          		mov.L	#0x8c001, r10
+  31 001a CD AB 20                		mov.B	32[r10], r11
+  32 001d 75 3B 80                		or	#0xffffff80, r11
+  33 0020 C7 AB 20                		mov.B	r11, 32[r10]
+  34 0023 FB AE 01 C0 08          		mov.L	#0x8c001, r10
+  35 0028 CD AB 20                		mov.B	32[r10], r11
+  36 002b 75 3B 20                		or	#32, r11
+  37 002e C7 AB 20                		mov.B	r11, 32[r10]
+  50:../src/rx210.c **** 	mtclk_init();		// fonction d'initialisation du module de comptage
+  38                             		.loc 1 50 0
+  39 0031 05 00 00 00             		bsr	_mtclk_init
+  51:../src/rx210.c **** 	mtclk_start();		// démarre le décodage en quadrature
+  40                             		.loc 1 51 0
+  41 0035 05 00 00 00             		bsr	_mtclk_start
+  52:../src/rx210.c **** 	PWM_asser_init(0x03E8);
+  42                             		.loc 1 52 0
+  43 0039 FB 1A E8 03             		mov.L	#0x3e8, r1
+  44 003d 05 00 00 00             		bsr	_PWM_asser_init
+  53:../src/rx210.c **** 	INA_D=0;INB_D=~INA_D;
+  45                             		.loc 1 53 0
+  46 0041 FB AE 0B C0 08          		mov.L	#0x8c00b, r10
+  47 0046 CD AB 20                		mov.B	32[r10], r11
+  48 0049 75 2B FE                		and	#-2, r11
+  49 004c C7 AB 20                		mov.B	r11, 32[r10]
+  50 004f FB AE 0B C0 08          		mov.L	#0x8c00b, r10
+  51 0054 FB BE 0B C0 08          		mov.L	#0x8c00b, r11
+  52 0059 CD BB 20                		mov.B	32[r11], r11
+  53 005c 64 1B                   		and	#1, r11
+  54 005e 7E 0B                   		not	r11
+  55 0060 64 1B                   		and	#1, r11
+  56 0062 64 1B                   		and	#1, r11
+  57 0064 4B BB                   		add	r11, r11
+  58 0066 CD AC 20                		mov.B	32[r10], r12
+  59 0069 75 2C FD                		and	#-3, r12
+  60 006c 57 CB                   		or	r12, r11
+  61 006e C7 AB 20                		mov.B	r11, 32[r10]
+  54:../src/rx210.c **** 	INA_G=0;INB_G=~INA_G;
+  62                             		.loc 1 54 0
+  63 0071 FB AE 0B C0 08          		mov.L	#0x8c00b, r10
+  64 0076 CD AB 20                		mov.B	32[r10], r11
+  65 0079 75 2B FB                		and	#-5, r11
+  66 007c C7 AB 20                		mov.B	r11, 32[r10]
+  67 007f FB AE 0B C0 08          		mov.L	#0x8c00b, r10
+  68 0084 FB BE 0B C0 08          		mov.L	#0x8c00b, r11
+  69 0089 CD BB 20                		mov.B	32[r11], r11
+  70 008c 5B BB                   		movu.B	r11, r11
+  71 008e 68 2B                   		shlr	#2, r11
+  72 0090 64 1B                   		and	#1, r11
+  73 0092 7E 0B                   		not	r11
+  74 0094 64 1B                   		and	#1, r11
+  75 0096 64 1B                   		and	#1, r11
+  76 0098 6C 3B                   		shll	#3, r11
+  77 009a CD AC 20                		mov.B	32[r10], r12
+  78 009d 75 2C F7                		and	#-9, r12
+  79 00a0 57 CB                   		or	r12, r11
+  80 00a2 C7 AB 20                		mov.B	r11, 32[r10]
+  55:../src/rx210.c **** 	init_echant(1);
+  81                             		.loc 1 55 0
+  82 00a5 FB 12 00 00 80 3F       		mov.L	#0x3f800000, r1
+  83 00ab 05 00 00 00             		bsr	_init_echant
+  56:../src/rx210.c **** 	start_echant();
+  84                             		.loc 1 56 0
+  85 00af 05 00 00 00             		bsr	_start_echant
+  57:../src/rx210.c **** 	pwm_g=0x01F4;//pwm gauche 50%
+  86                             		.loc 1 57 0
+  87 00b3 FB AE 00 86 08          		mov.L	#0x88600, r10
+  88 00b8 F9 A9 0D F4 01          		mov.W	#0x1f4, 26[r10]
+  58:../src/rx210.c **** 	pwm_d=0x01F4;//pwm droit 50%
+  89                             		.loc 1 58 0
+  90 00bd FB AE 00 86 08          		mov.L	#0x88600, r10
+  91 00c2 F9 A9 13 F4 01          		mov.W	#0x1f4, 38[r10]
+  59:../src/rx210.c **** 	int i=0;
+  92                             		.loc 1 59 0
+  93 00c7 F8 66 00                		mov.L	#0, [r6]
+  94                             	.L6:
+  60:../src/rx210.c **** 	while(1){
+  61:../src/rx210.c **** 		for(i=0;i<10000;i++){}
+  95                             		.loc 1 61 0
+  96 00ca F8 66 00                		mov.L	#0, [r6]
+  97 00cd 0F                      		bra	.L2
+  98                             	.L3:
+  99                             		.loc 1 61 0 is_stmt 0 discriminator 2
+ 100 00ce EC 6A                   		mov.L	[r6], r10
+ 101 00d0 62 1A                   		add	#1, r10
+ 102 00d2 E3 6A                   		mov.L	r10, [r6]
+ 103                             	.L2:
+ 104                             		.loc 1 61 0 discriminator 1
+ 105 00d4 EC 6A                   		mov.L	[r6], r10
+ 106 00d6 76 0A 0F 27             		cmp	#0x270f, r10
+ 107 00da 2B F4                   		ble	.L3
+  62:../src/rx210.c **** 		if(compteur_d>0x0FFF){pwm_d=0x0000;}
+ 108                             		.loc 1 62 0 is_stmt 1
+ 109 00dc FB AE 92 86 08          		mov.L	#0x88692, r10
+ 110 00e1 DD AA BA                		mov.W	372[r10], r10
+ 111 00e4 5F AA                   		movu.W	r10, r10
+ 112 00e6 76 0A FF 0F             		cmp	#0xfff, r10
+ 113 00ea 25 0B                   		bleu	.L4
+ 114                             		.loc 1 62 0 is_stmt 0 discriminator 1
+ 115 00ec FB AE 00 86 08          		mov.L	#0x88600, r10
+ 116 00f1 F9 A5 13 00             		mov.W	#0, 38[r10]
+ 117                             	.L4:
+  63:../src/rx210.c **** 		if(compteur_g>0x0FFF){pwm_g=0x0000;}
+ 118                             		.loc 1 63 0 is_stmt 1
+ 119 00f5 FB AE 90 86 08          		mov.L	#0x88690, r10
+ 120 00fa DD AA 7B                		mov.W	246[r10], r10
+ 121 00fd 5F AA                   		movu.W	r10, r10
+ 122 00ff 76 0A FF 0F             		cmp	#0xfff, r10
+ 123 0103 25 0D                   		bleu	.L5
+ 124                             		.loc 1 63 0 is_stmt 0 discriminator 1
+ 125 0105 FB AE 00 86 08          		mov.L	#0x88600, r10
+ 126 010a F9 A5 0D 00             		mov.W	#0, 26[r10]
+  64:../src/rx210.c **** 
+  65:../src/rx210.c **** }
+ 127                             		.loc 1 65 0 is_stmt 1 discriminator 1
+ 128 010e 2E BC                   		bra	.L6
+ 129                             	.L5:
+ 130                             		.loc 1 65 0 is_stmt 0
+ 131 0110 2E BA                   		bra	.L6
+ 132                             	.LFE0:
+ 187                             	.Letext0:
+ 188                             		.file 2 "../src/iodefine.h"

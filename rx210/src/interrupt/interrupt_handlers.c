@@ -162,10 +162,7 @@ void Excep_MTU0_TGIC0(void) {  }
 void Excep_MTU0_TGID0(void) {  }
 
 // MTU0 TCIV0
-void Excep_MTU0_TCIV0(void) {
-	LED0=~LED0;
-	flag_over_te=0;
-}
+void Excep_MTU0_TCIV0(void) {	}
 
 // MTU0 TGIE0
 void Excep_MTU0_TGIE0(void) {  }
