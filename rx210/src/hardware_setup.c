@@ -54,7 +54,7 @@ PORT3.PMR.BYTE  = 0x00 ;    /* All GPIO for now */
 MPC.P31PFS.BYTE = 0x00 ;    //
 PORT3.PMR.BYTE  = 0x00 ;    // all port use in I/O
 PORT3.PODR.BYTE = 0x00 ; 	// all output are low
-PORT3.PDR.BYTE = 0x00 ;		// all are output
+PORT3.PDR.BYTE = 0x00 ;		// all are input 
 
 /* Port A - MTCLKA & MTCLKB & MTCLKC & MTCLKD */
 PORTA.PODR.BYTE = 0x00 ;    /* */
@@ -78,7 +78,7 @@ MPC.PB6PFS.BYTE = 0x10 ;	// port = RXD9 (input)
 MPC.PB7PFS.BYTE = 0x10 ;	// port = TXD9 (output)
 PORTB.PMR.BYTE  = 0b011000000 ;    // port 6 & 7 use as function
 PORTB.PODR.BYTE = 0x00 ; 	// all output are low
-PORTB.PDR.BYTE = 0b110111111 ;	// port 6 as input rest as output
+PORTB.PDR.BYTE = 0b11011111;	// port 6 as input rest as output
 
 /*Port C - MTIOC3A & MTIOC3C */
 PORTC.PODR.BYTE = 0x00 ;    /* */

@@ -22,6 +22,10 @@
 #include "pwm_asser_RX210.h"
 #include "asservissement.h"
 #include "uart.h"
+<<<<<<< HEAD
+=======
+
+>>>>>>> cf78325593dc2ab124315dc74382270ad54f4720
 
 #ifdef CPPAPP
 //Initialize global constructors
@@ -53,13 +57,15 @@ int main(void)
 	INA_D=1;INB_D=~INA_D;
 	INA_G=1;INB_G=~INA_G;
 	init_echant();
+<<<<<<< HEAD
 	start_echant();*/
-	
-	char a=0x41;
-	uart uart_test={0,0,0,0,0};
-	uart9_init(&uart_test);
-	uart.data
-	uart_send(&uart_test);	
+=======
+	start_echant();
+	uart uart9 = {0,0,0,0,0};		//crea et init var type uart
+	uart9_init(&uart9);		//init de l'uart
+	*(uart9.out_data)=0x35;
+	uart_put_char(&uart9);
+>>>>>>> cf78325593dc2ab124315dc74382270ad54f4720
 	while(1){
 /*
 		if(compteur_g>compteur+4096||compteur_g<compteur-4096)
