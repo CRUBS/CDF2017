@@ -488,18 +488,6 @@ void Excep_SCI8_TXI8(void) {  }
 // SCI8 TEI8
 void Excep_SCI8_TEI8(void) {  }
 
-// SCI9 ERI9
-void Excep_SCI9_ERI9(void) {  }
-
-// SCI9 RXI9
-void Excep_SCI9_RXI9(void) {  }
-
-// SCI9 TXI9
-void Excep_SCI9_TXI9(void) {  }
-
-// SCI9 TEI9
-void Excep_SCI9_TEI9(void) {  }
-
 // SCI12 ERI12
 void Excep_SCI12_ERI12(void) {  }
 

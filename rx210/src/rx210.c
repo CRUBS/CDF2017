@@ -21,6 +21,7 @@
 #include "decoder_quadra.h"
 #include "pwm_asser_RX210.h"
 #include "asservissement.h"
+#include "uart.h"
 
 
 #ifdef CPPAPP
@@ -54,6 +55,10 @@ int main(void)
 	INA_G=1;INB_G=~INA_G;
 	init_echant();
 	start_echant();
+	uart uart9 = {0,0,0,0,0};		//crea et init var type uart
+	uart9_init(&uart9);		//init de l'uart
+	*(uart9.out_data)=0x35;
+	uart_put_char(&uart9);
 	while(1){
 /*
 		if(compteur_g>compteur+4096||compteur_g<compteur-4096)
