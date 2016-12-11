@@ -74,11 +74,12 @@ MPC.PB0PFS.BYTE = 0x00 ;    // port = 0/1 (output)
 MPC.PB1PFS.BYTE = 0x00 ;	// port = 0/1 (output)
 MPC.PB2PFS.BYTE = 0x00 ;	// port = 0/1 (output)
 MPC.PB3PFS.BYTE = 0x00 ;	// port = 0/1 (output)
-MPC.PB6PFS.BYTE = 0x10 ;	// port = RXD9 (input)
-MPC.PB7PFS.BYTE = 0x10 ;	// port = TXD9 (output)
-PORTB.PMR.BYTE  = 0b011000000 ;    // port 6 & 7 use as function
-PORTB.PODR.BYTE = 0x00 ; 	// all output are low
-PORTB.PDR.BYTE = 0b11011111;	// port 6 as input rest as output
+MPC.PB6PFS.BYTE = 0x0A ;	// port = RXD9 (input)
+MPC.PB7PFS.BYTE = 0x0A ;	// port = TXD9 (output)
+PORTB.PMR.BYTE  = 0b01100000 ;    // port 6 & 7 use as function
+//ici peut ête une config sup à mettre 
+//PORTB.PODR.BYTE = 0x00 ; 	// all output are low
+PORTB.PDR.BYTE = 0b10111111;	// port 6 as input rest as output
 
 /*Port C - MTIOC3A & MTIOC3C */
 PORTC.PODR.BYTE = 0x00 ;    /* */

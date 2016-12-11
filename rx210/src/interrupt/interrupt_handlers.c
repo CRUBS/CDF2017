@@ -20,6 +20,7 @@
 #include "interrupt_handlers.h"
 #include "RPBRX210.h"
 #include "asservissement.h"
+#include "uart.h"
 
 // Exception(Supervisor Instruction)
 void Excep_SuperVisorInst(void) {  }
@@ -165,6 +166,7 @@ void Excep_MTU0_TGID0(void) {  }
 void Excep_MTU0_TCIV0(void) {
 	LED0=~LED0;
 	flag_over_te=0;
+//	uart_put_char();
 }
 
 // MTU0 TGIE0
@@ -487,6 +489,19 @@ void Excep_SCI8_TXI8(void) {  }
 
 // SCI8 TEI8
 void Excep_SCI8_TEI8(void) {  }
+
+// SCI9 ERI9
+//void Excep_SCI9_ERI9(void) {  }
+
+// SCI9 RXI9
+//void Excep_SCI9_RXI9(void) {  }
+
+// SCI9 TXI9
+//void Excep_SCI9_TXI9(void) {  }
+
+// SCI9 TEI9
+//void Excep_SCI9_TEI9(void) {  }
+
 
 // SCI12 ERI12
 void Excep_SCI12_ERI12(void) {  }

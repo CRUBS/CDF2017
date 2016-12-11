@@ -37,19 +37,19 @@ struct uart
 Exported global functions (to be accessed by other files)
 *******************************************************************************/
 void uart9_init(uart* uart9);			//fonction d'initialisation de l'uart n°9
-void uart_put_char(uart* uart9a);		//fonction permettant d'envoyer une trame sur l'uart 9
- // SCI9 ERI9
-119 void Excep_SCI9_ERI9(void) {  }
-120 
-121 // SCI9 RXI9
-122 void Excep_SCI9_RXI9(void) {  }
-123 
-124 // SCI9 TXI9
-125 void Excep_SCI9_TXI9(void) {  }
-126 
-127 // SCI9 TEI9
-128 void Excep_SCI9_TEI9(void) {  }
+void uart_put_char(void);//uart* uart9a);		//fonction permettant d'envoyer une trame sur l'uart 9
+/*// SCI9 ERI9
+void Excep_SCI9_ERI9(void) {  }
+
+// SCI9 RXI9
+void Excep_SCI9_RXI9(void) {  }
+
+// SCI9 TXI9
+void Excep_SCI9_TXI9(void) {  }
+
+// SCI9 TEI9
+void Excep_SCI9_TEI9(void) {  }
 
 
-
+*/
 #endif
