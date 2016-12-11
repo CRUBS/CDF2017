@@ -21,7 +21,7 @@
 #include "decoder_quadra.h"
 #include "pwm_asser_RX210.h"
 #include "asservissement.h"
-
+#include "uart.h"
 
 #ifdef CPPAPP
 //Initialize global constructors
@@ -47,13 +47,19 @@ int compteur=0;
 int main(void)
 {
 	LED1_ON;LED0_OFF;LED2_OFF;
-	mtclk_init();		// fonction d'initialisation du module de comptage
+/*	mtclk_init();		// fonction d'initialisation du module de comptage
 	mtclk_start();		// démarre le décodage en quadrature
 	PWM_asser_init(0x03E8);
 	INA_D=1;INB_D=~INA_D;
 	INA_G=1;INB_G=~INA_G;
 	init_echant();
-	start_echant();
+	start_echant();*/
+	
+	char a=0x41;
+	uart uart_test={0,0,0,0,0};
+	uart9_init(&uart_test);
+	uart.data
+	uart_send(&uart_test);	
 	while(1){
 /*
 		if(compteur_g>compteur+4096||compteur_g<compteur-4096)
