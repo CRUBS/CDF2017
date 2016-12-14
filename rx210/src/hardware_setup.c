@@ -62,7 +62,7 @@ PORTA.PMR.BYTE  = 0x00 ;    /* All GPIO for now */
 MPC.PA4PFS.BYTE = 0x02 ;    // port = MTCLKA (input) 16_J3
 MPC.PA6PFS.BYTE = 0x02 ;	// port = MTCLKB (input) 14_J3
 MPC.PA1PFS.BYTE = 0x02 ;	// port = MTCLKC (input) 19_J3
-MPC.PA3PFS.BYTE = 0x02 ;	// port = MTCLKD (input) 25_J3
+MPC.PA3PFS.BYTE = 0x02 ;	// port = MTCLKD (input) 17_J3
 PORTA.PMR.BYTE  = 0b01011010 ;    // port 6 & 4 & 3 & 1 use as function
 PORTA.PODR.BYTE = 0x00 ; 	// all output are low
 PORTA.PDR.BYTE = 0x00 ;	// all are input
@@ -73,7 +73,7 @@ PORTB.PMR.BYTE  = 0x00 ;    /* All GPIO for now */
 MPC.PB0PFS.BYTE = 0x00 ;    // port = 0/1 (output)
 MPC.PB1PFS.BYTE = 0x00 ;	// port = 0/1 (output)
 MPC.PB2PFS.BYTE = 0x00 ;	// port = 0/1 (output)
-MPC.PB3PFS.BYTE = 0x00 ;	// port = 0/1 (output)
+MPC.PB4PFS.BYTE = 0x00 ;	// port = 0/1 (output)
 MPC.PB6PFS.BYTE = 0x10 ;	// port = RXD9 (input)
 MPC.PB7PFS.BYTE = 0x10 ;	// port = TXD9 (output)
 PORTB.PMR.BYTE  = 0b011000000 ;    // port 6 & 7 use as function

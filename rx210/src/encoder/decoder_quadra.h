@@ -30,8 +30,8 @@
 #define sens_rot_d  MTU2.TSR.BIT.TCFD		// idem MTU2
 
 // les compteurs maintenant
-#define compteur_g MTU1.TCNT		//compteur MTU1
-#define compteur_d MTU2.TCNT		//compteur MTU2
+#define compteur_d MTU1.TCNT		//compteur MTU1
+#define compteur_g MTU2.TCNT		//compteur MTU2
 
 void	mtclk_init(void);		// fonction d'initialisation du module de comptage
 void	mtclk_start(void);		// démarre le décodage en quadrature

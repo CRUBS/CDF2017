@@ -1,4 +1,4 @@
-/***************************************************************/
+﻿/***************************************************************/
 /*                                                             */
 /*      PROJECT NAME :  rx210                                  */
 /*      FILE         :  rx210.c                                */
@@ -42,26 +42,20 @@ extern "C" void __main()
     }
 }
 #endif 
-int compteur=0;
+
 
 int main(void)
 {
-	LED1_OFF;LED0_OFF;LED2_OFF;
-	mtclk_init();		// fonction d'initialisation du module de comptage
-	mtclk_start();		// démarre le décodage en quadrature
+	LED1_OFF;LED0_OFF;LED2_OFF;//extinction de toutes les leds
+	mtclk_init();			// fonction d'initialisation du module de comptage
+	mtclk_start();			// démarre le décodage en quadrature
 	PWM_asser_init(0x03E8);
-	INA_D=0;INB_D=~INA_D;
-	INA_G=0;INB_G=~INA_G;
-	init_echant(1);
+	INA_D=0;INB_D=~INA_D;	//mise en marche avant par defaut
+	INA_G=0;INB_G=~INA_G;	//mise en marche avant par defaut
+	init_echant();
 	start_echant();
-	pwm_g=0x01F4;//pwm gauche 50%
-	pwm_d=0x01F4;//pwm droit 50%
-	int i=0;
+	init_variable_echant();
 	while(1){
-		for(i=0;i<10000;i++){}
-		if(compteur_d>0x0FFF){pwm_d=0x0000;}
-		if(compteur_g>0x0FFF){pwm_g=0x0000;}
-
-}
+	}
   return 0;
 }
