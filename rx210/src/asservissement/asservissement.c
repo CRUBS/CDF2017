@@ -10,6 +10,7 @@
 #include "interrupt_handlers.h"
 #include "typedefine.h"
 #include "pwm_asser_RX210.h"
+#include "decoder_quadra.h"
 
 
 
@@ -89,3 +90,12 @@ void inverser_gauche(int pwm){
   if (pwm > 0) {INA_G=0;INB_G=1;}
   else {INA_G=1;INB_G=0;pwm = -pwm;}
   pwm_g=pwm;}
+
+void Excep_MTU0_TCIV0(void) {
+	LED0=~LED0;
+	flag_over_te = 0;
+	reset_timer_te;
+	int a = compteur_d;
+	int b = compteur_g;
+	asservissement(0x8100,0x0000,a,b);
+}

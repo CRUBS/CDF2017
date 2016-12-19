@@ -10684,3 +10684,39 @@ Caused by: java.lang.NullPointerException
 	at org.eclipse.swt.widgets.RunnableLock.run(RunnableLock.java:35)
 	at org.eclipse.swt.widgets.Synchronizer.runAsyncMessages(Synchronizer.java:135)
 	... 23 more
+!SESSION 2016-12-15 13:18:17.769 -----------------------------------------------
+eclipse.buildId=v5.1.0.022
+java.version=1.8.0_65
+java.vendor=Oracle Corporation
+BootLoader constants: OS=win32, ARCH=x86, WS=win32, NL=fr_FR
+Command-line arguments:  -os win32 -ws win32 -arch x86
+
+!ENTRY org.eclipse.equinox.p2.publisher.eclipse 4 0 2016-12-15 13:20:51.643
+!MESSAGE Unable to acquire PluginConverter service during generation for: C:\Renesas\e2_studio\eclipse\plugins\com.renesas.cg_2.5.0.201609011802.
+
+!ENTRY org.eclipse.equinox.p2.publisher.eclipse 4 0 2016-12-15 13:20:51.791
+!MESSAGE Unable to acquire PluginConverter service during generation for: C:\Renesas\e2_studio\eclipse\features\com.renesas.smc.rx.feature_1.0.0.201609070708.
+
+!ENTRY org.eclipse.equinox.p2.publisher.eclipse 4 0 2016-12-15 13:20:52.135
+!MESSAGE Unable to acquire PluginConverter service during generation for: C:\Renesas\e2_studio\eclipse\plugins\com.renesas.cg_2.5.0.201609011802.
+
+!ENTRY org.eclipse.equinox.p2.publisher.eclipse 4 0 2016-12-15 13:20:52.171
+!MESSAGE Unable to acquire PluginConverter service during generation for: C:\Renesas\e2_studio\eclipse\features\com.renesas.smc.rx.feature_1.0.0.201609070708.
+!SESSION 2016-12-19 17:56:19.825 -----------------------------------------------
+eclipse.buildId=v5.1.0.022
+java.version=1.8.0_65
+java.vendor=Oracle Corporation
+BootLoader constants: OS=win32, ARCH=x86, WS=win32, NL=fr_FR
+Command-line arguments:  -os win32 -ws win32 -arch x86
+
+!ENTRY org.eclipse.equinox.p2.publisher.eclipse 4 0 2016-12-19 17:57:27.736
+!MESSAGE Unable to acquire PluginConverter service during generation for: C:\Renesas\e2_studio\eclipse\plugins\com.renesas.cg_2.5.0.201609011802.
+
+!ENTRY org.eclipse.equinox.p2.publisher.eclipse 4 0 2016-12-19 17:57:27.918
+!MESSAGE Unable to acquire PluginConverter service during generation for: C:\Renesas\e2_studio\eclipse\features\com.renesas.smc.rx.feature_1.0.0.201609070708.
+
+!ENTRY org.eclipse.equinox.p2.publisher.eclipse 4 0 2016-12-19 17:57:28.240
+!MESSAGE Unable to acquire PluginConverter service during generation for: C:\Renesas\e2_studio\eclipse\plugins\com.renesas.cg_2.5.0.201609011802.
+
+!ENTRY org.eclipse.equinox.p2.publisher.eclipse 4 0 2016-12-19 17:57:28.253
+!MESSAGE Unable to acquire PluginConverter service during generation for: C:\Renesas\e2_studio\eclipse\features\com.renesas.smc.rx.feature_1.0.0.201609070708.
