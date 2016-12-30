@@ -60,19 +60,17 @@ int main(void)
 	asm volatile("SETPSW I");
 
 	uart9_init();		//init de l'uart
-
+	active_reception();
 	uart_put_char(0x42);
 	while(1)
 	{
-		if(SW1==0){
-			for(compteur=0;compteur<20;compteur++)
-			{
-				uart_put_char(48+compteur);}
-			}
-		while(SW1==0){}
-		for(compteur=0;compteur<500;compteur++){}
+		if(SW1==0)
+		{
+			renvoi_le_recu();
+			while(SW1==0){};
+			for(compteur=0;compteur<100;compteur++){}
+		}
 	}
-
 	
 	return 0;
 }

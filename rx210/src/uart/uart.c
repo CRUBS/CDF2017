@@ -10,7 +10,7 @@
 /*******************************************************************************
 * History : DD.MM.YYYY     Version     Description
 *           23.11.2016     Ver. 1      first
-*                     
+*           17.12.2016	   Ver. 1.1    reception & send ok          
 *******************************************************************************/
 
 /******************************************************************************
@@ -31,7 +31,7 @@ Macro definitions
 /*****************************************************************************
 Private global variables and function
 ****************************************************************************/
-volatile uart uart9 ={0,0,0,0,0,0,0};
+volatile uart uart9 ={0,0,0,0,0,0,0,0};
 /******************************************************************************
 * Function Name	:uart9_init 
 * Description	: initialise la communication de l'uart n°9 a 115200 bauds 
@@ -73,8 +73,8 @@ void uart9_init()
 	SCI9.SEMR.BIT.ABCS=1;		// pour division par 32 de BRR
 	SCI9.BRR=207;			// 9600 pour le moment 
 					// set a transmission at 80kBds
-	for(i=0;i<200;i++){}	//attente pour s'assurer de la bonne mise en place des paramètres
-	SCI9.SCR.BYTE=0b11000000;		//b0,b1 internal clock select
+	for(i=0;i<100;i++){}	//attente pour s'assurer de la bonne mise en place des paramètres
+	SCI9.SCR.BYTE=0b11110000;		//b0,b1 internal clock select
 					//b2 transmit end interrupt enable
 					//b3 multipro unable
 					//b4 reception enable
@@ -94,18 +94,17 @@ void uart9_init()
 /******************************************************************************
 * Description	: fonction qui gère l'envoi de charactère sur l'uart
 		  elle utilise une liste tampon pour envoyer des chaine
-* Arguments     : char pointeur et tableau de char à envoyer
+* Arguments     : char à envoyer
 * Return value	: rien
 *******************************************************************************/
 
-int uart_put_char(char message)
+int uart_put_char(unsigned char message)
 {
-	LED0=~LED0;
 	if(uart9.wait_index>=sizeof(uart9.out_data) && uart9.send_index==0) {return 1;}	// on tcheque l'overflow et gestion circulaire des data
 
 	if(uart9.busy==1)					//si uart occupé on pousse la file d'attente FIFO
 	{
-		if(uart9.wait_index>=100)//sizeof(uart9.out_data))
+		if(uart9.wait_index>=sizeof(uart9.out_data))
 		 {
 			uart9.wait_index=0;					// on tcheque l'overflow et gestion circulaire des data
 		}
@@ -116,18 +115,52 @@ int uart_put_char(char message)
 	else						//si jamais l'uart est libre on envoie
 	{
 		uart9.busy=1;					//c'est occupé (WC joke)	
-		SCI9.SCR.BIT.TE=1;			// on active la transmission
 		SCI9.TDR=message;			//on envoi les datas
 		SCI9.SCR.BIT.TIE=1;
 		IEN(SCI9,TXI9)=1;			//activation des interruptions de transmission
-		LED0_ON;
 	}
-	SCI9.SCR.BIT.TE=1;				// on active la transmission
 	IEN(SCI9,TXI9)=1;	 			//activation des interruptions de transmission
 	return 0;
 }
 
 
+/******************************************************************************
+* Function Name	: active reception
+* Description	: place les interruption à 1 afin d'activer le reception de 
+		  de données via l'uart.
+* Arguments	:none
+* Return value	: void
+*******************************************************************************/
+
+void active_reception(void)
+{
+	IR(SCI9,RXI9)=0;			//clear the flag
+	IEN(SCI9,RXI9)=1;			//enable interrupt from controller
+	SCI9.SCR.BIT.RIE=1;			//enable interrupt from register
+}
+
+/******************************************************************************
+* Function Name	: desactive reception sur uart
+* Description	: place les interruption à 0 afin de desactiver reception de 
+		  de données via l'uart.
+* Arguments	:none
+* Return value	: void
+*******************************************************************************/
+
+
+void stop_reception(void)
+{
+	IEN(SCI9, RXI9)=0;			//unable interrupt of reception from controller
+	SCI9.SCR.BIT.RIE=0;			//unable interrupt of reception from uart register
+}
+
+
+void renvoi_le_recu(void)
+{
+	if(uart9.read_index>=10){uart9.read_index=0;}
+	uart_put_char(uart9.in_data[uart9.read_index]);
+	uart9.read_index++;
+}
 /******************************************************************************
 * Function Name	: uart_put_char
 * Description	: envoi un lot de 8 bit sur l'uart n°9
@@ -138,27 +171,44 @@ int uart_put_char(char message)
 // SCI9 ERI9
 void Excep_SCI9_ERI9(void) {  }
 
-// SCI9 RXI9
+
+/******************************************************************************
+* Function Name	: interruption de reception uart9
+* Description	: all in title
+* Arguments	:none
+* Return value	: void
+*******************************************************************************/
+
+/ SCI9 RXI9
 void Excep_SCI9_RXI9(void) 
 { 
 	//ici le code du busy	
+	uart9.in_data[uart9.input_index]=SCI9.RDR;				//on place les données recu dans le tableau
+	uart9.input_index++;							//increase the pointer
+	if(uart9.input_index>=sizeof(uart9.in_data)){uart9.input_index=0;}	//gestion du recouvrement de la queu
 }
 
-// SCI9 TXI9
+
+/******************************************************************************
+* Function Name	: interruption d'envoi via uart9
+* Description	: all in title
+* Arguments	:none
+* Return value	: void
+*******************************************************************************/
+
+/ SCI9 TXI9
 void Excep_SCI9_TXI9(void) 
 {
-
+	LED0=~LED0;
 	if(!uart9.load)
 	{
 		IEN(SCI9,TXI9)=0;						//interruption transmission off
 		SCI9.SCR.BIT.TIE=0;						//interruption transmission off
 		uart9.busy=0;
-		LED1_OFF;
-		LED2_OFF;
 	}
 	else
 	{
-		if(uart9.send_index>=100)//sizeof(uart9.out_data))
+		if(uart9.send_index>=sizeof(uart9.out_data))
 		{
 			uart9.send_index=0;
 		}	//gestion circulaire de la liste d'envoi
@@ -166,7 +216,6 @@ void Excep_SCI9_TXI9(void)
 		uart9.send_index++;						//on incrémente 
 		uart9.load--;								//on décharge
 		uart9.busy=1;
-		LED1_ON;
 	}
 	IR(SCI9,TXI9)=0;						//on efface le flag
 
