@@ -20,7 +20,12 @@
 #include "interrupt_handlers.h"
 #include "RPBRX210.h"
 #include "asservissement.h"
+<<<<<<< HEAD
 #include "uart.h"
+=======
+#include "decoder_quadra.h"
+#include "pwm_asser_RX210.h"
+>>>>>>> 7b83983a02c875d27d76f716713cec68d668c71e
 
 // Exception(Supervisor Instruction)
 void Excep_SuperVisorInst(void) {  }
@@ -163,11 +168,21 @@ void Excep_MTU0_TGIC0(void) {  }
 void Excep_MTU0_TGID0(void) {  }
 
 // MTU0 TCIV0
+/*
 void Excep_MTU0_TCIV0(void) {
 	LED0=~LED0;
+<<<<<<< HEAD
 	flag_over_te=0;
 //	uart_put_char();
 }
+=======
+	flag_over_te = 0;
+	reset_timer_te;
+	int a = compteur_d;
+	int b = compteur_g;
+	asservissement(0x8100,0x0000,a,b);
+}*/
+>>>>>>> 7b83983a02c875d27d76f716713cec68d668c71e
 
 // MTU0 TGIE0
 void Excep_MTU0_TGIE0(void) {  }

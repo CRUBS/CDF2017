@@ -9,11 +9,11 @@
 
 // declaration des fonctions
 void PWM_asser_init(int frequence);
-#define pwm_g MTU3.TGRB //port PC1
-#define pwm_d MTU3.TGRD //port PC0
+#define pwm_d MTU3.TGRB //port PC1 1_J3
+#define pwm_g MTU3.TGRD //port PC0 2_J3
 #define INA_D PORTB.PODR.BIT.B0 // 11_J3
 #define	INB_D PORTB.PODR.BIT.B1 //  9_J3
 #define INA_G PORTB.PODR.BIT.B2 //  8_J3
-#define INB_G PORTB.PODR.BIT.B3 //  7_J3
+#define INB_G PORTB.PODR.BIT.B4//  7_J3
 
 #endif
