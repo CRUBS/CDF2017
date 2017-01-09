@@ -71,7 +71,7 @@ int main(void)
 	{
 		if(SW1==0)
 		{
-			renvoi_le_recu();
+			uart_put_char('a');
 			while(SW1==0){};
 			for(compteur=0;compteur<100;compteur++){}
 		}
