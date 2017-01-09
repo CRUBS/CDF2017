@@ -42,54 +42,27 @@ extern "C" void __main()
     }
 }
 #endif 
-<<<<<<< HEAD
-
-=======
 //init des variables globales
 int compteur=0;
 //fin init variables globales
->>>>>>> 9728726537f5d8b7bec447d386c3afe6f41f1788
 
 int main(void)
 {
-<<<<<<< HEAD
 	LED1_OFF;LED0_OFF;LED2_OFF;
-/*	mtclk_init();		// fonction d'initialisation du module de comptage
-	mtclk_start();		// démarre le décodage en quadrature
-	PWM_asser_init(0x03E8);
-	INA_D=1;INB_D=~INA_D;
-	INA_G=1;INB_G=~INA_G;*/
-//	init_echant();
-//	start_echant();
-
+	char adresse=0x03, valeur=0x79;
 	asm volatile("SETPSW I");
 
 	uart9_init();		//init de l'uart
-	active_reception();
 	uart_put_char(0x42);
 	while(1)
 	{
-		if(SW1==0)
-		{
-			uart_put_char('a');
-			while(SW1==0){};
-			for(compteur=0;compteur<100;compteur++){}
-		}
+			if(SW1==0)
+			{
+				send_char(&adresse,&valeur);
+				while(SW1==0);
+				for(compteur=0;compteur<100;compteur++){}
+			}
 	}
 	
 	return 0;
-=======
-	LED1_OFF;LED0_OFF;LED2_OFF;//extinction de toutes les leds
-	mtclk_init();			// fonction d'initialisation du module de comptage
-	mtclk_start();			// démarre le décodage en quadrature
-	PWM_asser_init(0x03E8);
-	INA_D=0;INB_D=~INA_D;	//mise en marche avant par defaut
-	INA_G=0;INB_G=~INA_G;	//mise en marche avant par defaut
-	init_echant();
-	start_echant();
-	init_variable_echant();
-	while(1){
-	}
-  return 0;
->>>>>>> 7b83983a02c875d27d76f716713cec68d668c71e
 }

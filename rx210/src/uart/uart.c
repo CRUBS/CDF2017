@@ -208,7 +208,7 @@ void Excep_SCI9_TXI9(void)
 		{
 			uart9.send_index=0;
 		}	//gestion circulaire de la liste d'envoi
-		SCI9.TDR=uart9.send_index+48;//out_data[uart9.send_index];			//on envoie
+		SCI9.TDR=uart9.out_data[uart9.send_index];			//on envoie
 		uart9.send_index++;						//on incrémente 
 		uart9.load--;								//on décharge
 		uart9.busy=1;
@@ -241,14 +241,14 @@ void send_int(char* adresse, int* value)
 *******************************************************************************/
 
 
-void send_char(char* adresse, char* value)
+void send_char(char *adresse, char *value)
 {
 	char byte_one = 0, signe = 0,checksum = 0;			//decla de variable
 	byte_one = *adresse;				//recopie de variable
 	if(*value<0){signe=1;}				//test if char is signed
-	byte_one<<=1;					//decalaga and add signature
+	byte_one=byte_one<<1;					//decalaga and add signature
 	byte_one+=signe;
-	byte_one<<=3;					//decalage and add type
+	byte_one= byte_one<<3;					//decalage and add type
 	byte_one+=int_mask;
 	checksum = byte_one + *value;			//calcul du checksum
 	uart_put_char(byte_one);			//send adresse and type
