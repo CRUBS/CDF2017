@@ -16,10 +16,6 @@
 /******************************************************************************
 Includes   <System Includes> , "Project Includes"
 *******************************************************************************/
-#include "iodefine.h"
-#include "RPBRX210.h"
-#include "interrupt_handlers.h"
-#include "typedefine.h"
 #include "uart.h"
 
 /******************************************************************************
@@ -179,7 +175,7 @@ void Excep_SCI9_ERI9(void) {  }
 * Return value	: void
 *******************************************************************************/
 
-/ SCI9 RXI9
+// SCI9 RXI9
 void Excep_SCI9_RXI9(void) 
 { 
 	//ici le code du busy	
@@ -196,7 +192,7 @@ void Excep_SCI9_RXI9(void)
 * Return value	: void
 *******************************************************************************/
 
-/ SCI9 TXI9
+// SCI9 TXI9
 void Excep_SCI9_TXI9(void) 
 {
 	LED0=~LED0;
@@ -225,3 +221,60 @@ void Excep_SCI9_TXI9(void)
 void Excep_SCI9_TEI9(void) 
 {
 }
+
+/******************************************************************************
+* Function Name	: interruption d'envoi via uart9
+* Description	: all in title
+* Arguments	:none
+* Return value	: void
+*******************************************************************************/
+
+
+void send_int(char* adresse, int* value)
+{
+}
+/******************************************************************************
+* Function Name	: interruption d'envoi via uart9
+* Description	: all in title
+* Arguments	:none
+* Return value	: void
+*******************************************************************************/
+
+
+void send_char(char* adresse, char* value)
+{
+	char byte_one = 0, signe = 0,checksum = 0;			//decla de variable
+	byte_one = *adresse;				//recopie de variable
+	if(*value<0){signe=1;}				//test if char is signed
+	byte_one<<=1;					//decalaga and add signature
+	byte_one+=signe;
+	byte_one<<=3;					//decalage and add type
+	byte_one+=int_mask;
+	checksum = byte_one + *value;			//calcul du checksum
+	uart_put_char(byte_one);			//send adresse and type
+	uart_put_char(*value);				//send the value
+	uart_put_char(checksum);			//send a byte of verification
+}
+/******************************************************************************
+* Function Name	: interruption d'envoi via uart9
+* Description	: all in title
+* Arguments	:none
+* Return value	: void
+*******************************************************************************/
+
+
+void send_short(char* adresse, short* value)
+{
+}
+/******************************************************************************
+* Function Name	: interruption d'envoi via uart9
+* Description	: all in title
+* Arguments	:none
+* Return value	: void
+*******************************************************************************/
+
+
+void send_string(char* adresse, char text[])		//verif le passage par référence d'un tableau
+{
+}
+
