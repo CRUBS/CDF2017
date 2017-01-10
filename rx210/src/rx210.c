@@ -49,20 +49,16 @@ int compteur=0;
 int main(void)
 {
 	LED1_OFF;LED0_OFF;LED2_OFF;
-	char adresse=0x03, valeur=0x79;
+	char adresse=0x03;
+	int valeur=0x61626364;
 	asm volatile("SETPSW I");
 
 	uart9_init();		//init de l'uart
 	uart_put_char(0x42);
-	while(1)
+	while(SW1==1)
 	{
-			if(SW1==0)
-			{
-				send_char(&adresse,&valeur);
-				while(SW1==0);
-				for(compteur=0;compteur<100;compteur++){}
-			}
+		send_int(&adresse,&valeur);
 	}
-	
+	send_end_transmi();	
 	return 0;
 }

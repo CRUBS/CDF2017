@@ -230,8 +230,32 @@ void Excep_SCI9_TEI9(void)
 *******************************************************************************/
 
 
-void send_int(char* adresse, int* value)
+void send_int(char* adresse, int *value)
 {
+	char byte_one = 0, signe = 0, checksum = 0, i = 0;
+	char byte_to_send[5];
+	byte_one = *adresse;
+	if(value<0){signe=1;}
+	byte_one=byte_one<<1;
+	byte_one += signe;
+	byte_one = byte_one<<2;
+	byte_one += int_mask;
+	
+	byte_to_send[0] = byte_one;
+	//cutting the int value in 4 char
+	byte_to_send[1] = *value >>24;
+	byte_to_send[2] = *value >>16;
+	byte_to_send[3] = *value >> 8;
+	byte_to_send[4] = *value;
+
+	//send all this shit
+	for(i = 0; i<5;i++)
+	{
+		uart_put_char(byte_to_send[i]);
+		checksum+=byte_to_send[i];
+	}
+	uart_put_char(checksum);
+	
 }
 /******************************************************************************
 * Function Name	: interruption d'envoi via uart9
@@ -248,8 +272,8 @@ void send_char(char *adresse, char *value)
 	if(*value<0){signe=1;}				//test if char is signed
 	byte_one=byte_one<<1;					//decalaga and add signature
 	byte_one+=signe;
-	byte_one= byte_one<<3;					//decalage and add type
-	byte_one+=int_mask;
+	byte_one= byte_one<<2;					//decalage and add type
+	byte_one+=char_mask;
 	checksum = byte_one + *value;			//calcul du checksum
 	uart_put_char(byte_one);			//send adresse and type
 	uart_put_char(*value);				//send the value
@@ -262,9 +286,11 @@ void send_char(char *adresse, char *value)
 * Return value	: void
 *******************************************************************************/
 
-
-void send_short(char* adresse, short* value)
+void send_end_transmi()
 {
+	uart_put_char('e');
+	uart_put_char('n');
+	uart_put_char('d');
 }
 /******************************************************************************
 * Function Name	: interruption d'envoi via uart9

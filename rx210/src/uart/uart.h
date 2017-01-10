@@ -25,7 +25,11 @@
 /*******************************************************************************
 Macro definitions
 *******************************************************************************/
-#define int_mask 0b001
+#define char_mask 0b00
+#define int_mask 0b01
+#define str_mask 0b10
+#define float_mask 0b11
+
 /******************************************************************************
 Definition des structures
 *******************************************************************************/
@@ -53,7 +57,7 @@ void renvoi_le_recu(void);
 
 //software function
 
-void send_int(char* adresse, int* value);		//allow to sned an int with the protocole describe in the doc
+void send_int(char* adresse, int *value);		//allow to sned an int with the protocole describe in the doc
 void send_char(char* adresse, char* value); 	//send a char
 void send_short(char* adresse, short* value);	//send a short
 void send_string(char* adresse,char text[]);	// send a text (string) 
