@@ -43,7 +43,7 @@ extern "C" void __main()
 }
 #endif 
 //init des variables globales
-int compteur=0;
+int compteur=0,i = 0;
 //fin init variables globales
 
 int main(void)
@@ -54,11 +54,18 @@ int main(void)
 	asm volatile("SETPSW I");
 
 	uart9_init();		//init de l'uart
+	active_reception();	//active la recepetion
 	uart_put_char(0x42);
-	while(SW1==1)
+	while(1)
 	{
-		send_int(&adresse,&valeur);
+		if(SW1==0)
+		{
+			if(read_adresse()==0x6){renvoi_le_recu();}
+
+			while(SW1==0){}
+			for(i=0; i<100;i++){}
+			send_end_transmi();
+		}
 	}
-	send_end_transmi();	
 	return 0;
 }

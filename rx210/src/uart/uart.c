@@ -27,7 +27,7 @@ Macro definitions
 /*****************************************************************************
 Private global variables and function
 ****************************************************************************/
-volatile uart uart9 ={0,0,0,0,0,0,0,0};
+volatile uart uart9 ={0,0,0,0,0,0,0,0,0};
 /******************************************************************************
 * Function Name	:uart9_init 
 * Description	: initialise la communication de l'uart n°9 a 115200 bauds 
@@ -181,6 +181,7 @@ void Excep_SCI9_RXI9(void)
 	//ici le code du busy	
 	uart9.in_data[uart9.input_index]=SCI9.RDR;				//on place les données recu dans le tableau
 	uart9.input_index++;							//increase the pointer
+	uart9.in_load++;
 	if(uart9.input_index>=sizeof(uart9.in_data)){uart9.input_index=0;}	//gestion du recouvrement de la queu
 }
 
@@ -304,3 +305,17 @@ void send_string(char* adresse, char text[])		//verif le passage par référence
 {
 }
 
+/******************************************************************************
+* Function Name	: interruption d'envoi via uart9
+* Description	: all in title
+* Arguments	:none
+* Return value	: void
+*******************************************************************************/
+
+char read_adresse()
+{
+	if(uart9.in_load)
+	{
+		return (uart9.in_data[uart9.read_index]>>3);
+	}
+}

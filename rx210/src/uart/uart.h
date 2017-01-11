@@ -44,6 +44,7 @@ struct uart
 	unsigned short read_index;
 	unsigned char busy;
 	unsigned short load;
+	unsigned short in_load;
 };
 
 /*******************************************************************************
@@ -56,10 +57,13 @@ void active_reception(void);
 void renvoi_le_recu(void);
 
 //software function
-
+//send function
 void send_int(char* adresse, int *value);		//allow to sned an int with the protocole describe in the doc
 void send_char(char* adresse, char* value); 	//send a char
 void send_short(char* adresse, short* value);	//send a short
 void send_string(char* adresse,char text[]);	// send a text (string) 
+
+//recieve function
+char read_adresse();
 
 #endif
