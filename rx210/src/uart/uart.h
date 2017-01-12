@@ -30,14 +30,17 @@ Macro definitions
 #define str_mask 0b10
 #define float_mask 0b11
 
+#define int_size 5
+#define out_data_size 100
+#define in_data_size 100
 /******************************************************************************
 Definition des structures
 *******************************************************************************/
 typedef struct uart uart;
 struct uart
 {
-	unsigned char out_data[100];
-	unsigned char in_data[100];
+	unsigned char out_data[out_data_size];
+	unsigned char in_data[in_data_size];
 	unsigned short wait_index;
 	unsigned short send_index;
 	unsigned short input_index;

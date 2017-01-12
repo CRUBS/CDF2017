@@ -21,8 +21,7 @@ Includes   <System Includes> , "Project Includes"
 /******************************************************************************
 Macro definitions
 ******************************************************************************/
-#define baud_rate 115200
-#define mtclk	32000000
+
 
 /*****************************************************************************
 Private global variables and function
@@ -96,11 +95,11 @@ void uart9_init()
 
 int uart_put_char(unsigned char message)
 {
-	if(uart9.wait_index>=sizeof(uart9.out_data) && uart9.send_index==0) {return 1;}	// on tcheque l'overflow et gestion circulaire des data
+	if(uart9.wait_index>=out_data_size && uart9.send_index==0) {return 1;}	// on tcheque l'overflow et gestion circulaire des data
 
 	if(uart9.busy==1)					//si uart occupé on pousse la file d'attente FIFO
 	{
-		if(uart9.wait_index>=sizeof(uart9.out_data))
+		if(uart9.wait_index>= out_data_size)
 		 {
 			uart9.wait_index=0;					// on tcheque l'overflow et gestion circulaire des data
 		}
@@ -150,6 +149,10 @@ void stop_reception(void)
 	SCI9.SCR.BIT.RIE=0;			//unable interrupt of reception from uart register
 }
 
+/******************************************************************************
+* debug function
+* resend what it recieve on uart
+********************************************************************************/
 
 void renvoi_le_recu(void)
 {
@@ -158,10 +161,10 @@ void renvoi_le_recu(void)
 	uart9.read_index++;
 }
 /******************************************************************************
-* Function Name	: uart_put_char
-* Description	: envoi un lot de 8 bit sur l'uart n°9
-* Arguments     : char pointeur
-* Return value	: un int quand à sa disponibilité
+* Function Name	: EXECP_SCI9_ERI9
+* Description	: uart interruption to tell us reception is end
+* Arguments     : 
+* Return value	: 
 *******************************************************************************/
 
 // SCI9 ERI9
@@ -175,14 +178,13 @@ void Excep_SCI9_ERI9(void) {  }
 * Return value	: void
 *******************************************************************************/
 
-// SCI9 RXI9
 void Excep_SCI9_RXI9(void) 
 { 
 	//ici le code du busy	
 	uart9.in_data[uart9.input_index]=SCI9.RDR;				//on place les données recu dans le tableau
 	uart9.input_index++;							//increase the pointer
 	uart9.in_load++;
-	if(uart9.input_index>=sizeof(uart9.in_data)){uart9.input_index=0;}	//gestion du recouvrement de la queu
+	if(uart9.input_index>= in_data_size){uart9.input_index=0;}	//gestion du recouvrement de la queu
 }
 
 
@@ -193,7 +195,6 @@ void Excep_SCI9_RXI9(void)
 * Return value	: void
 *******************************************************************************/
 
-// SCI9 TXI9
 void Excep_SCI9_TXI9(void) 
 {
 	LED0=~LED0;
@@ -205,7 +206,7 @@ void Excep_SCI9_TXI9(void)
 	}
 	else
 	{
-		if(uart9.send_index>=sizeof(uart9.out_data))
+		if(uart9.send_index>= in_data_size)
 		{
 			uart9.send_index=0;
 		}	//gestion circulaire de la liste d'envoi
@@ -218,15 +219,22 @@ void Excep_SCI9_TXI9(void)
 
 }
 
-// SCI9 TEI9
+
+/******************************************************************************
+* Function Name	: Excep_SCI9_TEI9
+* Description	: interruption end of emission
+* Arguments	:none
+* Return value	: void
+*******************************************************************************/
+
 void Excep_SCI9_TEI9(void) 
 {
 }
 
 /******************************************************************************
-* Function Name	: interruption d'envoi via uart9
-* Description	: all in title
-* Arguments	:none
+* Function Name	: send_int
+* Description	: send a var type int in 4 char on uart with the CRUBS_ll protocole
+* Arguments	:pointer on adresse and pointer on value
 * Return value	: void
 *******************************************************************************/
 
@@ -259,9 +267,9 @@ void send_int(char* adresse, int *value)
 	
 }
 /******************************************************************************
-* Function Name	: interruption d'envoi via uart9
-* Description	: all in title
-* Arguments	:none
+* Function Name	: send_char()
+* Description	: send a char on uart by using the protocole CRUBS_ll
+* Arguments	: pointeur on a variable adress and pointer on value to send
 * Return value	: void
 *******************************************************************************/
 
@@ -281,8 +289,9 @@ void send_char(char *adresse, char *value)
 	uart_put_char(checksum);			//send a byte of verification
 }
 /******************************************************************************
-* Function Name	: interruption d'envoi via uart9
-* Description	: all in title
+* Function Name	: send_end_transmi()
+* Description	: send the word 'end' on uart to to say at the software now transmit 
+	          are over
 * Arguments	:none
 * Return value	: void
 *******************************************************************************/
@@ -312,10 +321,25 @@ void send_string(char* adresse, char text[])		//verif le passage par référence
 * Return value	: void
 *******************************************************************************/
 
-char read_adresse()
+int read_type()
 {
+	char trame[int_size];
+	char i=0;
+
 	if(uart9.in_load)
 	{
-		return (uart9.in_data[uart9.read_index]>>3);
+		trame[0] = uart9.in_data[uart9.read_index] & 0x3;
+		switch(trame[0])
+		{
+			case 0:
+				if((uart9.read_index > uart9.input_index) || (uart9.input_index-uart9.read_index >5))
+				{
+					copy_part_tab(5,uart9.in_data,&uart9.read_index,in_data_size, trame);
+					if(checksum(trame,int_size)!= uart9.in_data[uart9.read_index]){return 1;}
+				//read_int(
+				}
+				else {return 2;}
+		}
 	}
+	return 0;
 }

@@ -60,7 +60,7 @@ int main(void)
 	{
 		if(SW1==0)
 		{
-			if(read_adresse()==0x6){renvoi_le_recu();}
+			if(read_type()==0x0){renvoi_le_recu();}
 
 			while(SW1==0){}
 			for(i=0; i<100;i++){}
