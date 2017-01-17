@@ -56,6 +56,7 @@ int main(void)
 	uart9_init();		//init de l'uart
 	active_reception();	//active la recepetion
 	uart_put_char(0x42);
+	uart9.read_index = 0;
 	while(1)
 	{
 		if(SW1==0)
