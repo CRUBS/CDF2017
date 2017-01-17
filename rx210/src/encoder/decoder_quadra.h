@@ -17,7 +17,6 @@
 
 
 #ifndef DEF_DECODER_QUADRA 		 // Si la constante n'a pas été définie le fichier n'a jamais été inclus
-
 #define DEF_DECODER_QUADRA 		 // On définit la constante pour que la prochaine fois le fichier ne soit plus inclus
 
 
