@@ -23,6 +23,7 @@
 #include "asservissement.h"
 
 
+
 #ifdef CPPAPP
 //Initialize global constructors
 extern "C" void __main()
@@ -56,6 +57,7 @@ int main(void)
 	start_echant();
 	init_variable_echant();
 	while(1){
+
 	}
   return 0;
 }
