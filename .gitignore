@@ -225,3 +225,14 @@ pip-log.txt
 .metadata/.plugins/org.eclipse.core.resources/.safetable/org.eclipse.core.resources
 .metadata/.plugins/org.eclipse.cdt.core/.log
 .metadata/.plugins/org.eclipse.core.resources/.safetable/org.eclipse.core.resources
+.metadata/.plugins/org.eclipse.cdt.core/.log
+*.log
+*.index
+.metadata/.plugins/org.eclipse.debug.ui/launchConfigurationHistory.xml
+*.xmi
+*.mot
+rx210/HardwareDebug/rx210.x
+*.map
+*.lst
+*.mk
+*.init

@@ -24,8 +24,8 @@ void mtclk_init(void)
 	MTU.TSYR.BYTE=0x00;
 
 	// on efface les compteurs
-	compteur_g=0x0000;		//mise a 0 du compteur gauche
-	compteur_d=0x0000;		//mise à 0 compteur droite
+	compteur_g=0x8000;		//mise a la moitier du compteur gauche pour eviter le problème d'over/underflow dans un premier temps
+	compteur_d=0x8000;		//mise à la moitier du compteur droite pour eviter le problème d'over/underflow dans un premier temps
 
 	// netoyage des TGRA et TGRB
 	MTU1.TGRA=0;
