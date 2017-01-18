@@ -26,11 +26,16 @@
 Macro definitions
 *******************************************************************************/
 #define char_mask 0b00
-#define int_mask 0b01
-#define str_mask 0b10
+#define int_mask 0b10
+#define short_mask 0b01
 #define float_mask 0b11
 
 #define int_size 5
+#define short_size 3
+#define char_size 2
+#define float_size 5
+
+
 #define out_data_size 100
 #define in_data_size 100
 /******************************************************************************

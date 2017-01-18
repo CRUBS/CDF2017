@@ -156,7 +156,7 @@ void stop_reception(void)
 
 void renvoi_le_recu(void)
 {
-	if(uart9.read_index>=10){uart9.read_index=0;}
+	if(uart9.read_index>=100){uart9.read_index=0;}
 	uart_put_char(uart9.in_data[uart9.read_index]);
 	uart9.read_index++;
 }
@@ -244,7 +244,7 @@ void send_int(char* adresse, int *value)
 	char byte_one = 0, signe = 0, checksum = 0, i = 0;
 	char byte_to_send[5];
 	byte_one = *adresse;
-	if(value<0){signe=1;}
+	if(*value<0){signe=1;}
 	byte_one=byte_one<<1;
 	byte_one += signe;
 	byte_one = byte_one<<2;
@@ -323,22 +323,57 @@ void send_string(char* adresse, char text[])		//verif le passage par référence
 
 int read_type()
 {
-	char trame[int_size];
 	char i=0;
+	char trame[int_size];
 
 	if(uart9.in_load)
 	{
+	
 		trame[0] = uart9.in_data[uart9.read_index] & 0x3;
 		switch(trame[0])
 		{
-			case 0:
-				if((uart9.read_index > uart9.input_index) || (uart9.input_index-uart9.read_index >5))
+			case 0:					// type char
+				
+				if((uart9.read_index > uart9.input_index) || (uart9.input_index-uart9.read_index > char_size))
 				{
-					copy_part_tab(5,uart9.in_data,&uart9.read_index,in_data_size, trame);
+					copy_part_tab(char_size, uart9.in_data,&uart9.read_index,in_data_size, trame);
+					if(checksum(trame,char_size)!= uart9.in_data[uart9.read_index]){return 1;}
+				//read_int(
+				}
+				else {return 2;}		//retourn une erreur
+				break;
+			
+				
+			case 1:					// type int
+				if((uart9.read_index > uart9.input_index) || (uart9.input_index-uart9.read_index > int_size))
+				{
+					copy_part_tab(int_size, uart9.in_data,&uart9.read_index,in_data_size, trame);
 					if(checksum(trame,int_size)!= uart9.in_data[uart9.read_index]){return 1;}
 				//read_int(
 				}
-				else {return 2;}
+				else {return 2;}		//retourn une erreur
+				break;
+
+
+			case 2:					// type short
+				if((uart9.read_index > uart9.input_index) || (uart9.input_index-uart9.read_index >short_size))
+				{
+					copy_part_tab(short_size, uart9.in_data,&uart9.read_index,in_data_size, trame);
+					if(checksum(trame,short_size)!= uart9.in_data[uart9.read_index]){return 1;}
+				//read_int(
+				}
+				else {return 2;}		//retourn une erreur
+				break;
+
+			case 3:					// type short
+				if((uart9.read_index > uart9.input_index) || (uart9.input_index-uart9.read_index >short_size))			
+				{
+					copy_part_tab(short_size, uart9.in_data,&uart9.read_index,in_data_size, trame);
+					if(checksum(trame,short_size)!= uart9.in_data[uart9.read_index]){return 1;}
+				//read_int(
+				}
+				else {return 2;}		//retourn une erreur
+				break;
 		}
 	}
 	return 0;

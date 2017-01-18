@@ -50,18 +50,17 @@ int main(void)
 {
 	LED1_OFF;LED0_OFF;LED2_OFF;
 	char adresse=0x03;
-	int valeur=0x61626364;
+	int valeur= -8;
 	asm volatile("SETPSW I");
 
 	uart9_init();		//init de l'uart
 	active_reception();	//active la recepetion
 	uart_put_char(0x42);
-	uart9.read_index = 0;
 	while(1)
 	{
 		if(SW1==0)
 		{
-			if(read_type()==0x0){renvoi_le_recu();}
+			if(read_type()==0x0){send_int(&adresse, &valeur);}
 
 			while(SW1==0){}
 			for(i=0; i<100;i++){}
