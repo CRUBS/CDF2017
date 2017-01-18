@@ -21,7 +21,7 @@
 #include "decoder_quadra.h"
 #include "pwm_asser_RX210.h"
 #include "asservissement.h"
-
+//#include "odometrie.h"
 
 
 #ifdef CPPAPP
@@ -56,6 +56,7 @@ int main(void)
 	init_echant();
 	start_echant();
 	init_variable_echant();
+//	odo.cmp_d=0x10;
 	while(1){
 
 	}

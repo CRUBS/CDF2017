@@ -11,6 +11,7 @@
 #include "typedefine.h"
 #include "pwm_asser_RX210.h"
 #include "decoder_quadra.h"
+//#include "odometrie.h"
 #include "math.h"
 
 
@@ -25,7 +26,6 @@ void init_echant(){
 	MTU0.TIER.BYTE=0x10;		// set the interrupt but don't active the counter
 	IEN(MTU0,TCIV0)=1;
 	IPR(MTU0,TCIV0)=0x2;
-	
 
 	while(MTU0.TIER.BYTE!=0x10);
 	SYSTEM.PRCR.WORD=0xA500;
@@ -96,12 +96,7 @@ void inverser_gauche(int pwm){
   else {INA_G=1;INB_G=0;pwm = -pwm;}
   pwm_g=pwm;}
 
-void deplacement(int distance,int angle){
-	int a = compteur_d;
-	int b = compteur_g;
-	commande.distance = (a+b)/2 + distance*4096/355;
-	commande.angle = angle;
-}
+
 void Excep_MTU0_TCIV0(void) {
 	LED0=~LED0;
 	flag_over_te = 0;
