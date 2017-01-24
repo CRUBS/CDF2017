@@ -232,99 +232,25 @@ void Excep_SCI9_TEI9(void)
 }
 
 /******************************************************************************
-* Function Name	: send_int
-* Description	: send a var type int in 4 char on uart with the CRUBS_ll protocole
-* Arguments	:pointer on adresse and pointer on value
-* Return value	: void
-*******************************************************************************/
-
-
-void send_int(char* adresse, int *value)
-{
-	char byte_one = 0, signe = 0, checksum = 0, i = 0;
-	char byte_to_send[5];
-	byte_one = *adresse;
-	if(*value<0){signe=1;}
-	byte_one=byte_one<<1;
-	byte_one += signe;
-	byte_one = byte_one<<2;
-	byte_one += int_mask;
-	
-	byte_to_send[0] = byte_one;
-	//cutting the int value in 4 char
-	byte_to_send[1] = *value >>24;
-	byte_to_send[2] = *value >>16;
-	byte_to_send[3] = *value >> 8;
-	byte_to_send[4] = *value;
-
-	//send all this shit
-	for(i = 0; i<5;i++)
-	{
-		uart_put_char(byte_to_send[i]);
-		checksum+=byte_to_send[i];
-	}
-	uart_put_char(checksum);
-	
-}
-/******************************************************************************
-* Function Name	: send_char()
-* Description	: send a char on uart by using the protocole CRUBS_ll
-* Arguments	: pointeur on a variable adress and pointer on value to send
-* Return value	: void
-*******************************************************************************/
-
-
-void send_char(char *adresse, char *value)
-{
-	char byte_one = 0, signe = 0,checksum = 0;			//decla de variable
-	byte_one = *adresse;				//recopie de variable
-	if(*value<0){signe=1;}				//test if char is signed
-	byte_one=byte_one<<1;					//decalaga and add signature
-	byte_one+=signe;
-	byte_one= byte_one<<2;					//decalage and add type
-	byte_one+=char_mask;
-	checksum = byte_one + *value;			//calcul du checksum
-	uart_put_char(byte_one);			//send adresse and type
-	uart_put_char(*value);				//send the value
-	uart_put_char(checksum);			//send a byte of verification
-}
-/******************************************************************************
-* Function Name	: send_end_transmi()
-* Description	: send the word 'end' on uart to to say at the software now transmit 
-	          are over
+* Function Name	: read_type
+* Description	: read the entry from uart_array and find the type to recover
+			the data. after it send the value at haching table
+			to call the good function
 * Arguments	:none
-* Return value	: void
-*******************************************************************************/
-
-void send_end_transmi()
-{
-	uart_put_char('e');
-	uart_put_char('n');
-	uart_put_char('d');
-}
-/******************************************************************************
-* Function Name	: interruption d'envoi via uart9
-* Description	: all in title
-* Arguments	:none
-* Return value	: void
-*******************************************************************************/
-
-
-void send_string(char* adresse, char text[])		//verif le passage par référence d'un tableau
-{
-}
-
-/******************************************************************************
-* Function Name	: interruption d'envoi via uart9
-* Description	: all in title
-* Arguments	:none
-* Return value	: void
+* Return value	: int to manage error but we will see that after
 *******************************************************************************/
 
 int read_type()
 {
 	char i=0;
 	char trame[int_size];
+	char adr=0;
+//dynamic allocation for recovery value
+
+	int *int_recov=NULL;
+	short *sht_recov=NULL;
+	float *flt_recov=NULL;
+	char *chr_recov=NULL;
 
 	if(uart9.in_load)
 	{
@@ -338,9 +264,13 @@ int read_type()
 				{
 					copy_part_tab(char_size, uart9.in_data,&uart9.read_index,in_data_size, trame);
 					if(checksum(trame,char_size)!= uart9.in_data[uart9.read_index]){return 1;}
-				//read_int(
 				}
-				else {return 2;}		//retourn une erreur
+				else 
+				{
+					adr =(trame[0] & 4)>>2;			//recover recipient adr
+					chr_recov = malloc(sizeof(char));	//alloc
+					*chr_recov = trame[1];			//take value
+				}
 				break;
 			
 				
@@ -349,9 +279,14 @@ int read_type()
 				{
 					copy_part_tab(int_size, uart9.in_data,&uart9.read_index,in_data_size, trame);
 					if(checksum(trame,int_size)!= uart9.in_data[uart9.read_index]){return 1;}
-				//read_int(
 				}
-				else {return 2;}		//retourn une erreur
+				else 
+				{
+					adr = (trame[0] & 4)>>2;		//recover recipient adresse
+					int_recov = malloc(sizeof(int));	//alloc
+					read_int(trame, int_recov);		//recovery
+				}
+
 				break;
 
 
@@ -360,12 +295,16 @@ int read_type()
 				{
 					copy_part_tab(short_size, uart9.in_data,&uart9.read_index,in_data_size, trame);
 					if(checksum(trame,short_size)!= uart9.in_data[uart9.read_index]){return 1;}
-				//read_int(
 				}
-				else {return 2;}		//retourn une erreur
+				else 
+				{
+					adr = (trame[0] & 4) >>2;
+					sht_recov = malloc(sizeof(int));
+					read_sht(trame, sht_recov);
+				}
 				break;
 
-			case 3:					// type short
+			case 3:					// type float
 				if((uart9.read_index > uart9.input_index) || (uart9.input_index-uart9.read_index >short_size))			
 				{
 					copy_part_tab(short_size, uart9.in_data,&uart9.read_index,in_data_size, trame);
@@ -375,6 +314,29 @@ int read_type()
 				else {return 2;}		//retourn une erreur
 				break;
 		}
+	}
+	// end of type detection and value recovery
+	
+	//calling function thanks to haching table
+	if(int_recov!=NULL)
+	{
+		adress_table(&adr,int_recov);		//haching
+		free(int_recov);			//free the memory
+	}
+	else if(chr_recov!=NULL)
+	{
+		adress_table(&adr,chr_recov);		//haching
+		free(chr_recov);			//free
+	}
+	else if(sht_recov!=NULL)
+	{
+		adress_table(&adr,sht_recov);
+		free(sht_recov);			//free
+	}
+	else if(flt_recov!=NULL)
+	{
+		adress_table(&adr,flt_recov);
+		free(flt_recov);			//free
 	}
 	return 0;
 }

@@ -17,10 +17,13 @@
 #ifndef UART_H // multiple inclusion guard
 #define UART_H
 
+#include <stdlib.h>
 #include "iodefine.h"
 #include "RPBRX210.h"
 #include "interrupt_handlers.h"
 #include "typedefine.h"
+
+//ajout de tout les fichier ou il y a de la com
 
 /*******************************************************************************
 Macro definitions
@@ -29,6 +32,8 @@ Macro definitions
 #define int_mask 0b10
 #define short_mask 0b01
 #define float_mask 0b11
+#define sign_mask 0b100
+
 
 #define int_size 5
 #define short_size 3
@@ -38,6 +43,8 @@ Macro definitions
 
 #define out_data_size 100
 #define in_data_size 100
+
+#define NB_ADR 32
 /******************************************************************************
 Definition des structures
 *******************************************************************************/
@@ -69,9 +76,18 @@ void renvoi_le_recu(void);
 void send_int(char* adresse, int *value);		//allow to sned an int with the protocole describe in the doc
 void send_char(char* adresse, char* value); 	//send a char
 void send_short(char* adresse, short* value);	//send a short
-void send_string(char* adresse,char text[]);	// send a text (string) 
+void send_float(char* adresse,float* value);	// send a float 
+void send_end_transmi()
 
 //recieve function
-char read_adresse();
+void adress_table(char *adr,void *value);
+void init_hachage();
+void copy_part_tab(char nombre,char *tab1,char *index, char size_tab1, char *tab2);
+char checksum(char *tab,char size);
+
+int read_type();
+void read_int(char *trame, int *value);
+void read_short(char *trame,short *value);
+void read_flt(char *trame,float *value);
 
 #endif
