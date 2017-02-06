@@ -77,7 +77,7 @@ void send_int(char* adresse, int *value);		//allow to sned an int with the proto
 void send_char(char* adresse, char* value); 	//send a char
 void send_short(char* adresse, short* value);	//send a short
 void send_float(char* adresse,float* value);	// send a float 
-void send_end_transmi()
+void send_end_transmi();
 
 //recieve function
 void adress_table(char *adr,void *value);
