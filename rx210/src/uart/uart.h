@@ -85,9 +85,9 @@ void init_hachage();
 void copy_part_tab(char nombre,char *tab1,char *index, char size_tab1, char *tab2);
 char checksum(char *tab,char size);
 
-int read_type();
+int read_uart();
 void read_int(char *trame, int *value);
-void read_short(char *trame,short *value);
+void read_sht(char *trame,short *value);
 void read_flt(char *trame,float *value);
 
 #endif

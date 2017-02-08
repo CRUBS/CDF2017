@@ -1,7 +1,3 @@
-#include "iodefine.h"
-#include "RPBRX210.h"
-#include "interrupt_handlers.h"
-#include "typedefine.h"
 #include "decoder_quadra.h"
 
 void mtclk_init(void)

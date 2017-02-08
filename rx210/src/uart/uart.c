@@ -240,7 +240,7 @@ void Excep_SCI9_TEI9(void)
 * Return value	: int to manage error but we will see that after
 *******************************************************************************/
 
-int read_type()
+int read_uart()
 {
 	char i=0;
 	char trame[int_size];
@@ -320,22 +320,18 @@ int read_type()
 	//calling function thanks to haching table
 	if(int_recov!=NULL)
 	{
-		adress_table(&adr,int_recov);		//haching
 		free(int_recov);			//free the memory
 	}
 	else if(chr_recov!=NULL)
 	{
-		adress_table(&adr,chr_recov);		//haching
 		free(chr_recov);			//free
 	}
 	else if(sht_recov!=NULL)
 	{
-		adress_table(&adr,sht_recov);
 		free(sht_recov);			//free
 	}
 	else if(flt_recov!=NULL)
 	{
-		adress_table(&adr,flt_recov);
 		free(flt_recov);			//free
 	}
 	return 0;

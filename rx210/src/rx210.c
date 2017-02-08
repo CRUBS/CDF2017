@@ -21,12 +21,9 @@
 #include "decoder_quadra.h"
 #include "pwm_asser_RX210.h"
 #include "asservissement.h"
-<<<<<<< HEAD
 #include "uart.h"
-=======
 //#include "odometrie.h"
 
->>>>>>> 6ed37fe2a837bf09575eec231a3234d460dbb721
 
 #ifdef CPPAPP
 //Initialize global constructors
@@ -55,11 +52,10 @@ int i = 0;
 
 int main(void)
 {
-<<<<<<< HEAD
 	LED1_OFF;LED0_OFF;LED2_OFF;
 	char adresse=0x03;
 	int valeur= -8,i = 0;
-	asm volatile("SETPSW I");
+//	asm volatile("SETPSW I");
 
 	uart9_init();		//init de l'uart
 	active_reception();	//active la recepetion
@@ -67,27 +63,13 @@ int main(void)
 	{
 		if(SW1==0)
 		{
-			if(read_type()==0x0){send_int(&adresse, &valeur);}
+			if(read_uart()==0x0){send_int(&adresse, &valeur);}
 
 			while(SW1==0){}
-			read_type();
+			read_uart();
 			for(i=0; i<100;i++){}
 		//	send_end_transmi();
 		}
-=======
-	LED1_OFF;LED0_OFF;LED2_OFF;//extinction de toutes les leds
-	mtclk_init();			// fonction d'initialisation du module de comptage
-	mtclk_start();			// démarre le décodage en quadrature
-	PWM_asser_init(0x03E8);
-	INA_D=0;INB_D=~INA_D;	//mise en marche avant par defaut
-	INA_G=0;INB_G=~INA_G;	//mise en marche avant par defaut
-	init_echant();
-	start_echant();
-	init_variable_echant();
-//	odo.cmp_d=0x10;
-	while(1){
-
->>>>>>> 6ed37fe2a837bf09575eec231a3234d460dbb721
 	}
 	return 0;
 }
