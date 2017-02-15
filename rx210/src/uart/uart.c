@@ -17,7 +17,6 @@
 Includes   <System Includes> , "Project Includes"
 *******************************************************************************/
 #include "uart.h"
-
 /******************************************************************************
 Macro definitions
 ******************************************************************************/
@@ -26,7 +25,7 @@ Macro definitions
 /*****************************************************************************
 Private global variables and function
 ****************************************************************************/
-volatile uart uart9 ={0,0,0,0,0,0,0,0,0};
+uart uart9 ={0,0,0,0,0,0,0,0,0};
 /******************************************************************************
 * Function Name	:uart9_init 
 * Description	: initialise la communication de l'uart n°9 a 115200 bauds 
@@ -247,7 +246,7 @@ int read_uart()
 	char adr=0;
 //dynamic allocation for recovery value
 
-	int *int_recov=NULL;
+	int *int_recov=NULL,*temp_int=NULL;
 	short *sht_recov=NULL;
 	float *flt_recov=NULL;
 	char *chr_recov=NULL;
@@ -262,7 +261,7 @@ int read_uart()
 				
 				if((uart9.read_index > uart9.input_index) || (uart9.input_index-uart9.read_index > char_size))
 				{
-					copy_part_tab(char_size, uart9.in_data,&uart9.read_index,in_data_size, trame);
+					copy_part_tab(char_size, &uart9.in_data[0],&uart9.read_index,in_data_size, trame);
 					if(checksum(trame,char_size)!= uart9.in_data[uart9.read_index]){return 1;}
 				}
 				else 
@@ -277,7 +276,7 @@ int read_uart()
 			case 1:					// type int
 				if((uart9.read_index > uart9.input_index) || (uart9.input_index-uart9.read_index > int_size))
 				{
-					copy_part_tab(int_size, uart9.in_data,&uart9.read_index,in_data_size, trame);
+					copy_part_tab(int_size, &uart9.in_data[0],&uart9.read_index,in_data_size, trame);
 					if(checksum(trame,int_size)!= uart9.in_data[uart9.read_index]){return 1;}
 				}
 				else 
@@ -293,13 +292,13 @@ int read_uart()
 			case 2:					// type short
 				if((uart9.read_index > uart9.input_index) || (uart9.input_index-uart9.read_index >short_size))
 				{
-					copy_part_tab(short_size, uart9.in_data,&uart9.read_index,in_data_size, trame);
+					copy_part_tab(short_size, &uart9.in_data[0],&uart9.read_index,in_data_size, trame);
 					if(checksum(trame,short_size)!= uart9.in_data[uart9.read_index]){return 1;}
 				}
 				else 
 				{
 					adr = (trame[0] & 4) >>2;
-					sht_recov = malloc(sizeof(int));
+					sht_recov = malloc(sizeof(short));
 					read_sht(trame, sht_recov);
 				}
 				break;
@@ -307,11 +306,18 @@ int read_uart()
 			case 3:					// type float
 				if((uart9.read_index > uart9.input_index) || (uart9.input_index-uart9.read_index >short_size))			
 				{
-					copy_part_tab(short_size, uart9.in_data,&uart9.read_index,in_data_size, trame);
-					if(checksum(trame,short_size)!= uart9.in_data[uart9.read_index]){return 1;}
-				//read_int(
+					copy_part_tab(flt_size,&uart9.in_data[0],&uart9.read_index,in_data_size, trame);
+					if(checksum(trame,flt_size)!= uart9.in_data[uart9.read_index]){return 1;}
 				}
-				else {return 2;}		//retourn une erreur
+				else
+				{
+					adr = (trame[0] & 4) >>2;
+					flt_recov = malloc(sizeof(float));
+					temp_int = malloc(sizeof(int));				//cheaper way to do this shit cause of lybrary float
+					read_int(trame,temp_int);
+					*flt_recov = (*temp_int)/flt_div;
+				}
+				
 				break;
 		}
 	}
