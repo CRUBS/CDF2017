@@ -63,12 +63,10 @@ int main(void)
 	{
 		if(SW1==0)
 		{
-			if(read_uart()==0x0){send_int(&adresse, &valeur);}
-
-			while(SW1==0){}
+		//	renvoi_le_recu();
 			read_uart();
-			for(i=0; i<100;i++){}
-		//	send_end_transmi();
+			while(SW1==0){}
+			for(int i=0;i<1000;i++){}
 		}
 	}
 	return 0;

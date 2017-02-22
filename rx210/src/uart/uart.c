@@ -82,6 +82,7 @@ void uart9_init()
 //maintenant on gère les priorités
 	IPR(SCI9,RXI9)=0x1;		// faible priorité
 	IPR(SCI9,TXI9)=0x1;		// faible priorité
+	init_hach_sht();
 }
 
 
@@ -184,6 +185,7 @@ void Excep_SCI9_RXI9(void)
 	uart9.input_index++;							//increase the pointer
 	uart9.in_load++;
 	if(uart9.input_index>= in_data_size){uart9.input_index=0;}	//gestion du recouvrement de la queu
+	LED0_ON;
 }
 
 
@@ -196,7 +198,6 @@ void Excep_SCI9_RXI9(void)
 
 void Excep_SCI9_TXI9(void) 
 {
-	LED0=~LED0;
 	if(!uart9.load)
 	{
 		IEN(SCI9,TXI9)=0;						//interruption transmission off
@@ -242,20 +243,18 @@ void Excep_SCI9_TEI9(void)
 int read_uart()
 {
 	char i=0;
-	char trame[int_size];
 	char adr=0;
+	char trame[int_size];
 //dynamic allocation for recovery value
 
 	int *int_recov=NULL,*temp_int=NULL;
 	short *sht_recov=NULL;
 	float *flt_recov=NULL;
 	char *chr_recov=NULL;
-
 	if(uart9.in_load)
 	{
-	
-		trame[0] = uart9.in_data[uart9.read_index] & 0x3;
-		switch(trame[0])
+		trame[0] = uart9.in_data[uart9.read_index];
+		switch(trame[0] & 0x03)
 		{
 			case 0:					// type char
 				
@@ -273,7 +272,7 @@ int read_uart()
 				break;
 			
 				
-			case 1:					// type int
+			case 2:					// type int
 				if((uart9.read_index > uart9.input_index) || (uart9.input_index-uart9.read_index > int_size))
 				{
 					copy_part_tab(int_size, &uart9.in_data[0],&uart9.read_index,in_data_size, trame);
@@ -289,22 +288,24 @@ int read_uart()
 				break;
 
 
-			case 2:					// type short
-				if((uart9.read_index > uart9.input_index) || (uart9.input_index-uart9.read_index >short_size))
-				{
-					copy_part_tab(short_size, &uart9.in_data[0],&uart9.read_index,in_data_size, trame);
-					if(checksum(trame,short_size)!= uart9.in_data[uart9.read_index]){return 1;}
+			case 1:					// type short
+				if((uart9.read_index > uart9.input_index) || (uart9.input_index-uart9.read_index >sht_size))
+			{
+					copy_part_tab(sht_size, &uart9.in_data[0],&uart9.read_index,in_data_size, trame);
+					if(checksum(trame,sht_size)!= uart9.in_data[uart9.read_index]){return 1;}
+					else{
+						adr = trame[0] >>3;
+						sht_recov = malloc(sizeof(short));
+						read_sht(trame, sht_recov);
+					}
 				}
 				else 
 				{
-					adr = (trame[0] & 4) >>2;
-					sht_recov = malloc(sizeof(short));
-					read_sht(trame, sht_recov);
 				}
 				break;
 
 			case 3:					// type float
-				if((uart9.read_index > uart9.input_index) || (uart9.input_index-uart9.read_index >short_size))			
+				if((uart9.read_index > uart9.input_index) || (uart9.input_index-uart9.read_index >flt_size))			
 				{
 					copy_part_tab(flt_size,&uart9.in_data[0],&uart9.read_index,in_data_size, trame);
 					if(checksum(trame,flt_size)!= uart9.in_data[uart9.read_index]){return 1;}
@@ -334,6 +335,7 @@ int read_uart()
 	}
 	else if(sht_recov!=NULL)
 	{
+		adress_sht_table(&adr,sht_recov);
 		free(sht_recov);			//free
 	}
 	else if(flt_recov!=NULL)

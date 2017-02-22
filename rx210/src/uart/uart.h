@@ -30,13 +30,13 @@ Macro definitions
 *******************************************************************************/
 #define char_mask 0b00
 #define int_mask 0b10
-#define short_mask 0b01
+#define sht_mask 0b01
 #define flt_mask 0b11
 #define sign_mask 0b100
 
 
 #define int_size 5
-#define short_size 3
+#define sht_size 3
 #define char_size 2
 #define flt_size 5
 
@@ -46,6 +46,8 @@ Macro definitions
 
 #define NB_ADR 32
 #define flt_div 1000.
+
+void led_com(short* etat);
 /******************************************************************************
 Definition des structures
 *******************************************************************************/
@@ -89,6 +91,6 @@ char checksum(char *tab,char size);
 int read_uart();
 void read_int(char *trame, int *value);
 void read_sht(char *trame,short *value);
-void read_sht(char *trame,short *value);
+void read_flt(char *trame,float *value);
 
 #endif
