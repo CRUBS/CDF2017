@@ -30,6 +30,27 @@ void send_pilot_md(short *pwm);	// send the value of the pwm right cmd
 void load_dist_pid(short *dist);//change the value of distance pilotage
 void load_ang_pid(short *angl);	//change the value of angle driver
 
+void send_pilot_mg(short *pwm);	//send the value of the pmw left cmd
+void send_pilot_md(short *pwm);	// send the value of the pwm right cmd
+
+void load_dist_pid(short *dist);//change the value of distance pilotage
+void load_ang_pid(short *angl);	//change the value of angle driver
+
+void load_pd(float *p);		//change value of pid distance
+void load_id(float *i);
+void load_dd(float *d);
+
+void send_pd(float *p);		//send value of pid distance
+void send_id(float *i);
+void send_dd(float *d);
+
+void load_pa(float *p);		//change value of pid orient
+void load_ia(float *i);
+void load_da(float *d);
+
+void send_pa(float *p);		//send value of pid orient
+void send_ia(float *i);
+void send_da(float *d);
 //hardware
 void init_echant(void);			// Configuration des registres
 void start_echant(void);		// activation du compteur

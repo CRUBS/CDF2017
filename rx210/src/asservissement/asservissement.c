@@ -22,6 +22,26 @@ void send_pilot_md(short *pwm){*pwm=cmd.pwmD;}	// send the value of the pwm righ
 void load_dist_pid(short *dist){cmd.distance=*dist;}//change the value of distance pilotage
 void load_ang_pid(short *angl){cmd.angle = *angl;}	//change the value of angle driver
 
+void load_pd(float *p){PID_distance.kp = *p;}		//change value of pid distance
+void load_id(float *i){PID_distance.ki = *i;}
+void load_dd(float *d){PID_distance.kd = *d;}
+
+void send_pd(float *p){*p = PID_distance.kp;}		//send value of pid distance
+void send_id(float *i){*i = PID_distance.ki;}
+void send_dd(float *d){*d = PID_distance.kd;}
+
+void load_pa(float *p){PID_orient.kp = *p;}		//change value of pid orient
+void load_ia(float *i){PID_orient.ki = *i;}
+void load_da(float *d){PID_orient.kd = *d;}
+
+void send_pa(float *p){*p = PID_orient.kp;}		//send value of pid orient
+void send_ia(float *i){*i = PID_orient.ki;}
+void send_da(float *d){*d = PID_orient.kd;}
+
+
+/**********************************************************************************************
+ * function of asservissement
+**********************************************************************************************/
 void init_variable_echant(){
 	mesure_dist=0;
 	mesure_orient=0;
