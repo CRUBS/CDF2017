@@ -34,6 +34,7 @@ Macro definitions
 #define flt_mask 0b11
 #define sign_mask 0b100
 
+#define start_bit 0b10100111
 
 #define int_size 5
 #define sht_size 3
@@ -83,12 +84,22 @@ void send_flt(char* adresse,float* value);	// send a float
 void send_end_transmi();
 
 //recieve function
-void adress_table(char *adr,void *value);
-void init_hachage();
+void adress_chr_table(char *adr,char *value);
+void adress_sht_table(char *adr,short *value);
+void adress_int_table(char *adr,int *value);
+void adress_flt_table(char *adr,float *value);
+
+void init_hach_flt();
+void init_hach_char();
+void init_hach_int();
+void init_hach_sht();
+
 void copy_part_tab(char nombre, unsigned char *tab1,unsigned char *index, char size_tab1, char *tab2);
 char checksum(char *tab,char size);
 
 int read_uart();
+char read_step();
+
 void read_int(char *trame, int *value);
 void read_sht(char *trame,short *value);
 void read_flt(char *trame,float *value);

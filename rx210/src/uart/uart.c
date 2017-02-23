@@ -82,7 +82,6 @@ void uart9_init()
 //maintenant on gère les priorités
 	IPR(SCI9,RXI9)=0x1;		// faible priorité
 	IPR(SCI9,TXI9)=0x1;		// faible priorité
-	init_hach_sht();
 }
 
 
@@ -185,7 +184,6 @@ void Excep_SCI9_RXI9(void)
 	uart9.input_index++;							//increase the pointer
 	uart9.in_load++;
 	if(uart9.input_index>= in_data_size){uart9.input_index=0;}	//gestion du recouvrement de la queu
-	LED0_ON;
 }
 
 
@@ -232,6 +230,24 @@ void Excep_SCI9_TEI9(void)
 }
 
 /******************************************************************************
+* Function Name	: Excep_SCI9_TEI9
+* Description	: interruption end of emission
+* Arguments	:none
+* Return value	: void
+*******************************************************************************/
+char read_step()
+{
+	if(uart9.read_index<=uart9.input_index)
+	{
+		return (uart9.input_index-uart9.read_index);
+	}
+	else
+	{
+		return((in_data_size-uart9.read_index)+uart9.input_index);
+	}
+}
+
+/******************************************************************************
 * Function Name	: read_type
 * Description	: read the entry from uart_array and find the type to recover
 			the data. after it send the value at haching table
@@ -251,6 +267,7 @@ int read_uart()
 	short *sht_recov=NULL;
 	float *flt_recov=NULL;
 	char *chr_recov=NULL;
+
 	if(uart9.in_load)
 	{
 		trame[0] = uart9.in_data[uart9.read_index];
@@ -262,13 +279,15 @@ int read_uart()
 				{
 					copy_part_tab(char_size, &uart9.in_data[0],&uart9.read_index,in_data_size, trame);
 					if(checksum(trame,char_size)!= uart9.in_data[uart9.read_index]){return 1;}
+					else
+					{
+						adr =(trame[0] & 4)>>2;			//recover recipient adr
+						chr_recov = malloc(sizeof(char));	//alloc
+						*chr_recov = trame[1];			//take value
+					}
+					uart9.read_index++;
 				}
-				else 
-				{
-					adr =(trame[0] & 4)>>2;			//recover recipient adr
-					chr_recov = malloc(sizeof(char));	//alloc
-					*chr_recov = trame[1];			//take value
-				}
+				else {}
 				break;
 			
 				
@@ -277,31 +296,32 @@ int read_uart()
 				{
 					copy_part_tab(int_size, &uart9.in_data[0],&uart9.read_index,in_data_size, trame);
 					if(checksum(trame,int_size)!= uart9.in_data[uart9.read_index]){return 1;}
+					else
+					{
+						adr = (trame[0] & 4)>>2;		//recover recipient adresse
+						int_recov = malloc(sizeof(int));	//alloc
+						read_int(trame, int_recov);		//recovery
+					}
+					uart9.read_index++;
 				}
-				else 
-				{
-					adr = (trame[0] & 4)>>2;		//recover recipient adresse
-					int_recov = malloc(sizeof(int));	//alloc
-					read_int(trame, int_recov);		//recovery
-				}
-
+				else {}
 				break;
 
 
 			case 1:					// type short
 				if((uart9.read_index > uart9.input_index) || (uart9.input_index-uart9.read_index >sht_size))
-			{
+				{
 					copy_part_tab(sht_size, &uart9.in_data[0],&uart9.read_index,in_data_size, trame);
 					if(checksum(trame,sht_size)!= uart9.in_data[uart9.read_index]){return 1;}
-					else{
+					else
+					{
 						adr = trame[0] >>3;
 						sht_recov = malloc(sizeof(short));
 						read_sht(trame, sht_recov);
 					}
+					uart9.read_index++;
 				}
-				else 
-				{
-				}
+				else {}
 				break;
 
 			case 3:					// type float
@@ -309,16 +329,17 @@ int read_uart()
 				{
 					copy_part_tab(flt_size,&uart9.in_data[0],&uart9.read_index,in_data_size, trame);
 					if(checksum(trame,flt_size)!= uart9.in_data[uart9.read_index]){return 1;}
+					else
+					{
+						adr = (trame[0] & 4) >>2;
+						flt_recov = malloc(sizeof(float));
+						temp_int = malloc(sizeof(int));				//cheaper way to do this shit cause of lybrary float
+						read_int(trame,temp_int);
+						*flt_recov = (*temp_int)/flt_div;
+					}
+					uart9.read_index++;
 				}
-				else
-				{
-					adr = (trame[0] & 4) >>2;
-					flt_recov = malloc(sizeof(float));
-					temp_int = malloc(sizeof(int));				//cheaper way to do this shit cause of lybrary float
-					read_int(trame,temp_int);
-					*flt_recov = (*temp_int)/flt_div;
-				}
-				
+				else{}
 				break;
 		}
 	}
@@ -327,10 +348,12 @@ int read_uart()
 	//calling function thanks to haching table
 	if(int_recov!=NULL)
 	{
+		adress_int_table(&adr, int_recov); //call the function to this adress
 		free(int_recov);			//free the memory
 	}
 	else if(chr_recov!=NULL)
 	{
+		adress_chr_table(&adr, chr_recov);
 		free(chr_recov);			//free
 	}
 	else if(sht_recov!=NULL)
@@ -340,6 +363,7 @@ int read_uart()
 	}
 	else if(flt_recov!=NULL)
 	{
+		adress_flt_table(&adr, flt_recov);
 		free(flt_recov);			//free
 	}
 	return 0;

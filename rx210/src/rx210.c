@@ -49,24 +49,37 @@ int compteur=0;
 int i = 0;
 
 //fin init variables globales
-
+void initialisation()
+{
+	uart9_init();		//init HW de l'uart
+	init_hach_char();	//init of adress tables
+	init_hach_sht();
+	init_hach_int();
+	init_hach_flt();
+	active_reception();	//activation of uart reception
+}	
 int main(void)
 {
 	LED1_OFF;LED0_OFF;LED2_OFF;
+	initialisation();
+
 	char adresse=0x03;
 	int valeur= -8,i = 0;
 //	asm volatile("SETPSW I");
 
-	uart9_init();		//init de l'uart
-	active_reception();	//active la recepetion
 	while(1)
 	{
-		if(SW1==0)
+	/*	if(SW1==0)
 		{
 		//	renvoi_le_recu();
 			read_uart();
 			while(SW1==0){}
 			for(int i=0;i<1000;i++){}
+		}
+	}*/
+		if(read_step()>=4)
+		{
+			read_uart();
 		}
 	}
 	return 0;
