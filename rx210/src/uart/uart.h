@@ -34,7 +34,8 @@ Macro definitions
 #define flt_mask 0b11
 #define sign_mask 0b100
 
-#define start_bit 0b10100111
+#define start_byte 0b11111100
+#define stop_byte 0b11110100
 
 #define int_size 5
 #define sht_size 3
@@ -49,6 +50,8 @@ Macro definitions
 #define flt_div 1000.
 
 void led_com(short* etat);
+void led_com1(float* etat);
+void led_com2(int* etat);
 /******************************************************************************
 Definition des structures
 *******************************************************************************/

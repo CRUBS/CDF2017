@@ -77,7 +77,7 @@ int main(void)
 			for(int i=0;i<1000;i++){}
 		}
 	}*/
-		if(read_step()>=4)
+		if(read_step()==1)
 		{
 			read_uart();
 		}
