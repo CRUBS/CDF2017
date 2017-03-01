@@ -12,7 +12,10 @@ RM := rm -rf *.lst *.lis *.lpp *.map libgcc.a rx210_HardwareDebug_auto.gsi
 -include src/encoder/subdir.mk
 -include src/subdir.mk
 -include src/interrupt/subdir.mk
+-include src/odometrie/subdir.mk
 -include src/pwm/subdir.mk
+-include src/trajectory/subdir.mk
+-include src/uart/subdir.mk
 -include objects.mk
 
 ifneq ($(MAKECMDGOALS),clean)
@@ -86,7 +89,7 @@ rx210.mot: $(LINKER_OUTPUT_OUTPUTS)
 rx210.x: $(OBJS) $(LIBRARY_GENERATOR_OUTPUTTYPE_OUTPUTS) $(ALL_ASMS)
 	@echo 'Invoking: Linker'
 	@echo 'Building target:'
-	rx-elf-ld -o "rx210.x" -T"C:\Users\Mickael Leconte\Documents\GitHub\CDF2017\rx210\HardwareDebug\rx210_HardwareDebug_auto.gsi" @"C:\Users\Mickael Leconte\Documents\GitHub\CDF2017\rx210\HardwareDebug\LinkerSubCommand.tmp" $(USER_OBJS) $(LIBS) $(LIBRARY_GENERATOR_OUTPUTTYPE_OUTPUTS) -M=rx210.map -L"C:\PROGRA~2\GCCFOR~1.201\rx-elf\rx-elf/lib/gcc/rx-elf/4.8.0.201603-GNURX/no-fpu-libs" -L"C:\PROGRA~2\GCCFOR~1.201\rx-elf\rx-elf/rx-elf/lib/no-fpu-libs" --start-group -loptm -loptc -lgcc --end-group -e_PowerON_Reset
+	rx-elf-ld -o "rx210.x" -T"D:\GitHub\CDF2017\rx210\HardwareDebug\rx210_HardwareDebug_auto.gsi" @"D:\GitHub\CDF2017\rx210\HardwareDebug\LinkerSubCommand.tmp" $(USER_OBJS) $(LIBS) $(LIBRARY_GENERATOR_OUTPUTTYPE_OUTPUTS) -M=rx210.map -L"C:\PROGRA~2\GCCFOR~1.201\rx-elf\rx-elf/lib/gcc/rx-elf/4.8.0.201603-GNURX/no-fpu-libs" -L"C:\PROGRA~2\GCCFOR~1.201\rx-elf\rx-elf/rx-elf/lib/no-fpu-libs" --start-group -loptm -loptc -lgcc --end-group -e_PowerON_Reset
 	@echo 'Finished building:'
 	@echo.
 
@@ -192,7 +195,10 @@ endif
 	rm -rf ./"src/encoder"/*.tmp1 
 	rm -rf ./"src"/*.tmp1 
 	rm -rf ./"src/interrupt"/*.tmp1 
+	rm -rf ./"src/odometrie"/*.tmp1 
 	rm -rf ./"src/pwm"/*.tmp1 
+	rm -rf ./"src/trajectory"/*.tmp1 
+	rm -rf ./"src/uart"/*.tmp1 
 	rm -rf   rx210.mot
 
 	@echo.
