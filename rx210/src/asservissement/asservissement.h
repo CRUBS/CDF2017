@@ -11,6 +11,7 @@
 #include "typedefine.h"
 #include "pwm_asser_RX210.h"
 #include "decoder_quadra.h"
+#include "uart.h"
 
 //definition des différentes flags
 #define flag_over_te IR(MTU0,TCIV0)	//flag overflow timer
@@ -65,9 +66,9 @@ void deplacement(int x,int y);
 
 typedef struct PID PID;
 struct PID{
-	short kp;
-	short ki;
-	short kd;
+	float kp;
+	float ki;
+	float kd;
 	int err[2];
 	int sum_err;
 

@@ -9,9 +9,9 @@
 //#include "odometrie.h"
 //#include "math.h"
 
-volatile PID PID_distance = {2.4,0,0};	// initialisation du pid pour la distance
-volatile PID PID_orient = {1.2,0,0};	//inititalisation du pid pour l'orientation
-volatile CMD cmd = {0x8000,0,0,0};
+ PID PID_distance = {2.4,0,0};	// initialisation du pid pour la distance
+ PID PID_orient = {1.2,0,0};	//inititalisation du pid pour l'orientation
+ CMD cmd = {0x8000,0,0,0};
 
 /***********************************************************************************************
  * function of communication
@@ -26,9 +26,21 @@ void load_pd(float *p){PID_distance.kp = *p;}		//change value of pid distance
 void load_id(float *i){PID_distance.ki = *i;}
 void load_dd(float *d){PID_distance.kd = *d;}
 
-void send_pd(float *p){*p = PID_distance.kp;}		//send value of pid distance
-void send_id(float *i){*i = PID_distance.ki;}
-void send_dd(float *d){*d = PID_distance.kd;}
+void send_pd(float *p)
+{
+	char adresse = 4;							//send pid p
+	send_flt(&adresse,&PID_distance.kp);		//send value of pid distance
+}
+void send_id(float *i)
+{
+	char adresse = 5;							//send pid i
+	send_flt(&adresse,&PID_distance.ki);		//send value of pid distance
+}
+void send_dd(float *p)
+{
+	char adresse = 6;							//send pid p
+	send_flt(&adresse,&PID_distance.kd);		//send value of pid distance
+}
 
 void load_pa(float *p){PID_orient.kp = *p;}		//change value of pid orient
 void load_ia(float *i){PID_orient.ki = *i;}
