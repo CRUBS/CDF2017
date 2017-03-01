@@ -51,12 +51,22 @@ int i = 0;
 //fin init variables globales
 void initialisation()
 {
+	init_mtclk();		//init of decoder
+	mtclk_start();		//run decoder
+
+	init_pwm_asser(0x3e8);//init pwm control motors
+
+	init_echant();		//init echantillons
+	init_variable_echant();
+
 	uart9_init();		//init HW de l'uart
 	init_hach_char();	//init of adress tables
 	init_hach_sht();
 	init_hach_int();
 	init_hach_flt();
 	active_reception();	//activation of uart reception
+
+	start_echant();		//start echantillonnage for asserv
 }	
 int main(void)
 {
@@ -65,18 +75,10 @@ int main(void)
 
 	char adresse=0x03;
 	int valeur= -8,i = 0;
-//	asm volatile("SETPSW I");
 
 	while(1)
 	{
-	/*	if(SW1==0)
-		{
-		//	renvoi_le_recu();
-			read_uart();
-			while(SW1==0){}
-			for(int i=0;i<1000;i++){}
-		}
-	}*/
+		
 		if(read_step()==1)
 		{
 			read_uart();

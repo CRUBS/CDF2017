@@ -70,6 +70,7 @@ PORTA.PDR.BYTE = 0x00 ;	// all are input
 /* Port B - H driver left and right & RX/TX*/
 PORTB.PODR.BYTE = 0x00 ;    /* */
 PORTB.PMR.BYTE  = 0x00 ;    /* All GPIO for now */
+PORTB.PDR.BYTE = 0b11011111;	//port in output
 MPC.PB0PFS.BYTE = 0x00 ;    // port = 0/1 (output)
 MPC.PB1PFS.BYTE = 0x00 ;	// port = 0/1 (output)
 MPC.PB2PFS.BYTE = 0x00 ;	// port = 0/1 (output)

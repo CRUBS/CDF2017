@@ -1,6 +1,6 @@
 #include "decoder_quadra.h"
 
-void mtclk_init(void)
+void init_mtclk(void)
 {
 	SYSTEM.PRCR.WORD=0xA502; //write enable for the register related to operating mode
 
@@ -43,13 +43,4 @@ void mtclk_start(void)
 {
 	//démarrer le comptage
 	MTU.TSTR.BYTE = 0x06; // demarrer compteur MTU1.TCNT et MTU2.TCNT
-}
-
-/********************************************************************************************
-*
-********************************************************************************************/
-
-void over_mtu1()
-{
-	
 }

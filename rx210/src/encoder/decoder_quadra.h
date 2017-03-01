@@ -42,7 +42,7 @@
 #define compteur_d MTU1.TCNT		//compteur MTU1
 #define compteur_g MTU2.TCNT		//compteur MTU2
 
-void	mtclk_init(void);		// fonction d'initialisation du module de comptage
+void	init_mtclk(void);		// fonction d'initialisation du module de comptage
 void	mtclk_start(void);		// démarre le décodage en quadrature
 // communication functions access
 
