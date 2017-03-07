@@ -12,12 +12,9 @@
  PID PID_distance = {2.4,0,0};	// initialisation du pid pour la distance
  PID PID_orient = {1.2,0,0};	//inititalisation du pid pour l'orientation
  CMD cmd = {0x8000,0,0,0};
-<<<<<<< HEAD
 
 
-=======
  char transmit_data=0;
->>>>>>> efb1195c4bc1293f66488a8e10afdc6ddfd4dec9
 /***********************************************************************************************
  * function of communication
  *********************************************************************************************/
@@ -153,8 +150,6 @@ void Excep_MTU0_TCIV0(void) {
 	reset_timer_te;
 	int a = compteur_d;
 	int b = compteur_g;
-	asservissement(cmd.distance,cmd.angle,a,b);
-	}/*
 	if(transmit_data==1)
 	{
 		send_dist();//fonction de reglage du pid
@@ -170,4 +165,4 @@ void Excep_MTU0_TCIV0(void) {
 	{	
 		asservissement((compteur_d+compteur_g)/2,(compteur_d-compteur_g),a,b);
 	}
-}*/
+}
