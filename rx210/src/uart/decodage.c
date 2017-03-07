@@ -34,20 +34,13 @@ void (*hach_int[NB_ADR])(int *value);
 void (*hach_flt[NB_ADR])(float *value);
 void (*hach_char[NB_ADR])(char *value);
 
-void led_com(short *etat)
-{
-	LED0=~LED0;
-}
-void led_com1(float *etat)
-{
-	LED1=~LED1;
-}
 void led_com2(int *etat)
 {
 	LED2=~LED2;
 }
 void init_hach_char()
 {
+	hach_char[1]=transmission_data;
 }
 void init_hach_int()
 {
@@ -67,7 +60,6 @@ void init_hach_flt()
 	hach_flt[10]=send_pa;
 	hach_flt[11]=send_ia;
 	hach_flt[12]=send_da;
-	hach_flt[12]=led_com1;
 }
 /******************************************************************************
  * Function Name :uart9_init 
@@ -85,7 +77,6 @@ void init_hach_sht()
 //	hach_sht[6];
 	hach_sht[7]=load_dist_pid;
 	hach_sht[8]=load_ang_pid;
-	hach_sht[9]=led_com;
 }
 
 /******************************************************************************

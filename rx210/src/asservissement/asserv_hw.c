@@ -16,7 +16,7 @@ void init_echant(){
 	reset_timer_te;				//initialize the value of timer
 	MTU0.TIER.BYTE=0x10;		// set the interrupt but don't active the counter
 	IEN(MTU0,TCIV0)=1;
-	IPR(MTU0,TCIV0)=15;
+	IPR(MTU0,TCIV0)=13;
 
 	while(MTU0.TIER.BYTE!=0x10);
 	SYSTEM.PRCR.WORD=0xA500;

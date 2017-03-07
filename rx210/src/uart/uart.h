@@ -49,8 +49,6 @@ Macro definitions
 #define NB_ADR 32
 #define flt_div 1000.
 
-void led_com(short* etat);
-void led_com1(float* etat);
 void led_com2(int* etat);
 /******************************************************************************
 Definition des structures

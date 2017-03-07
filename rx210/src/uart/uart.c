@@ -80,8 +80,8 @@ void uart9_init()
 	IR(SCI9,RXI9)=0;		//on efface le flag rxi
 	IR(SCI9,TXI9)=0;		//on efface le flag txi
 //maintenant on gère les priorités
-	IPR(SCI9,RXI9)=0x1;		// faible priorité
-	IPR(SCI9,TXI9)=0x1;		// faible priorité
+	IPR(SCI9,RXI9)=0x5;		// faible priorité
+	IPR(SCI9,TXI9)=0x5;		// faible priorité
 }
 
 
@@ -240,13 +240,13 @@ char read_step()
 	{
 		if(uart9.in_data[uart9.in_load]==stop_byte)
 		{
-			if(uart9.in_load==(in_data_size-1)){uart9.in_load=0;}
+			if(uart9.in_load>=(in_data_size-1)){uart9.in_load=0;}
 			else{uart9.in_load++;}
 			return 1;
 		}
 		else
 		{
-			if(uart9.in_load==(in_data_size-1)){uart9.in_load=0;}
+			if(uart9.in_load>=(in_data_size-1)){uart9.in_load=0;}
 			else{uart9.in_load++;}
 		}
 	}
@@ -274,11 +274,11 @@ int read_uart()
 	short *sht_recov=NULL;
 	float *flt_recov=NULL;
 	char *chr_recov=NULL;
-
 	if(uart9.in_load)
 	{
 		if(uart9.in_data[uart9.read_index]==start_byte)
 		{
+			LED1=~LED1;//debug
 			uart9.read_index++;							// we jump the start_byte :)
 			trame[0] = uart9.in_data[uart9.read_index];
 			switch(trame[0] & 0x03)
@@ -376,9 +376,11 @@ int read_uart()
 		}
 		else
 		{
-			while(uart9.read_index<uart9.input_index && uart9.in_data[uart9.read_index]!=start_byte)
+			while(uart9.read_index!=uart9.input_index && uart9.in_data[uart9.read_index]!=start_byte)
 			{
-				uart9.read_index++;
+				if(uart9.read_index>=(in_data_size -1)){uart9.read_index = 0;}
+				else{uart9.read_index++;}
+
 			}
 		}
 	}

@@ -37,6 +37,13 @@ void send_pilot_md(short *pwm);	// send the value of the pwm right cmd
 void load_dist_pid(short *dist);//change the value of distance pilotage
 void load_ang_pid(short *angl);	//change the value of angle driver
 
+void send_pa(float *p);		//send value of pid orient
+void send_ia(float *i);
+void send_da(float *d);
+
+void send_dist();			//fonction de reglage de l'asserve
+void send_angl();			//idem
+
 void load_pd(float *p);		//change value of pid distance
 void load_id(float *i);
 void load_dd(float *d);
@@ -49,9 +56,8 @@ void load_pa(float *p);		//change value of pid orient
 void load_ia(float *i);
 void load_da(float *d);
 
-void send_pa(float *p);		//send value of pid orient
-void send_ia(float *i);
-void send_da(float *d);
+void transmission_data(char *value);	//active la transmission des données
+
 //hardware
 void init_echant(void);			// Configuration des registres
 void start_echant(void);		// activation du compteur
