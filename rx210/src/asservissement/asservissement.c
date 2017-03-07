@@ -62,12 +62,14 @@ void send_da(float *d)
 void send_dist()
 {
 	char adresse = 9;
-	send_sht(&adresse,(compteur_d+compteur_g)/2);
+	unsigned short value = (int)(compteur_d+compteur_g)/20;
+	send_sht(&adresse,&value);
 }
 void send_angl()
 {
 	char adr = 10;
-	send_sht(&adr,(compteur_d-compteur_g));
+	unsigned short value =(int) compteur_d-compteur_g/10;
+	send_sht(&adr,&value);
 }
 //fonction of receiption
 
@@ -146,6 +148,8 @@ void Excep_MTU0_TCIV0(void) {
 	reset_timer_te;
 	int a = compteur_d;
 	int b = compteur_g;
+	asservissement(cmd.distance,cmd.angle,a,b);
+	}/*
 	if(transmit_data==1)
 	{
 		send_dist();//fonction de reglage du pid
@@ -161,4 +165,4 @@ void Excep_MTU0_TCIV0(void) {
 	{	
 		asservissement((compteur_d+compteur_g)/2,(compteur_d-compteur_g),a,b);
 	}
-}
+}*/

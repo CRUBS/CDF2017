@@ -73,15 +73,22 @@ int main(void)
 	LED1_OFF;LED0_OFF;LED2_OFF;
 	initialisation();
 
-	char adresse=0x03;
-	int valeur= -8,i = 0;
-
 	while(1)
 	{
 		
 		if(read_step()==1)
 		{
 			read_uart();
+		}
+		if(SW1==0)
+		{
+			LED0=~LED0;
+			send_dist();
+			send_dist();
+			send_dist();
+			send_end_transmi();
+			while(SW1==0){}
+			for(int i = 0;i<1000;i++){}
 		}
 	}
 	return 0;

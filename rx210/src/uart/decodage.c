@@ -312,7 +312,6 @@ void send_flt(char* adresse,float *value)		//verif le passage par référence d'
 	char signe =0,checksum =0;	//declaration of var
 	char to_send[flt_size];						//array to store the byte to send
 	int int_flt=0;
-
 	to_send[0] = *adresse;						//save the adress
 	if(*value<0){signe=1;}						//save the sign
 	to_send[0] = (to_send[0] <<1)+signe;			//put sign in the first byte

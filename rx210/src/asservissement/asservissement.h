@@ -81,8 +81,8 @@ struct PID{
 };
 typedef struct CMD CMD;
 struct CMD{
-	short distance;
-	short angle;
+	unsigned short distance;
+	unsigned short angle;
 	short pwmG;
 	short pwmD;
 };
