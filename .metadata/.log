@@ -11824,3 +11824,255 @@ java.util.concurrent.RejectedExecutionException: Task java.util.concurrent.Sched
 
 !ENTRY com.renesas.cdt.debug.ioview.dsf 1 0 2017-03-01 19:08:33.226
 !MESSAGE Loading Io Map: C:\Renesas\e2_studio\internal\IoFiles\RX\RX210.sfrx
+
+!ENTRY com.renesas.cdt.debug.ioview.dsf 1 0 2017-03-01 19:17:11.352
+!MESSAGE Saving model state for session 14
+
+!ENTRY com.renesas.cdt.debug.ioview.dsf 1 0 2017-03-01 19:17:11.372
+!MESSAGE Removing model for session 14
+
+!ENTRY com.renesas.cdt.debug.ioview.dsf 1 0 2017-03-01 19:17:24.696
+!MESSAGE Creating new Model for gdb[15].proc[1].threadGroup[i1]
+
+!ENTRY com.renesas.cdt.debug.ioview.dsf 1 0 2017-03-01 19:17:24.704
+!MESSAGE Loading Io Map: C:\Renesas\e2_studio\internal\IoFiles\RX\RX210.sfrx
+
+!ENTRY com.renesas.cdt.debug.ioview.dsf 1 0 2017-03-01 19:17:44.990
+!MESSAGE Saving model state for session 15
+
+!ENTRY com.renesas.cdt.debug.ioview.dsf 1 0 2017-03-01 19:17:45.006
+!MESSAGE Removing model for session 15
+
+!ENTRY com.renesas.cdt.debug.ioview.dsf 1 0 2017-03-01 19:17:53.712
+!MESSAGE Creating new Model for gdb[16].proc[1].threadGroup[i1]
+
+!ENTRY com.renesas.cdt.debug.ioview.dsf 1 0 2017-03-01 19:17:53.719
+!MESSAGE Loading Io Map: C:\Renesas\e2_studio\internal\IoFiles\RX\RX210.sfrx
+
+!ENTRY com.renesas.cdt.debug.ioview.dsf 1 0 2017-03-01 19:18:36.681
+!MESSAGE Saving model state for session 16
+
+!ENTRY com.renesas.cdt.debug.ioview.dsf 1 0 2017-03-01 19:18:36.698
+!MESSAGE Removing model for session 16
+
+!ENTRY com.renesas.cdt.debug.ioview.dsf 1 0 2017-03-01 19:18:44.969
+!MESSAGE Creating new Model for gdb[17].proc[1].threadGroup[i1]
+
+!ENTRY com.renesas.cdt.debug.ioview.dsf 1 0 2017-03-01 19:18:44.975
+!MESSAGE Loading Io Map: C:\Renesas\e2_studio\internal\IoFiles\RX\RX210.sfrx
+
+!ENTRY com.renesas.cdt.debug.ioview.dsf 1 0 2017-03-01 19:19:48.636
+!MESSAGE Saving model state for session 17
+
+!ENTRY com.renesas.cdt.debug.ioview.dsf 1 0 2017-03-01 19:19:48.655
+!MESSAGE Removing model for session 17
+!SESSION 2017-03-07 18:00:37.351 -----------------------------------------------
+eclipse.buildId=v5.1.0.022
+java.version=1.8.0_65
+java.vendor=Oracle Corporation
+BootLoader constants: OS=win32, ARCH=x86, WS=win32, NL=fr_FR
+Command-line arguments:  -os win32 -ws win32 -arch x86 -data D:\GitHub\CDF2017
+
+!ENTRY org.eclipse.cdt.dsf 4 -1 2017-03-07 18:01:29.791
+!MESSAGE Uncaught exception in DSF executor thread
+!STACK 0
+java.lang.NullPointerException
+	at org.eclipse.cdt.dsf.gdb.service.command.GDBControl.getId(GDBControl.java:274)
+	at org.eclipse.cdt.dsf.gdb.service.command.GDBControl_7_4.createComandControlContext(GDBControl_7_4.java:49)
+	at org.eclipse.cdt.dsf.gdb.service.command.GDBControl.doInitialize(GDBControl.java:256)
+	at org.eclipse.cdt.dsf.gdb.service.command.GDBControl.access$16(GDBControl.java:250)
+	at org.eclipse.cdt.dsf.gdb.service.command.GDBControl$1.handleSuccess(GDBControl.java:245)
+	at org.eclipse.cdt.dsf.concurrent.RequestMonitor.handleCompleted(RequestMonitor.java:385)
+	at org.eclipse.cdt.dsf.concurrent.RequestMonitor$2.run(RequestMonitor.java:312)
+	at org.eclipse.cdt.dsf.concurrent.ImmediateExecutor.execute(ImmediateExecutor.java:63)
+	at org.eclipse.cdt.dsf.concurrent.RequestMonitor.done(RequestMonitor.java:309)
+	at org.eclipse.cdt.dsf.service.AbstractDsfService.initialize(AbstractDsfService.java:93)
+	at org.eclipse.cdt.dsf.gdb.service.command.GDBControl.initialize(GDBControl.java:242)
+	at org.eclipse.cdt.dsf.gdb.launching.ServicesLaunchSequence$2.execute(ServicesLaunchSequence.java:59)
+	at org.eclipse.cdt.dsf.concurrent.Sequence.executeStep(Sequence.java:459)
+	at org.eclipse.cdt.dsf.concurrent.Sequence.access$2(Sequence.java:373)
+	at org.eclipse.cdt.dsf.concurrent.Sequence$2.handleSuccess(Sequence.java:420)
+	at org.eclipse.cdt.dsf.concurrent.RequestMonitor.handleCompleted(RequestMonitor.java:385)
+	at org.eclipse.cdt.dsf.concurrent.RequestMonitor$2.run(RequestMonitor.java:312)
+	at java.util.concurrent.Executors$RunnableAdapter.call(Executors.java:511)
+	at java.util.concurrent.FutureTask.run(FutureTask.java:266)
+	at java.util.concurrent.ScheduledThreadPoolExecutor$ScheduledFutureTask.access$201(ScheduledThreadPoolExecutor.java:180)
+	at java.util.concurrent.ScheduledThreadPoolExecutor$ScheduledFutureTask.run(ScheduledThreadPoolExecutor.java:293)
+	at java.util.concurrent.ThreadPoolExecutor.runWorker(ThreadPoolExecutor.java:1142)
+	at java.util.concurrent.ThreadPoolExecutor$Worker.run(ThreadPoolExecutor.java:617)
+	at java.lang.Thread.run(Thread.java:745)
+
+!ENTRY org.eclipse.cdt.dsf 4 10005 2017-03-07 18:01:29.838
+!MESSAGE Request for monitor: 'RequestMonitor (org.eclipse.cdt.dsf.concurrent.RequestMonitorWithProgress@1550d16): Status ERROR: org.eclipse.cdt.dsf code=0 Unhandled exception when executing Sequence com.renesas.cdt.launch.dsf.gdbremote.ReGdbRemoteServicesLaunchSequence@17e6053, step #1 java.lang.NullPointerException' resulted in an error.
+!SUBENTRY 1 org.eclipse.cdt.dsf 4 0 2017-03-07 18:01:29.838
+!MESSAGE Unhandled exception when executing Sequence com.renesas.cdt.launch.dsf.gdbremote.ReGdbRemoteServicesLaunchSequence@17e6053, step #1
+!STACK 0
+java.lang.NullPointerException
+	at org.eclipse.cdt.dsf.gdb.service.command.GDBControl.getId(GDBControl.java:274)
+	at org.eclipse.cdt.dsf.gdb.service.command.GDBControl_7_4.createComandControlContext(GDBControl_7_4.java:49)
+	at org.eclipse.cdt.dsf.gdb.service.command.GDBControl.doInitialize(GDBControl.java:256)
+	at org.eclipse.cdt.dsf.gdb.service.command.GDBControl.access$16(GDBControl.java:250)
+	at org.eclipse.cdt.dsf.gdb.service.command.GDBControl$1.handleSuccess(GDBControl.java:245)
+	at org.eclipse.cdt.dsf.concurrent.RequestMonitor.handleCompleted(RequestMonitor.java:385)
+	at org.eclipse.cdt.dsf.concurrent.RequestMonitor$2.run(RequestMonitor.java:312)
+	at org.eclipse.cdt.dsf.concurrent.ImmediateExecutor.execute(ImmediateExecutor.java:63)
+	at org.eclipse.cdt.dsf.concurrent.RequestMonitor.done(RequestMonitor.java:309)
+	at org.eclipse.cdt.dsf.service.AbstractDsfService.initialize(AbstractDsfService.java:93)
+	at org.eclipse.cdt.dsf.gdb.service.command.GDBControl.initialize(GDBControl.java:242)
+	at org.eclipse.cdt.dsf.gdb.launching.ServicesLaunchSequence$2.execute(ServicesLaunchSequence.java:59)
+	at org.eclipse.cdt.dsf.concurrent.Sequence.executeStep(Sequence.java:459)
+	at org.eclipse.cdt.dsf.concurrent.Sequence.access$2(Sequence.java:373)
+	at org.eclipse.cdt.dsf.concurrent.Sequence$2.handleSuccess(Sequence.java:420)
+	at org.eclipse.cdt.dsf.concurrent.RequestMonitor.handleCompleted(RequestMonitor.java:385)
+	at org.eclipse.cdt.dsf.concurrent.RequestMonitor$2.run(RequestMonitor.java:312)
+	at java.util.concurrent.Executors$RunnableAdapter.call(Executors.java:511)
+	at java.util.concurrent.FutureTask.run(FutureTask.java:266)
+	at java.util.concurrent.ScheduledThreadPoolExecutor$ScheduledFutureTask.access$201(ScheduledThreadPoolExecutor.java:180)
+	at java.util.concurrent.ScheduledThreadPoolExecutor$ScheduledFutureTask.run(ScheduledThreadPoolExecutor.java:293)
+	at java.util.concurrent.ThreadPoolExecutor.runWorker(ThreadPoolExecutor.java:1142)
+	at java.util.concurrent.ThreadPoolExecutor$Worker.run(ThreadPoolExecutor.java:617)
+	at java.lang.Thread.run(Thread.java:745)
+
+!ENTRY org.eclipse.cdt.dsf.gdb 4 5012 2017-03-07 18:01:29.853
+!MESSAGE Error in services launch sequence
+!STACK 1
+org.eclipse.core.runtime.CoreException: Unhandled exception when executing Sequence com.renesas.cdt.launch.dsf.gdbremote.ReGdbRemoteServicesLaunchSequence@17e6053, step #1
+	at org.eclipse.cdt.dsf.concurrent.Sequence.abortExecution(Sequence.java:582)
+	at org.eclipse.cdt.dsf.concurrent.Sequence.executeStep(Sequence.java:469)
+	at org.eclipse.cdt.dsf.concurrent.Sequence.access$2(Sequence.java:373)
+	at org.eclipse.cdt.dsf.concurrent.Sequence$2.handleSuccess(Sequence.java:420)
+	at org.eclipse.cdt.dsf.concurrent.RequestMonitor.handleCompleted(RequestMonitor.java:385)
+	at org.eclipse.cdt.dsf.concurrent.RequestMonitor$2.run(RequestMonitor.java:312)
+	at java.util.concurrent.Executors$RunnableAdapter.call(Executors.java:511)
+	at java.util.concurrent.FutureTask.run(FutureTask.java:266)
+	at java.util.concurrent.ScheduledThreadPoolExecutor$ScheduledFutureTask.access$201(ScheduledThreadPoolExecutor.java:180)
+	at java.util.concurrent.ScheduledThreadPoolExecutor$ScheduledFutureTask.run(ScheduledThreadPoolExecutor.java:293)
+	at java.util.concurrent.ThreadPoolExecutor.runWorker(ThreadPoolExecutor.java:1142)
+	at java.util.concurrent.ThreadPoolExecutor$Worker.run(ThreadPoolExecutor.java:617)
+	at java.lang.Thread.run(Thread.java:745)
+Caused by: java.lang.NullPointerException
+	at org.eclipse.cdt.dsf.gdb.service.command.GDBControl.getId(GDBControl.java:274)
+	at org.eclipse.cdt.dsf.gdb.service.command.GDBControl_7_4.createComandControlContext(GDBControl_7_4.java:49)
+	at org.eclipse.cdt.dsf.gdb.service.command.GDBControl.doInitialize(GDBControl.java:256)
+	at org.eclipse.cdt.dsf.gdb.service.command.GDBControl.access$16(GDBControl.java:250)
+	at org.eclipse.cdt.dsf.gdb.service.command.GDBControl$1.handleSuccess(GDBControl.java:245)
+	at org.eclipse.cdt.dsf.concurrent.RequestMonitor.handleCompleted(RequestMonitor.java:385)
+	at org.eclipse.cdt.dsf.concurrent.RequestMonitor$2.run(RequestMonitor.java:312)
+	at org.eclipse.cdt.dsf.concurrent.ImmediateExecutor.execute(ImmediateExecutor.java:63)
+	at org.eclipse.cdt.dsf.concurrent.RequestMonitor.done(RequestMonitor.java:309)
+	at org.eclipse.cdt.dsf.service.AbstractDsfService.initialize(AbstractDsfService.java:93)
+	at org.eclipse.cdt.dsf.gdb.service.command.GDBControl.initialize(GDBControl.java:242)
+	at org.eclipse.cdt.dsf.gdb.launching.ServicesLaunchSequence$2.execute(ServicesLaunchSequence.java:59)
+	at org.eclipse.cdt.dsf.concurrent.Sequence.executeStep(Sequence.java:459)
+	... 11 more
+!SUBENTRY 1 org.eclipse.cdt.dsf 4 0 2017-03-07 18:01:29.854
+!MESSAGE Unhandled exception when executing Sequence com.renesas.cdt.launch.dsf.gdbremote.ReGdbRemoteServicesLaunchSequence@17e6053, step #1
+!STACK 0
+java.lang.NullPointerException
+	at org.eclipse.cdt.dsf.gdb.service.command.GDBControl.getId(GDBControl.java:274)
+	at org.eclipse.cdt.dsf.gdb.service.command.GDBControl_7_4.createComandControlContext(GDBControl_7_4.java:49)
+	at org.eclipse.cdt.dsf.gdb.service.command.GDBControl.doInitialize(GDBControl.java:256)
+	at org.eclipse.cdt.dsf.gdb.service.command.GDBControl.access$16(GDBControl.java:250)
+	at org.eclipse.cdt.dsf.gdb.service.command.GDBControl$1.handleSuccess(GDBControl.java:245)
+	at org.eclipse.cdt.dsf.concurrent.RequestMonitor.handleCompleted(RequestMonitor.java:385)
+	at org.eclipse.cdt.dsf.concurrent.RequestMonitor$2.run(RequestMonitor.java:312)
+	at org.eclipse.cdt.dsf.concurrent.ImmediateExecutor.execute(ImmediateExecutor.java:63)
+	at org.eclipse.cdt.dsf.concurrent.RequestMonitor.done(RequestMonitor.java:309)
+	at org.eclipse.cdt.dsf.service.AbstractDsfService.initialize(AbstractDsfService.java:93)
+	at org.eclipse.cdt.dsf.gdb.service.command.GDBControl.initialize(GDBControl.java:242)
+	at org.eclipse.cdt.dsf.gdb.launching.ServicesLaunchSequence$2.execute(ServicesLaunchSequence.java:59)
+	at org.eclipse.cdt.dsf.concurrent.Sequence.executeStep(Sequence.java:459)
+	at org.eclipse.cdt.dsf.concurrent.Sequence.access$2(Sequence.java:373)
+	at org.eclipse.cdt.dsf.concurrent.Sequence$2.handleSuccess(Sequence.java:420)
+	at org.eclipse.cdt.dsf.concurrent.RequestMonitor.handleCompleted(RequestMonitor.java:385)
+	at org.eclipse.cdt.dsf.concurrent.RequestMonitor$2.run(RequestMonitor.java:312)
+	at java.util.concurrent.Executors$RunnableAdapter.call(Executors.java:511)
+	at java.util.concurrent.FutureTask.run(FutureTask.java:266)
+	at java.util.concurrent.ScheduledThreadPoolExecutor$ScheduledFutureTask.access$201(ScheduledThreadPoolExecutor.java:180)
+	at java.util.concurrent.ScheduledThreadPoolExecutor$ScheduledFutureTask.run(ScheduledThreadPoolExecutor.java:293)
+	at java.util.concurrent.ThreadPoolExecutor.runWorker(ThreadPoolExecutor.java:1142)
+	at java.util.concurrent.ThreadPoolExecutor$Worker.run(ThreadPoolExecutor.java:617)
+	at java.lang.Thread.run(Thread.java:745)
+
+!ENTRY org.eclipse.core.jobs 4 2 2017-03-07 18:01:42.025
+!MESSAGE An internal error occurred during: "GDB process monitor job.".
+!STACK 0
+java.util.concurrent.RejectedExecutionException: Task java.util.concurrent.ScheduledThreadPoolExecutor$ScheduledFutureTask@6071b5 rejected from org.eclipse.cdt.dsf.concurrent.DefaultDsfExecutor@16c8280[Shutting down, pool size = 1, active threads = 0, queued tasks = 1, completed tasks = 36]
+	at java.util.concurrent.ThreadPoolExecutor$AbortPolicy.rejectedExecution(ThreadPoolExecutor.java:2047)
+	at java.util.concurrent.ThreadPoolExecutor.reject(ThreadPoolExecutor.java:823)
+	at java.util.concurrent.ScheduledThreadPoolExecutor.delayedExecute(ScheduledThreadPoolExecutor.java:326)
+	at java.util.concurrent.ScheduledThreadPoolExecutor.schedule(ScheduledThreadPoolExecutor.java:533)
+	at org.eclipse.cdt.dsf.concurrent.DefaultDsfExecutor.schedule(DefaultDsfExecutor.java:438)
+	at java.util.concurrent.ScheduledThreadPoolExecutor.submit(ScheduledThreadPoolExecutor.java:632)
+	at org.eclipse.cdt.dsf.concurrent.DefaultDsfExecutor.submit(DefaultDsfExecutor.java:470)
+	at org.eclipse.cdt.dsf.gdb.service.GDBBackend$MonitorJob.run(GDBBackend.java:829)
+	at org.eclipse.core.internal.jobs.Worker.run(Worker.java:55)
+
+!ENTRY org.eclipse.jface 2 0 2017-03-07 18:02:10.506
+!MESSAGE Keybinding conflicts occurred.  They may interfere with normal accelerator operation.
+!SUBENTRY 1 org.eclipse.jface 2 0 2017-03-07 18:02:10.506
+!MESSAGE A conflict occurred for SHIFT+F7:
+Binding(SHIFT+F7,
+	ParameterizedCommand(Command(org.eclipse.ui.project.buildAll,Build All,
+		Build all projects,
+		Category(org.eclipse.ui.category.project,Project,null,true),
+		org.eclipse.ui.internal.WorkbenchHandlerServiceHandler@1efe094,
+		,,true),null),
+	org.eclipse.ui.defaultAcceleratorConfiguration,
+	org.eclipse.cdt.debug.ui.debugging,,,system)
+Binding(SHIFT+F7,
+	ParameterizedCommand(Command(org.eclipse.cdt.debug.ui.command.uncall,Uncall,
+		Perform Uncall,
+		Category(org.eclipse.cdt.debug.ui.category.reverseDebugging,Reverse Debugging Commands,Set of commands for Reverse Debugging,true),
+		org.eclipse.ui.internal.WorkbenchHandlerServiceHandler@6df37b,
+		,,true),null),
+	org.eclipse.ui.defaultAcceleratorConfiguration,
+	org.eclipse.cdt.debug.ui.debugging,,,system)
+
+!ENTRY com.renesas.cdt.debug.ioview.dsf 1 0 2017-03-07 18:02:10.730
+!MESSAGE Creating new Model for gdb[3].proc[1].threadGroup[i1]
+
+!ENTRY com.renesas.cdt.debug.ioview.dsf 1 0 2017-03-07 18:02:10.739
+!MESSAGE Loading Io Map: C:\Renesas\e2_studio\internal\IoFiles\RX\RX210.sfrx
+
+!ENTRY com.renesas.cdt.debug.ioview.dsf 1 0 2017-03-07 18:02:26.876
+!MESSAGE Saving model state for session 3
+
+!ENTRY com.renesas.cdt.debug.ioview.dsf 1 0 2017-03-07 18:02:26.893
+!MESSAGE Removing model for session 3
+
+!ENTRY com.renesas.cdt.debug.ioview.dsf 1 0 2017-03-07 18:02:37.216
+!MESSAGE Creating new Model for gdb[4].proc[1].threadGroup[i1]
+
+!ENTRY com.renesas.cdt.debug.ioview.dsf 1 0 2017-03-07 18:02:37.223
+!MESSAGE Loading Io Map: C:\Renesas\e2_studio\internal\IoFiles\RX\RX210.sfrx
+
+!ENTRY com.renesas.cdt.debug.ioview.dsf 1 0 2017-03-07 18:02:45.239
+!MESSAGE Saving model state for session 4
+
+!ENTRY com.renesas.cdt.debug.ioview.dsf 1 0 2017-03-07 18:02:45.263
+!MESSAGE Removing model for session 4
+
+!ENTRY com.renesas.cdt.debug.ioview.dsf 1 0 2017-03-07 18:02:53.873
+!MESSAGE Creating new Model for gdb[5].proc[1].threadGroup[i1]
+
+!ENTRY com.renesas.cdt.debug.ioview.dsf 1 0 2017-03-07 18:02:53.880
+!MESSAGE Loading Io Map: C:\Renesas\e2_studio\internal\IoFiles\RX\RX210.sfrx
+
+!ENTRY com.renesas.cdt.debug.ioview.dsf 1 0 2017-03-07 18:03:16.794
+!MESSAGE Saving model state for session 5
+
+!ENTRY com.renesas.cdt.debug.ioview.dsf 1 0 2017-03-07 18:03:16.819
+!MESSAGE Removing model for session 5
+
+!ENTRY com.renesas.cdt.debug.ioview.dsf 1 0 2017-03-07 18:03:42.095
+!MESSAGE Creating new Model for gdb[6].proc[1].threadGroup[i1]
+
+!ENTRY com.renesas.cdt.debug.ioview.dsf 1 0 2017-03-07 18:03:42.105
+!MESSAGE Loading Io Map: C:\Renesas\e2_studio\internal\IoFiles\RX\RX210.sfrx
+
+!ENTRY com.renesas.cdt.debug.ioview.dsf 1 0 2017-03-07 18:04:10.792
+!MESSAGE Saving model state for session 6
+
+!ENTRY com.renesas.cdt.debug.ioview.dsf 1 0 2017-03-07 18:04:10.812
+!MESSAGE Removing model for session 6

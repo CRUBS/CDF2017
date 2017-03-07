@@ -64,7 +64,7 @@ void initialisation()
 	init_hach_sht();
 	init_hach_int();
 	init_hach_flt();
-	//active_reception();	//activation of uart reception
+	active_reception();	//activation of uart reception
 
 	start_echant();		//start echantillonnage for asserv
 }	
