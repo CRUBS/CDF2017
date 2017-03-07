@@ -12,7 +12,12 @@
  PID PID_distance = {2.4,0,0};	// initialisation du pid pour la distance
  PID PID_orient = {1.2,0,0};	//inititalisation du pid pour l'orientation
  CMD cmd = {0x8000,0,0,0};
+<<<<<<< HEAD
+
+
+=======
  char transmit_data=0;
+>>>>>>> efb1195c4bc1293f66488a8e10afdc6ddfd4dec9
 /***********************************************************************************************
  * function of communication
  *********************************************************************************************/
@@ -121,8 +126,8 @@ void asservissement(int consigne_dist,int consigne_orient,int compteur_droit,int
     cmd_orient = ((PID_orient.kp * erreur_orient) + (PID_orient.ki  * somme_erreur_orient) + (PID_orient.kd * delta_erreur_orient)); // PID orientation
 
     // appliquer les cmds aux moteur
-    cmd.pwmG = cmd_dist - cmd_orient;
-    cmd.pwmD = cmd_dist + cmd_orient;
+    cmd.pwmG = cmd_dist + cmd_orient;
+    cmd.pwmD = cmd_dist - cmd_orient;
 
     // Normalisation des cmds PWM de sortie (le moteur ne bouge pas avec un pwm < 240)
     if (cmd.pwmD < -900) {cmd.pwmD = -900;}
