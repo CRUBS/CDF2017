@@ -96,8 +96,9 @@ void init_variable_echant(){
 	mesure_dist=0;
 	mesure_orient=0;
 	erreur_dist=0;erreur_orient=0;
-	delta_erreur_dist=0;delta_erreur_orient=0;
-	cmd_dist=0;cmd_orient=0;
+	erreur_prec_dist=0;
+	erreur_prec_dist_2=0;erreur_prec_orient=0;
+	cmd_dist=0;cmd_orient=0;erreur_prec_orient_2=0;
 }
 void asservissement(int consigne_dist,int consigne_orient,int compteur_droit,int compteur_gauche)
 {
@@ -106,22 +107,21 @@ void asservissement(int consigne_dist,int consigne_orient,int compteur_droit,int
 
     // Calcul des erreurs de distance
     erreur_dist = consigne_dist - mesure_dist;
-    somme_erreur_dist += erreur_dist;
     delta_erreur_dist = erreur_dist - erreur_prec_dist;
     // mise à jour de l'erreur précédente
+    erreur_prec_dist_2 = erreur_prec_dist;
     erreur_prec_dist = erreur_dist;
 
     // Calcul des erreurs d'orientation
     erreur_orient = consigne_orient - mesure_orient;
-    somme_erreur_orient += erreur_orient;
     delta_erreur_orient = erreur_orient - erreur_prec_orient;
     // mise à jour de l'erreur précédente
+    erreur_prec_orient_2 = erreur_prec_orient;
     erreur_prec_orient = erreur_orient;
 
-    // calcul des cmds
-    cmd_dist = ((PID_distance.kp * erreur_dist) + (PID_distance.ki  * somme_erreur_dist) + (PID_distance.kd  * delta_erreur_dist));    // PID distance
-    cmd_orient = ((PID_orient.kp * erreur_orient) + (PID_orient.ki  * somme_erreur_orient) + (PID_orient.kd * delta_erreur_orient)); // PID orientation
-
+    // calcul des commandes
+    cmd_dist = cmd_dist+(PID_distance.kp*delta_erreur_dist)+(PID_distance.ki*erreur_dist)+(PID_distance.kd *(erreur_dist-2*erreur_prec_dist+erreur_prec_dist_2));    // PID distance
+    cmd_orient = cmd_orient+(PID_orient.kp*delta_erreur_orient)+(PID_orient.ki*erreur_orient)+(PID_orient.kd*(erreur_orient-2*erreur_prec_orient+erreur_prec_orient_2)); // PID orientation
     // appliquer les cmds aux moteur
     cmd.pwmG = cmd_dist + cmd_orient;
     cmd.pwmD = cmd_dist - cmd_orient;
