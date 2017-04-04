@@ -1,6 +1,6 @@
-13:29:11 **** Incremental Build of configuration HardwareDebug for project rx210 ****
-make -j2 all 
+18:01:55 **** Incremental Build of configuration HardwareDebug for project rx210 ****
+make -j4 all 
 'Build complete.'
 
-13:29:11 Build Finished. 0 errors, 0 warnings. (took 812ms)
+18:01:55 Build Finished. 0 errors, 0 warnings. (took 251ms)
 

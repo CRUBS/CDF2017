@@ -18,7 +18,17 @@
 
 #ifndef DEF_DECODER_QUADRA 		 // Si la constante n'a pas été définie le fichier n'a jamais été inclus
 #define DEF_DECODER_QUADRA 		 // On définit la constante pour que la prochaine fois le fichier ne soit plus inclus
+/*****************************************
+ *  include file here
+ ****************************************/
+#include "iodefine.h"
+#include "RPBRX210.h"
+#include "interrupt_handlers.h"
+#include "typedefine.h"
 
+/***************************************
+ *  definitions
+ **************************************/
 
 // les différents flags
 #define flag_over_MTU1 IR(MTU1,TCIV1)			//flag over et underflow MTU1
@@ -32,8 +42,11 @@
 #define compteur_d MTU1.TCNT		//compteur MTU1
 #define compteur_g MTU2.TCNT		//compteur MTU2
 
-void	mtclk_init(void);		// fonction d'initialisation du module de comptage
+void	init_mtclk(void);		// fonction d'initialisation du module de comptage
 void	mtclk_start(void);		// démarre le décodage en quadrature
+// communication functions access
 
+void send_codeur_g(short* left);
+void send_codeur_d(short* right);
 
 #endif

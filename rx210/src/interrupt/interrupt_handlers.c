@@ -164,16 +164,13 @@ void Excep_MTU0_TGIC0(void) {  }
 void Excep_MTU0_TGID0(void) {  }
 
 // MTU0 TCIV0
-/*
-void Excep_MTU0_TCIV0(void) {
-	LED0=~LED0;
+/*void Excep_MTU0_TCIV0(void) {
 	flag_over_te = 0;
 	reset_timer_te;
 	int a = compteur_d;
 	int b = compteur_g;
 	asservissement(0x8100,0x0000,a,b);
 }*/
-
 // MTU0 TGIE0
 void Excep_MTU0_TGIE0(void) {  }
 
@@ -496,16 +493,17 @@ void Excep_SCI8_TXI8(void) {  }
 void Excep_SCI8_TEI8(void) {  }
 
 // SCI9 ERI9
-void Excep_SCI9_ERI9(void) {  }
+//void Excep_SCI9_ERI9(void) {  }
 
 // SCI9 RXI9
-void Excep_SCI9_RXI9(void) {  }
+//void Excep_SCI9_RXI9(void) {  }
 
 // SCI9 TXI9
-void Excep_SCI9_TXI9(void) {  }
+//void Excep_SCI9_TXI9(void) {  }
 
 // SCI9 TEI9
-void Excep_SCI9_TEI9(void) {  }
+//void Excep_SCI9_TEI9(void) {  }
+
 
 // SCI12 ERI12
 void Excep_SCI12_ERI12(void) {  }

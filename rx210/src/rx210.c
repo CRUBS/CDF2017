@@ -21,6 +21,7 @@
 #include "decoder_quadra.h"
 #include "pwm_asser_RX210.h"
 #include "asservissement.h"
+#include "uart.h"
 //#include "odometrie.h"
 
 
@@ -43,22 +44,52 @@ extern "C" void __main()
     }
 }
 #endif 
+//init des variables globales
+int compteur=0;
+int i = 0;
 
+//fin init variables globales
+void initialisation()
+{
+	init_mtclk();		//init of decoder
+	mtclk_start();		//run decoder
 
+	init_pwm_asser(0x3e8);//init pwm control motors
+
+	init_echant();		//init echantillons
+	init_variable_echant();
+
+	uart9_init();		//init HW de l'uart
+	init_hach_char();	//init of adress tables
+	init_hach_sht();
+	init_hach_int();
+	init_hach_flt();
+	active_reception();	//activation of uart reception
+
+	start_echant();		//start echantillonnage for asserv
+}	
 int main(void)
 {
-	LED1_OFF;LED0_OFF;LED2_OFF;//extinction de toutes les leds
-	mtclk_init();			// fonction d'initialisation du module de comptage
-	mtclk_start();			// démarre le décodage en quadrature
-	PWM_asser_init(0x03E8);
-	INA_D=0;INB_D=~INA_D;	//mise en marche avant par defaut
-	INA_G=0;INB_G=~INA_G;	//mise en marche avant par defaut
-	init_echant();
-	start_echant();
-	init_variable_echant();
-//	odo.cmp_d=0x10;
-	while(1){
+	LED1_OFF;LED0_OFF;LED2_OFF;
+	initialisation();
 
+	while(1)
+	{
+		
+		if(read_step()==1)
+		{
+			read_uart();
+		}
+		if(SW1==0)
+		{
+			LED0=~LED0;
+			send_dist();
+			send_dist();
+			send_dist();
+			send_end_transmi();
+			while(SW1==0){}
+			for(int i = 0;i<1000;i++){}
+		}
 	}
-  return 0;
+	return 0;
 }

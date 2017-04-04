@@ -5,6 +5,7 @@
 		<item value="false" key="WizardProjectsImportPage.STORE_COPY_PROJECT_ID"/>
 		<item value="false" key="WizardProjectsImportPage.STORE_ARCHIVE_SELECTED"/>
 		<list key="WizardProjectsImportPage.STORE_DIRECTORIES">
+			<item value="D:\GitHub\CDF2017\rx210"/>
 			<item value="C:\Users\Mickael Leconte\Documents\GitHub\CDF2017\rx210"/>
 			<item value="C:\Users\Mickael Leconte\Documents\GitHub\CDF2017"/>
 		</list>

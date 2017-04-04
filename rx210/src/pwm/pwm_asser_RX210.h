@@ -11,11 +11,11 @@
 #define INA_D PORTB.PODR.BIT.B0 // 11_J3
 #define	INB_D PORTB.PODR.BIT.B1 //  9_J3
 #define INA_G PORTB.PODR.BIT.B2 //  8_J3
-#define INB_G PORTB.PODR.BIT.B4//  7_J3
+#define INB_G PORTB.PODR.BIT.B4//  6_J3
 
 // declaration des fonctions
 
-void PWM_asser_init(int frequence);//initialisation des registres
+void init_pwm_asser(int frequence);//initialisation des registres
 
 
 
