@@ -3,7 +3,11 @@
 	<configuration id="com.renesas.cdt.rx.debug.win32.configuration.Id.renesasGcc.554554092" name="Debug">
 		<extension point="org.eclipse.cdt.core.LanguageSettingsProvider">
 			<provider copy-of="extension" id="org.eclipse.cdt.ui.UserLanguageSettingsProvider"/>
+<<<<<<< HEAD
 			<provider class="com.renesas.cdt.common.build.spec.RXGCCBuiltinSpecsDetector" console="false" env-hash="-1474964307807853322" id="RXGCCBuiltinSpecsDetector" keep-relative-paths="false" name="Renesas GCCBuildinCompilerSettings" options-hash="-645709713" parameter="rx-elf-gcc -E -P -v -dD ${INPUTS}" prefer-non-shared="true">
+=======
+			<provider class="com.renesas.cdt.common.build.spec.RXGCCBuiltinSpecsDetector" console="false" env-hash="-240267513856214637" id="RXGCCBuiltinSpecsDetector" keep-relative-paths="false" name="Renesas GCCBuildinCompilerSettings" options-hash="-645709713" parameter="rx-elf-gcc -E -P -v -dD ${INPUTS}" prefer-non-shared="true">
+>>>>>>> 268ace3b5d35cae1f07e9ba2484c18c7342a7528
 				<language-scope id="org.eclipse.cdt.core.gcc"/>
 				<language-scope id="org.eclipse.cdt.core.g++"/>
 			</provider>
@@ -13,7 +17,11 @@
 	<configuration id="com.renesas.cdt.rx.hardwaredebug.win32.configuration.Id.renesasGcc.1541304242" name="HardwareDebug">
 		<extension point="org.eclipse.cdt.core.LanguageSettingsProvider">
 			<provider copy-of="extension" id="org.eclipse.cdt.ui.UserLanguageSettingsProvider"/>
+<<<<<<< HEAD
 			<provider class="com.renesas.cdt.common.build.spec.RXGCCBuiltinSpecsDetector" console="false" env-hash="-1474964307807853322" id="RXGCCBuiltinSpecsDetector" keep-relative-paths="false" name="Renesas GCCBuildinCompilerSettings" options-hash="-645709713" parameter="rx-elf-gcc -E -P -v -dD ${INPUTS}" prefer-non-shared="true">
+=======
+			<provider class="com.renesas.cdt.common.build.spec.RXGCCBuiltinSpecsDetector" console="false" env-hash="-240267513856214637" id="RXGCCBuiltinSpecsDetector" keep-relative-paths="false" name="Renesas GCCBuildinCompilerSettings" options-hash="-645709713" parameter="rx-elf-gcc -E -P -v -dD ${INPUTS}" prefer-non-shared="true">
+>>>>>>> 268ace3b5d35cae1f07e9ba2484c18c7342a7528
 				<language-scope id="org.eclipse.cdt.core.gcc"/>
 				<language-scope id="org.eclipse.cdt.core.g++"/>
 			</provider>

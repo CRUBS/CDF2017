@@ -92,7 +92,10 @@ int erreur_prec_dist;int erreur_prec_orient;
 int somme_erreur_dist;int somme_erreur_orient;
 int mesure_dist;
 int mesure_orient;
-int erreur_dist;int erreur_orient;
-int delta_erreur_dist;int delta_erreur_orient;
 int cmd_dist;int cmd_orient;
+int mesure_dist;int mesure_orient;
+int erreur_dist;int erreur_orient;
+int erreur_prec_dist;int erreur_prec_orient;
+int erreur_prec_dist_2;int erreur_prec_orient_2;
+int delta_erreur_dist;int delta_erreur_orient;
 #endif
