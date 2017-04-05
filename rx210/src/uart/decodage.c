@@ -29,7 +29,7 @@
  /*****************************************************************************
  Private global variables and function
  ****************************************************************************/
-void (*hach_sht[NB_ADR])(short *value);
+void (*hach_sht[NB_ADR])(unsigned short *value);
 void (*hach_int[NB_ADR])(int *value);
 void (*hach_flt[NB_ADR])(float *value);
 void (*hach_char[NB_ADR])(char *value);
@@ -91,7 +91,7 @@ void adress_chr_table(char *adr,char *value)
  * Arguments     : none
  * Return value  : none
  *******************************************************************************/
-void adress_sht_table(char *adr,short *value)
+void adress_sht_table(char *adr,unsigned short *value)
 {
 	hach_sht[*adr](value);
 }
@@ -141,7 +141,7 @@ void copy_part_tab(char nombre, unsigned char *tab1,unsigned char *index, char s
 char checksum(char *tab,char size)
 {
 	char sum=0,i = 0;
-	for(i = 0; i<size;i++){sum+=*(tab+i);}
+	for(i = 0; i<(size);i++){sum+=*(tab+i);}
 	return sum;
 }
 
@@ -170,7 +170,7 @@ void read_int(char *trame,int *value)
  * Arguments     : none
  * Return value  : none
  *******************************************************************************/
-void read_sht(char *trame,short *value)
+void read_sht(char *trame,unsigned short *value)
 {
 	char sign =(trame[0] & sign_mask)>>2;			//read sign
 	char i =0;
@@ -272,7 +272,7 @@ void send_char(char *adresse, char *value)
 * Return value	: void
 *******************************************************************************/
 
-void send_sht(char* adresse,short *value)		//verif le passage par référence d'un tableau
+void send_sht(char* adresse,unsigned short *value)		//verif le passage par référence d'un tableau
 {
 	char byte_one = 0, signe =0,checksum =0;	//declaration of var
 	char to_send[sht_size];						//array to store the byte to send

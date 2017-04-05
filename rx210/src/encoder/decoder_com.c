@@ -32,6 +32,6 @@ Private global variables and function
 * arguments : pointer on value where you have to put the value
 *  return : none
 **************************************************************************/
-void send_codeur_g(short* left) {*left = compteur_g;}
+void send_codeur_g(unsigned short* left) {*left = compteur_g;}
 
-void send_codeur_d(short* right) {*right = compteur_d;}
+void send_codeur_d(unsigned short* right) {*right = compteur_d;}

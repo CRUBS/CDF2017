@@ -46,7 +46,7 @@ void	init_mtclk(void);		// fonction d'initialisation du module de comptage
 void	mtclk_start(void);		// démarre le décodage en quadrature
 // communication functions access
 
-void send_codeur_g(short* left);
-void send_codeur_d(short* right);
+void send_codeur_g(unsigned short* left);
+void send_codeur_d(unsigned short* right);
 
 #endif

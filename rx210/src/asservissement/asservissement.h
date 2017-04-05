@@ -25,17 +25,11 @@
 
 //communication
 
-void send_pilot_mg(short *pwm);	//send the value of the pmw left cmd
-void send_pilot_md(short *pwm);	// send the value of the pwm right cmd
+void send_pilot_mg(unsigned short *pwm);	//send the value of the pmw left cmd
+void send_pilot_md(unsigned short *pwm);	// send the value of the pwm right cmd
 
-void load_dist_pid(short *dist);//change the value of distance pilotage
-void load_ang_pid(short *angl);	//change the value of angle driver
-
-void send_pilot_mg(short *pwm);	//send the value of the pmw left cmd
-void send_pilot_md(short *pwm);	// send the value of the pwm right cmd
-
-void load_dist_pid(short *dist);//change the value of distance pilotage
-void load_ang_pid(short *angl);	//change the value of angle driver
+void load_dist_pid(unsigned short *dist);//change the value of distance pilotage
+void load_ang_pid(unsigned short *angl);	//change the value of angle driver
 
 void send_pa(float *p);		//send value of pid orient
 void send_ia(float *i);

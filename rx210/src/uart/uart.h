@@ -80,13 +80,13 @@ void renvoi_le_recu(void);
 //send function
 void send_int(char* adresse, int *value);		//allow to sned an int with the protocole describe in the doc
 void send_char(char* adresse, char* value); 	//send a char
-void send_sht(char* adresse, short* value);	//send a short
+void send_sht(char* adresse,unsigned short* value);	//send a short
 void send_flt(char* adresse,float* value);	// send a float 
 void send_end_transmi();
 
 //recieve function
 void adress_chr_table(char *adr,char *value);
-void adress_sht_table(char *adr,short *value);
+void adress_sht_table(char *adr,unsigned short *value);
 void adress_int_table(char *adr,int *value);
 void adress_flt_table(char *adr,float *value);
 
@@ -102,7 +102,7 @@ int read_uart();
 char read_step();
 
 void read_int(char *trame, int *value);
-void read_sht(char *trame,short *value);
+void read_sht(char *trame,unsigned short *value);
 void read_flt(char *trame,float *value);
 
 #endif

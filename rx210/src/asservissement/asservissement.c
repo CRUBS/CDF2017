@@ -18,12 +18,12 @@
 /***********************************************************************************************
  * function of communication
  *********************************************************************************************/
-void send_pilot_mg(short *pwm)	//send the value of the pmw left cmd
+void send_pilot_mg(unsigned short *pwm)	//send the value of the pmw left cmd
 {
 	char adresse= 3;
 	send_sht(&adresse,&(cmd.pwmG));
 }
-void send_pilot_md(short *pwm)	// send the value of the pwm right cmd
+void send_pilot_md(unsigned short *pwm)	// send the value of the pwm right cmd
 {
 	char adresse = 4;
 	send_sht(&adresse,&(cmd.pwmD));
@@ -64,7 +64,7 @@ void send_da(float *d)
 void send_dist()
 {
 	char adresse = 9;
-	unsigned short value = (int)(compteur_d+compteur_g)/20;
+	unsigned short value = (int)(compteur_d+compteur_g)/2;
 	send_sht(&adresse,&value);
 }
 void send_angl()
@@ -75,8 +75,9 @@ void send_angl()
 }
 //fonction of receiption
 
-void load_dist_pid(short *dist){cmd.distance += *dist;}//change the value of distance pilotage
-void load_ang_pid(short *angl){cmd.angle += *angl;}	//change the value of angle driver
+void load_dist_pid(unsigned short *dist){cmd.distance += *dist;}
+
+void load_ang_pid(unsigned short *angl){cmd.angle += *angl;}	//change the value of angle driver
 
 void load_pd(float *p){PID_distance.kp = *p;}		//change value of pid distance
 void load_id(float *i){PID_distance.ki = *i;}
@@ -160,7 +161,9 @@ void Excep_MTU0_TCIV0(void) {
 	int b = compteur_g;
 	if(transmit_data==1)
 	{
+		unsigned char adr = 8;
 		send_dist();//fonction qui envoi le somme de (compteur_d + compteur_g)/2
+		send_sht(&adr,&compteur_d);
  		//send_angl();
 		asservissement(cmd.distance,cmd.angle,a,b);
 	}

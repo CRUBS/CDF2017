@@ -279,116 +279,112 @@ int read_uart()
 	unsigned char *chr_recov=NULL;
 
 //start reading here
-	if(uart9.in_load)									//check if there are something in uart tab
+	if(uart9.in_data[uart9.read_index]==start_byte)
 	{
-		if(uart9.in_data[uart9.read_index]==start_byte)
+		uart9.read_index++;							// we jump the start_byte :)
+		trame[0] = uart9.in_data[uart9.read_index];
+		uart_put_char(uart9.read_index); //debug
+		switch(trame[0] & 0x03)
 		{
-			uart9.read_index++;							// we jump the start_byte :)
-			trame[0] = uart9.in_data[uart9.read_index];
-			switch(trame[0] & 0x03)
-			{
-				case 0:					// type char
-				
-					if((uart9.read_index > uart9.input_index) || (uart9.input_index-uart9.read_index >= char_size))
-					{
-						copy_part_tab(char_size, &uart9.in_data[0],&uart9.read_index,in_data_size, trame);
-						if(checksum(trame,char_size)!= uart9.in_data[uart9.read_index]){return 1;}
-						else
-						{
-							adr =trame[0]>>3;						//recover recipient adr
-							chr_recov = malloc(sizeof(char));		//alloc
-							*chr_recov = trame[1];					//take value
-						}
-						uart9.read_index+=2;
-					}
-					else {}
-					break;
+			case 0:					// type char
 			
-				case 1:					// type short
-
-					if((uart9.read_index > uart9.input_index) || (uart9.input_index-uart9.read_index >=sht_size))
+				if((uart9.read_index > uart9.input_index) || (uart9.input_index-uart9.read_index >= char_size))
+				{
+					copy_part_tab(char_size, &uart9.in_data[0],&uart9.read_index,in_data_size, trame);
+					if(checksum(trame,char_size)!= uart9.in_data[uart9.read_index]){return 1;}
+					else
 					{
-						copy_part_tab(sht_size, &uart9.in_data[0],&uart9.read_index,in_data_size, trame);
-						if(checksum(trame,sht_size)!= uart9.in_data[uart9.read_index]){
-						return 1;}
-						else
-						{
-							adr = trame[0] >>3;
-							sht_recov = malloc(sizeof(short));
-							read_sht(trame, sht_recov);
-						}
-						uart9.read_index+=2;
+						adr =trame[0]>>3;						//recover recipient adr
+						chr_recov = malloc(sizeof(char));		//alloc
+						*chr_recov = trame[1];					//take value
 					}
-					else {}
-					break;
-
-				case 2:					// type int
-					if((uart9.read_index > uart9.input_index) || (uart9.input_index-uart9.read_index >= int_size))
-					{
-						copy_part_tab(int_size, &uart9.in_data[0],&uart9.read_index,in_data_size, trame);
-						if(checksum(trame,int_size)!= uart9.in_data[uart9.read_index]){return 1;}
-						else
-						{
-							adr = trame[0] >>3;		//recover recipient adresse
-							int_recov = malloc(sizeof(int));	//alloc
-							read_int(trame, int_recov);		//recovery
-						}
-						uart9.read_index+=2;
-					}
-					else {}
-					break;
-
-				case 3:					// type float
-					if((uart9.read_index > uart9.input_index) || (uart9.input_index-uart9.read_index >=flt_size))			
-					{
-						copy_part_tab(flt_size,&uart9.in_data[0],&uart9.read_index,in_data_size, trame);
-						if(checksum(trame,flt_size)!= uart9.in_data[uart9.read_index]){return 1;}
-						else
-						{
-							adr = trame[0]>>3;
-							flt_recov = malloc(sizeof(float));
-							temp_int = malloc(sizeof(int));				//cheaper way to do this shit cause of lybrary float
-							read_int(trame,temp_int);
-							*flt_recov = (*temp_int)/flt_div;
-						}
-						uart9.read_index+=2;
-					}
-					else{}
-					break;
-			}
+					uart9.read_index+=2;
+				}
+				else {}
+				break;
 		
-			if(int_recov!=NULL)
-			{
-				adress_int_table(&adr, int_recov); //call the function to this adress
-				free(int_recov);			//free the memory
-			}
-			else if(chr_recov!=NULL)
-			{
-				if(*chr_recov>1){LED1=0;}//debug
-				else{LED1=1;}
-				if(adr==1){LED0=~LED0;}
-				adress_chr_table(&adr, chr_recov);
-				free(chr_recov);			//free
-			}
-			else if(sht_recov!=NULL)
-			{
-				adress_sht_table(&adr,sht_recov);
-				free(sht_recov);			//free
-			}
-			else if(flt_recov!=NULL)
-			{
-				adress_flt_table(&adr, flt_recov);
-				free(flt_recov);			//free
-			}
-		}
-		else
-		{
-			while(uart9.read_index!=uart9.input_index && uart9.in_data[uart9.read_index]!=start_byte)
-			{
-				if(uart9.read_index>=(in_data_size -1)){uart9.read_index = 0;}
-				else{uart9.read_index++;}
+			case 1:					// type short
 
-			}
+				if((uart9.read_index > uart9.input_index) || (uart9.input_index-uart9.read_index >=sht_size))
+				{
+					copy_part_tab(sht_size, &uart9.in_data[0],&uart9.read_index,in_data_size, trame);
+					if(checksum(trame,sht_size)!= uart9.in_data[uart9.read_index]){
+					return 1;}
+					else
+					{
+						adr = trame[0] >>3;
+						sht_recov = malloc(sizeof(short));
+						read_sht(trame, sht_recov);
+					}
+					uart9.read_index+=2;
+				}
+				else {}
+				break;
+
+			case 2:					// type int
+				if((uart9.read_index > uart9.input_index) || (uart9.input_index-uart9.read_index >= int_size))
+				{
+					copy_part_tab(int_size, &uart9.in_data[0],&uart9.read_index,in_data_size, trame);
+					if(checksum(trame,int_size)!= uart9.in_data[uart9.read_index]){return 1;}
+					else
+					{
+						adr = trame[0] >>3;		//recover recipient adresse
+						int_recov = malloc(sizeof(int));	//alloc
+						read_int(trame, int_recov);		//recovery
+					}
+					uart9.read_index+=2;
+				}
+				else {}
+				break;
+
+			case 3:					// type float
+				if((uart9.read_index > uart9.input_index) || (uart9.input_index-uart9.read_index >=flt_size))			
+				{
+					copy_part_tab(flt_size,&uart9.in_data[0],&uart9.read_index,in_data_size, trame);
+					if(checksum(trame,flt_size)!= uart9.in_data[uart9.read_index]){return 1;}
+					else
+					{
+						adr = trame[0]>>3;
+						flt_recov = malloc(sizeof(float));
+						temp_int = malloc(sizeof(int));				//cheaper way to do this shit cause of lybrary float
+						read_int(trame,temp_int);
+						*flt_recov = (*temp_int)/flt_div;
+					}
+					uart9.read_index+=2;
+				}
+				else{}
+				break;
+		}
+	
+		if(int_recov!=NULL)
+		{
+			adress_int_table(&adr, int_recov); //call the function to this adress
+			free(int_recov);			//free the memory
+		}
+		else if(chr_recov!=NULL)
+		{
+			if(adr==1){LED0=~LED0;}
+			adress_chr_table(&adr, chr_recov);
+			free(chr_recov);			//free
+		}
+		else if(sht_recov!=NULL)
+		{
+			adress_sht_table(&adr,sht_recov);
+			free(sht_recov);			//free
+		}
+		else if(flt_recov!=NULL)
+		{
+			adress_flt_table(&adr, flt_recov);
+			free(flt_recov);			//free
+		}
+	}
+	else
+	{
+		while(uart9.read_index!=uart9.input_index && uart9.in_data[uart9.read_index]!=start_byte)
+		{
+			if(uart9.read_index>=(in_data_size -1)){uart9.read_index = 0;}
+			else{uart9.read_index++;}
+
 		}
 	}
 	return 0;
