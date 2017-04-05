@@ -43,8 +43,8 @@ Macro definitions
 #define flt_size 5
 
 
-#define out_data_size 100
-#define in_data_size 100
+#define out_data_size 255
+#define in_data_size 255
 
 #define NB_ADR 32
 #define flt_div 1000.
@@ -80,7 +80,7 @@ void renvoi_le_recu(void);
 //send function
 void send_int(char* adresse, int *value);		//allow to sned an int with the protocole describe in the doc
 void send_char(char* adresse, char* value); 	//send a char
-void send_short(char* adresse, short* value);	//send a short
+void send_sht(char* adresse, short* value);	//send a short
 void send_flt(char* adresse,float* value);	// send a float 
 void send_end_transmi();
 

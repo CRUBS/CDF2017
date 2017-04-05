@@ -34,17 +34,13 @@ void (*hach_int[NB_ADR])(int *value);
 void (*hach_flt[NB_ADR])(float *value);
 void (*hach_char[NB_ADR])(char *value);
 
-void led_com2(int *etat)
-{
-	LED2=~LED2;
-}
 void init_hach_char()
 {
 	hach_char[1]=transmission_data;
 }
 void init_hach_int()
 {
-	hach_int[1]=led_com2;
+//	hach_int[1]=led_com2;
 }
 void init_hach_flt()
 {
@@ -183,7 +179,6 @@ void read_sht(char *trame,short *value)
 		*value <<=8;					//offset
 		*value += trame[i];				//conca
 	}
-	if(sign == 1){*value = -1*((*value -1)^(0xFFFE));}
 }
 /******************************************************************************
  * Function Name :uart9_init 
@@ -202,7 +197,6 @@ void read_flt(char *trame,float *value)
 		int_to_flt <<=8;					//offset
 		int_to_flt += trame[i];				//conca
 	}
-	if(sign == 1){int_to_flt = -1*((int_to_flt -1)^(0xFFFE));}
 	*value = int_to_flt/flt_div;
 }
 
@@ -214,7 +208,6 @@ void read_flt(char *trame,float *value)
 * Arguments	:pointer on adresse and pointer on value
 * Return value	: void
 *******************************************************************************/
-
 
 void send_int(char* adresse, int *value)
 {
@@ -245,6 +238,8 @@ void send_int(char* adresse, int *value)
 	uart_put_char(stop_byte);
 	
 }
+
+
 /******************************************************************************
 * Function Name	: send_char()
 * Description	: send a char on uart by using the protocole CRUBS_ll
@@ -300,6 +295,8 @@ void send_sht(char* adresse,short *value)		//verif le passage par référence d'
 	
 
 }
+
+
 /******************************************************************************
 * Function Name	: send float with crubs_ll protocole 
 * Description	: cut a float to send it byte by byte on uart
@@ -333,6 +330,8 @@ void send_flt(char* adresse,float *value)		//verif le passage par référence d'
 	uart_put_char(checksum);
 	uart_put_char(stop_byte);
 }
+
+
 /******************************************************************************
 * Function Name	: send_end_transmi()
 * Description	: send the word 'end' on uart to to say at the software now transmit 

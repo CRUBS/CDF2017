@@ -86,7 +86,13 @@ void load_pa(float *p){PID_orient.kp = *p;}		//change value of pid orient
 void load_ia(float *i){PID_orient.ki = *i;}
 void load_da(float *d){PID_orient.kd = *d;}
 
-void transmission_data(char *value){transmit_data = *value;}
+void transmission_data(char *value){
+		transmit_data = *value;
+//		if(transmit_data == 1){LED0=0;}
+//		else if(transmit_data ==0){LED0=1;}
+//		else{LED2=~LED2;}
+		}
+
 
 
 /**********************************************************************************************
@@ -150,23 +156,18 @@ void inverser_gauche(int pwm){
 
 
 void Excep_MTU0_TCIV0(void) {
-	flag_over_te = 0;
-	reset_timer_te;
 	int a = compteur_d;
 	int b = compteur_g;
 	if(transmit_data==1)
 	{
-		send_dist();//fonction de reglage du pid
-		send_angl();
+		send_dist();//fonction qui envoi le somme de (compteur_d + compteur_g)/2
+ 		//send_angl();
 		asservissement(cmd.distance,cmd.angle,a,b);
-		if(abs((compteur_d+compteur_g)-cmd.distance)<50 && abs((compteur_g-compteur_d)-cmd.angle)<50)
-		{
-			transmit_data = 0;
-			send_end_transmi();
-		}
 	}
 	else
 	{	
 		asservissement((compteur_d+compteur_g)/2,(compteur_d-compteur_g),a,b);
 	}
+	flag_over_te = 0;		//remise à zero du flag
+	reset_timer_te;			// remise a la bonne valeur du compteur
 }

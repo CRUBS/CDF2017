@@ -47,6 +47,9 @@ void uart9_init()
 	MPC.PB7PFS.BYTE=0x0A;		// port7 en uart TX
 	PORTB.PMR.BIT.B7=1;
 	PORTB.PDR.BIT.B7=1;
+	MPC.PB6PFS.BYTE=0x0A;		// port6 en uart RX
+	PORTB.PMR.BIT.B6 = 1;
+	PORTB.PDR.BIT.B6 = 0;
 	
 	SCI9.SIMR1.BIT.IICM=0;		//clear to use uart
 	SCI9.SPMR.BYTE=0xC0;		// clock polarity not invert
@@ -265,20 +268,21 @@ char read_step()
 
 int read_uart()
 {
-	char i=0;
+//	char i=0;
 	char adr=0;
 	char trame[int_size];
-//dynamic allocation for recovery value
 
+//dynamic allocation for recovery value
 	int *int_recov=NULL,*temp_int=NULL;
 	short *sht_recov=NULL;
 	float *flt_recov=NULL;
-	char *chr_recov=NULL;
-	if(uart9.in_load)
+	unsigned char *chr_recov=NULL;
+
+//start reading here
+	if(uart9.in_load)									//check if there are something in uart tab
 	{
 		if(uart9.in_data[uart9.read_index]==start_byte)
 		{
-			LED1=~LED1;//debug
 			uart9.read_index++;							// we jump the start_byte :)
 			trame[0] = uart9.in_data[uart9.read_index];
 			switch(trame[0] & 0x03)
@@ -291,9 +295,9 @@ int read_uart()
 						if(checksum(trame,char_size)!= uart9.in_data[uart9.read_index]){return 1;}
 						else
 						{
-							adr =trame[0]>>3;			//recover recipient adr
-							chr_recov = malloc(sizeof(char));	//alloc
-							*chr_recov = trame[1];			//take value
+							adr =trame[0]>>3;						//recover recipient adr
+							chr_recov = malloc(sizeof(char));		//alloc
+							*chr_recov = trame[1];					//take value
 						}
 						uart9.read_index+=2;
 					}
@@ -305,7 +309,7 @@ int read_uart()
 					if((uart9.read_index > uart9.input_index) || (uart9.input_index-uart9.read_index >=sht_size))
 					{
 						copy_part_tab(sht_size, &uart9.in_data[0],&uart9.read_index,in_data_size, trame);
-						if(checksum(trame,sht_size)!= uart9.in_data[uart9.read_index]){	
+						if(checksum(trame,sht_size)!= uart9.in_data[uart9.read_index]){
 						return 1;}
 						else
 						{
@@ -360,6 +364,9 @@ int read_uart()
 			}
 			else if(chr_recov!=NULL)
 			{
+				if(*chr_recov>1){LED1=0;}//debug
+				else{LED1=1;}
+				if(adr==1){LED0=~LED0;}
 				adress_chr_table(&adr, chr_recov);
 				free(chr_recov);			//free
 			}
