@@ -17,23 +17,22 @@
 Includes   <System Includes> , "Project Includes"
 *******************************************************************************/
 #include "odometrie.h"
-#include "decoder_quadra.h"
-#include "iodefine.h"
-#include "RPBRX210.h"
-#include "typedefine.h"
 
 /******************************************************************************
 Macro definitions
 ******************************************************************************/
-#define p_roue 355			//perimetre de la roue 
-#define max_x 3000			//longueur de la table
-#define max_y 2000			//largeur de la table
+#define PERIMETRE_W 355			//perimetre de la roue 
+#define TCK_TR 4096			//nb of tck by tr (codeur)
+#define MAX_X 3000			//longueur de la table
+#define MAX_Y 2000			//largeur de la table
+#define TCK_TO_MM(tck)	tck*PERIMETRE_W/TCK_TR	//convert tck to mm
 
+#define F_ROBOT_L 1000	//dist between the wheel of codeur
 /******************************************************************************
 Private global variables and functions
 ******************************************************************************/
 
-volatile odometrie odo = {0,0,0,0,0,0};
+volatile odometrie odo = {0,0,0,0};
 
 /******************************************************************************
 * Function Name	: overflow_mtu1
@@ -42,18 +41,17 @@ volatile odometrie odo = {0,0,0,0,0,0};
 * Return value	: none
 *******************************************************************************/
 
-void overflow_mtu1()
+void overflow_mtu1(int *compt_d)
 {
-	odo.cmp_d =odo.cmp_d & compteur_d;			//update of variable
+	*compt_d = compteur_d - INIT_COD;			//update of variable
 
 	if(flag_over_MTU1 && flag_under_MTU1)				// care about over and under  (oscill near to 0 and 0xffff)
 	{
-		
-		if(compteur_d < 0x8000){odo.cmp_d += 0x10000;}	
-		else {odo.cmp_d -= (0xffff - compteur_d);}
+		if(compteur_d < 0x8000){*compt_d += 0xFFFF;}	
+		else {*compt_d -= 0xFFFF;}
 	}
-	else if(flag_over_MTU1){odo.cmp_d += 0x10000;}		//overflow
-	else if(flag_under_MTU1){odo.cmp_d -= 0x10000;}		//underflow
+	else if(flag_over_MTU1){*compt_d += 0xFFFF;}		//overflow
+	else if(flag_under_MTU1){*compt_d -= 0xFFFF;}		//underflow
 }
 
 
@@ -64,16 +62,41 @@ void overflow_mtu1()
 * Return value	: none
 *******************************************************************************/
 
-void overflow_mtu2()
+void overflow_mtu2(int *compt_g)
 {
-	odo.cmp_g =odo.cmp_g & compteur_g;			//update of variable
+	*compt_g = compteur_g - INIT_COD;			//update of variable
 
 	if(flag_over_MTU2 && flag_under_MTU2)				// care about over and under  (oscill near to 0 and 0xffff)
 	{
-		
-		if(compteur_g < 0x8000){odo.cmp_g += 0x10000;}	
-		else {odo.cmp_g -= (0xffff - compteur_g);}
+		if(compteur_g < 0x8000){*compt_g += 0xFFFF;}	
+		else {*compt_g -= 0xFFFF;}
 	}
-	else if(flag_over_MTU2){odo.cmp_d += 0x10000;}		//overflow
-	else if(flag_under_MTU2){odo.cmp_g -= 0x10000;}		//underflow
+	else if(flag_over_MTU2){*compt_g += 0xFFFF;}		//overflow
+	else if(flag_under_MTU2){*compt_g -= 0xFFFF;}		//underflow
+}
+/******************************************************************************
+* Function Name	: send the position in tck of left/right wheel
+* Description	: transfert the value of codeur_g and codeur_d 
+* Arguments     : 2 int pointer
+* Return value	: none
+*******************************************************************************/
+void transfer_position_pol(int *dist,float *angl)
+{
+	int recup_d,recup_g;
+	overflow_mtu1(&recup_d);
+	overflow_mtu2(&recup_g);
+	/* test if we try to turn or to moving forward*/
+	if(abs(recup_d-recup_g)>30)
+	{
+		odo.theta+= asin((recup_d-recup_g)/F_ROBOT_L);
+	}
+	else
+	{
+		odo.delta+= (int) (recup_d+recup_g)/2;
+	}
+//	odo.x += (int)TCK_TO_MM(odo.delta*cos(odo.theta));
+//	odo.y += (int)TCK_TO_MM(odo.delta*sin(odo.theta));
+
+	*dist = odo.delta;
+	*angl = odo.theta;
 }

@@ -5,9 +5,6 @@
 */
 
 #include "asservissement.h"
-#include "RPBRX210.h"
-//#include "odometrie.h"
-#include "math.h"
 
  PID PID_distance = {2.4,0,0};	// initialisation du pid pour la distance
  PID PID_orient = {1.2,0,0};	//inititalisation du pid pour l'orientation
@@ -63,21 +60,21 @@ void send_da(float *d)
 }
 void send_dist()
 {
-	char adresse = 9;
-	unsigned short value = (int)(compteur_d+compteur_g)/2;
-	send_sht(&adresse,&value);
+	char adresse = 7;
+	int value = (int)(compteur_d+compteur_g)/2;
+	send_int(&adresse,&value);
 }
 void send_angl()
 {
-	char adr = 10;
-	unsigned short value =(int) compteur_d-compteur_g/10;
-	send_sht(&adr,&value);
+	char adr = 8;
+	int value =(int) compteur_d-compteur_g/10;
+	send_int(&adr,&value);
 }
 //fonction of receiption
+//reprendre ces fonction pour les rentrer dans la reception de int
+void load_dist_pid(unsigned short *dist){cmd.distance +=(int) *dist;}
 
-void load_dist_pid(unsigned short *dist){cmd.distance += *dist;}
-
-void load_ang_pid(unsigned short *angl){cmd.angle += *angl;}	//change the value of angle driver
+void load_ang_pid(unsigned short *angl){cmd.angle += (int)*angl;}	//change the value of angle driver
 
 void load_pd(float *p){PID_distance.kp = *p;}		//change value of pid distance
 void load_id(float *i){PID_distance.ki = *i;}
@@ -87,12 +84,8 @@ void load_pa(float *p){PID_orient.kp = *p;}		//change value of pid orient
 void load_ia(float *i){PID_orient.ki = *i;}
 void load_da(float *d){PID_orient.kd = *d;}
 
-void transmission_data(char *value){
-		transmit_data = *value;
-//		if(transmit_data == 1){LED0=0;}
-//		else if(transmit_data ==0){LED0=1;}
-//		else{LED2=~LED2;}
-		}
+void transmission_data(char *value){transmit_data = *value;}
+
 
 
 
@@ -107,29 +100,31 @@ void init_variable_echant(){
 	erreur_prec_dist_2=0;erreur_prec_orient=0;
 	cmd_dist=0;cmd_orient=0;erreur_prec_orient_2=0;
 }
-void asservissement(int consigne_dist,int consigne_orient,int compteur_droit,int compteur_gauche)
+
+/**********************************************************************************************
+*	I/O functions
+*********************************************************************************************/
+//function to load the new distance cmd without forget the last
+void charger_distance(int *delta){cmd.distance += *delta;}
+void charger_angle(int *theta){cmd.angle+=*theta;}
+
+//changer cette fonction pour prendre en param de lecture dist et orient
+void asservissement(int consigne_dist,int consigne_orient,int *dist,float *angl)
 {
-    mesure_dist = (compteur_droit + compteur_gauche)/2;
-    mesure_orient = compteur_droit - compteur_gauche;
-
-    // Calcul des erreurs de distance
-    erreur_dist = consigne_dist - mesure_dist;
-    delta_erreur_dist = erreur_dist - erreur_prec_dist;
-    // mise à jour de l'erreur précédente
-    erreur_prec_dist_2 = erreur_prec_dist;
-    erreur_prec_dist = erreur_dist;
-
-    // Calcul des erreurs d'orientation
+   // mesure_dist = (compteur_droit + compteur_gauche)/2;
+   // mesure_orient = compteur_droit - compteur_gauche;
+    
+	// Calcul des erreurs d'orientation
     erreur_orient = consigne_orient - mesure_orient;
     delta_erreur_orient = erreur_orient - erreur_prec_orient;
     // mise à jour de l'erreur précédente
     erreur_prec_orient_2 = erreur_prec_orient;
     erreur_prec_orient = erreur_orient;
 
-    // calcul des cmds
+/*    // calcul des cmds
     cmd_dist = ((PID_distance.kp * erreur_dist) + (PID_distance.ki  * somme_erreur_dist) + (PID_distance.kd  * delta_erreur_dist));    // PID distance
     cmd_orient = ((PID_orient.kp * erreur_orient) + (PID_orient.ki  * somme_erreur_orient) + (PID_orient.kd * delta_erreur_orient)); // PID orientation
-
+*/
     // calcul des commandes
     cmd_dist = cmd_dist+(PID_distance.kp*delta_erreur_dist)+(PID_distance.ki*erreur_dist)+(PID_distance.kd *(erreur_dist-2*erreur_prec_dist+erreur_prec_dist_2));    // PID distance
     cmd_orient = cmd_orient+(PID_orient.kp*delta_erreur_orient)+(PID_orient.ki*erreur_orient)+(PID_orient.kd*(erreur_orient-2*erreur_prec_orient+erreur_prec_orient_2)); // PID orientation
@@ -155,21 +150,24 @@ void inverser_gauche(int pwm){
   else {INA_G=1;INB_G=0;pwm = -pwm;}
   pwm_g=pwm;}
 
+/*=============================================================
+*
+*	Interuption timer d'echantillonnage 
+*	reglage à 10ms
+*============================================================*/
 
 void Excep_MTU0_TCIV0(void) {
-	int a = compteur_d;
-	int b = compteur_g;
+	int mesure_dist;
+	float mesure_angl;
+	//load the value of the position in tck
+	transfer_position_pol(&mesure_dist,&mesure_angl);
 	if(transmit_data==1)
 	{
-		unsigned char adr = 8;
+		unsigned char adr = 6;
 		send_dist();//fonction qui envoi le somme de (compteur_d + compteur_g)/2
-		send_sht(&adr,&compteur_d);
+		send_int(&adr,&cmd.distance);
  		//send_angl();
-		asservissement(cmd.distance,cmd.angle,a,b);
-	}
-	else
-	{	
-		asservissement((compteur_d+compteur_g)/2,(compteur_d-compteur_g),a,b);
+		asservissement(cmd.distance,cmd.angle,&mesure_dist,&mesure_angl);
 	}
 	flag_over_te = 0;		//remise à zero du flag
 	reset_timer_te;			// remise a la bonne valeur du compteur

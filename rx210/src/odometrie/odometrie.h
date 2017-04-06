@@ -20,10 +20,27 @@
 /******************************************************************************
 INCLUDE
 *******************************************************************************/
+#include <math.h>
+#include <stdlib.h>
+#include "decoder_quadra.h"
+#include "iodefine.h"
+#include "RPBRX210.h"
+#include "typedefine.h"
+#include "interrupt_handlers.h"
 /*******************************************************************************
 Macro definitions
 *******************************************************************************/
+#define flag_over_MTU1 IR(MTU1,TCIV1)			//flag over et underflow MTU1
+#define flag_under_MTU1 IR(MTU1,TCIU1)
+#define flag_over_MTU2 IR(MTU2,TCIV2)			//flag over et underflow MTU2
+#define flag_under_MTU2 IR(MTU2,TCIV2)
+#define sens_rot_g  MTU1.TSR.BIT.TCFD		// changement de sens de rotation MTU1
+#define sens_rot_d  MTU2.TSR.BIT.TCFD		// idem MTU2
 
+// les compteurs maintenant
+#define compteur_d MTU1.TCNT		//compteur MTU1
+#define compteur_g MTU2.TCNT		//compteur MTU2
+#define INIT_COD	0x8000			//reset value of codeur register
 
 /*******************************************************************************
 Exported global functions (to be accessed by other files)
@@ -32,15 +49,12 @@ Exported global functions (to be accessed by other files)
 // struct to define parametre en odometrie
 typedef struct odometrie odometrie;
 struct odometrie{
-// calcul in plan mode
+// calcul in mm of the absolute position
 	short x;
 	short y;
-// calcul en tick 
-	int cmp_g;
-	int cmp_d;
 // calcul in polaire mode
-	int distance;
-	int angle;
+	int delta;	//distance
+	float theta;	//angle
 };
 
 /*******************************************************************************
@@ -48,8 +62,21 @@ struct odometrie{
 * Function
 *
 *******************************************************************************/
+//*********************************************************
+//		ODOMETRIE
+//*********************************************************
+void overflow_mtu1(int *comp_d);		//function to manage the over&underflow of mtu1
+void overflow_mtu2(int *comp_g);		//function to manage the over&underflow of mtu2
+void transfer_position_pol(int *dist, float *angl);	//transfert the position tck
+/**********************************************************
+* 		DECODER
+**********************************************************/
 
-void overflow_mtu1(void);		//function to manage the over&underflow of mtu1
-void overflow_mtu2(void);		//function to manage the over&underflow of mtu2
-	
+void	init_mtclk(void);		// fonction d'initialisation du module de comptage
+void	mtclk_start(void);		// démarre le décodage en quadrature
+// communication functions access
+void send_codeur_g(unsigned short* left);
+void send_codeur_d(unsigned short* right);
+void reset_cod(void);
+
 #endif
