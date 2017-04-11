@@ -16,12 +16,6 @@
 /*   History    : 1.0A (2013-08-19)  [Hardware Manual Revision : 1.40]  */
 /*    Date Generated: 08/19/2013                                        */
 /************************************************************************/
-#include "iodefine.h"
-#include "interrupt_handlers.h"
-#include "RPBRX210.h"
-#include "asservissement.h"
-#include "decoder_quadra.h"
-#include "pwm_asser_RX210.h"
 
 // Exception(Supervisor Instruction)
 void Excep_SuperVisorInst(void) {  }
@@ -164,13 +158,7 @@ void Excep_MTU0_TGIC0(void) {  }
 void Excep_MTU0_TGID0(void) {  }
 
 // MTU0 TCIV0
-/*void Excep_MTU0_TCIV0(void) {
-	flag_over_te = 0;
-	reset_timer_te;
-	int a = compteur_d;
-	int b = compteur_g;
-	asservissement(0x8100,0x0000,a,b);
-}*/
+//void Excep_MTU0_TCIV0(void) {}
 // MTU0 TGIE0
 void Excep_MTU0_TGIE0(void) {  }
 

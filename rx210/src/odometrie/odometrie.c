@@ -32,7 +32,7 @@ Macro definitions
 Private global variables and functions
 ******************************************************************************/
 
-volatile odometrie odo = {0,0,0,0};
+volatile struct odometrie odo = {0,0,0,0};
 
 /******************************************************************************
 * Function Name	: overflow_mtu1
@@ -80,15 +80,16 @@ void overflow_mtu2(int *compt_g)
 * Arguments     : 2 int pointer
 * Return value	: none
 *******************************************************************************/
-void transfer_position_pol(int *dist,float *angl)
+void transfer_position_pol(int *dist,int *angl)
 {
 	int recup_d,recup_g;
 	overflow_mtu1(&recup_d);
 	overflow_mtu2(&recup_g);
+	/* ajouter el reset des decoder pck tu l'a oublié gros con*/
 	/* test if we try to turn or to moving forward*/
 	if(abs(recup_d-recup_g)>30)
 	{
-		odo.theta+= asin((recup_d-recup_g)/F_ROBOT_L);
+		odo.theta+=(int) asin((recup_d-recup_g)/F_ROBOT_L);
 	}
 	else
 	{

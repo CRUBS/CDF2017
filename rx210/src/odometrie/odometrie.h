@@ -22,11 +22,11 @@ INCLUDE
 *******************************************************************************/
 #include <math.h>
 #include <stdlib.h>
-#include "decoder_quadra.h"
 #include "iodefine.h"
 #include "RPBRX210.h"
 #include "typedefine.h"
 #include "interrupt_handlers.h"
+#include "uart.h"
 /*******************************************************************************
 Macro definitions
 *******************************************************************************/
@@ -47,14 +47,14 @@ Exported global functions (to be accessed by other files)
 *******************************************************************************/
 
 // struct to define parametre en odometrie
-typedef struct odometrie odometrie;
+//extern typedef struct odometrie odometrie;
 struct odometrie{
 // calcul in mm of the absolute position
 	short x;
 	short y;
 // calcul in polaire mode
 	int delta;	//distance
-	float theta;	//angle
+	int theta;	//angle
 };
 
 /*******************************************************************************
@@ -67,7 +67,7 @@ struct odometrie{
 //*********************************************************
 void overflow_mtu1(int *comp_d);		//function to manage the over&underflow of mtu1
 void overflow_mtu2(int *comp_g);		//function to manage the over&underflow of mtu2
-void transfer_position_pol(int *dist, float *angl);	//transfert the position tck
+void transfer_position_pol(int *dist, int *angl);	//transfert the position tck
 /**********************************************************
 * 		DECODER
 **********************************************************/
@@ -78,5 +78,13 @@ void	mtclk_start(void);		// démarre le décodage en quadrature
 void send_codeur_g(unsigned short* left);
 void send_codeur_d(unsigned short* right);
 void reset_cod(void);
+
+/**********************************************************
+* 		COMMUNICATION
+**********************************************************/
+
+void send_x_pos(void);
+void send_y_pos(void);
+void send_delta(int *dist);
 
 #endif

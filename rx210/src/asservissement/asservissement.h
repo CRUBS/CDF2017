@@ -33,14 +33,14 @@ struct PID{
 	float kp;
 	float ki;
 	float kd;
-	int err[2];
-	int sum_err;
+	int err[3];
+	int delta_err;
 
 };
 typedef struct CMD CMD;
 struct CMD{
-	int distance;
-	int angle;
+	int dist;
+	int orient;
 	short pwmG;
 	short pwmD;
 };
@@ -61,8 +61,8 @@ int delta_erreur_dist;int delta_erreur_orient;
 void send_pilot_mg(unsigned short *pwm);	//send the value of the pmw left cmd
 void send_pilot_md(unsigned short *pwm);	// send the value of the pwm right cmd
 
-void load_dist_pid(unsigned short *dist);//change the value of distance pilotage
-void load_ang_pid(unsigned short *angl);	//change the value of angle driver
+void load_dist(int *dist);//change the value of distance pilotage
+void load_angle(int *angl);	//change the value of angle driver
 
 void send_pa(float *p);		//send value of pid orient
 void send_ia(float *i);
@@ -90,9 +90,8 @@ void init_echant(void);			// Configuration des registres
 void start_echant(void);		// activation du compteur
 void init_variable_echant(void);// initialisation des variables
 //asserv
-void asservissement(int consigne_dist,int consigne_orient,int*dist,float *angl); // Fonction d'asservissement
+void asservissement(int *c_dist,int *c_angle,int*dist,int *angle); // Fonction d'asservissement
 void inverser_droit(int pwm); 	// inverse le sens de rot du moteur droit en fonction du signe de pwm
 void inverser_gauche(int pwm);	// inverse le sens de rot du moteur gauche en fonction du signe de pwm
-void deplacement(int x,int y);
 
 #endif

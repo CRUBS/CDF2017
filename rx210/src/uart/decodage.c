@@ -16,11 +16,6 @@
  Includes   <System Includes> , "Project Includes"
  *******************************************************************************/
  #include "uart.h"
- #include "asservissement.h"
- #include "decoder_quadra.h"
- #include "odometrie.h"
- //#include "trajectory.h"
- #include "RPBRX210.h"
 
  /******************************************************************************
  Macro definitions
@@ -41,6 +36,8 @@ void init_hach_char()
 void init_hach_int()
 {
 //	hach_int[1]=led_com2;
+	hach_int[3]=load_dist;
+	hach_int[4]=load_angle;
 }
 void init_hach_flt()
 {
@@ -71,8 +68,8 @@ void init_hach_sht()
 	hach_sht[4]=send_pilot_md;
 //	hach_sht[5];
 //	hach_sht[6];
-	hach_sht[7]=load_dist_pid;
-	hach_sht[8]=load_ang_pid;
+//	hach_sht[7]=;
+//	hach_sht[8]=;
 }
 
 /******************************************************************************

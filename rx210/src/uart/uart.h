@@ -21,6 +21,9 @@
 #include "RPBRX210.h"
 #include "interrupt_handlers.h"
 #include "typedefine.h"
+#include "asservissement.h"
+#include "odometrie.h"
+
 #include <stdlib.h>
 #include <ctype.h>
 //ajout de tout les fichier ou il y a de la com

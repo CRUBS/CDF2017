@@ -277,7 +277,6 @@ int read_uart()
 	short *sht_recov=NULL;
 	float *flt_recov=NULL;
 	unsigned char *chr_recov=NULL;
-
 //start reading here
 	if(uart9.in_data[uart9.read_index]==start_byte)
 	{
