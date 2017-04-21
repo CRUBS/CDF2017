@@ -276,7 +276,7 @@ int read_uart()
 	int *int_recov=NULL,*temp_int=NULL;
 	short *sht_recov=NULL;
 	float *flt_recov=NULL;
-	unsigned char *chr_recov=NULL;
+	char *chr_recov=NULL;
 //start reading here
 	if(uart9.in_data[uart9.read_index]==start_byte)
 	{
@@ -362,7 +362,7 @@ int read_uart()
 		}
 		else if(chr_recov!=NULL)
 		{
-			if(adr==1){LED0=~LED0;}
+			//if(adr==1){LED0=~LED0;}
 			adress_chr_table(&adr, chr_recov);
 			free(chr_recov);			//free
 		}

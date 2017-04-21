@@ -27,7 +27,7 @@ Macro definitions
 #define MAX_Y 2000			//largeur de la table
 #define TCK_TO_MM(tck)	tck*PERIMETRE_W/TCK_TR	//convert tck to mm
 
-#define F_ROBOT_L 1000	//dist between the wheel of codeur
+#define F_ROBOT_L 3500.0	//dist between the wheel of codeur
 /******************************************************************************
 Private global variables and functions
 ******************************************************************************/
@@ -52,6 +52,10 @@ void overflow_mtu1(int *compt_d)
 	}
 	else if(flag_over_MTU1){*compt_d += 0xFFFF;}		//overflow
 	else if(flag_under_MTU1){*compt_d -= 0xFFFF;}		//underflow
+/****** reinitialisation of the codeur********/
+    compteur_d = INIT_COD;
+    flag_over_MTU1 = 0;
+    flag_under_MTU1 = 0;
 }
 
 
@@ -73,6 +77,10 @@ void overflow_mtu2(int *compt_g)
 	}
 	else if(flag_over_MTU2){*compt_g += 0xFFFF;}		//overflow
 	else if(flag_under_MTU2){*compt_g -= 0xFFFF;}		//underflow
+/****** reinitialisation of the codeur********/
+    compteur_g = INIT_COD;
+    flag_over_MTU2 = 0;
+    flag_under_MTU2 = 0;
 }
 /******************************************************************************
 * Function Name	: send the position in tck of left/right wheel
@@ -80,16 +88,17 @@ void overflow_mtu2(int *compt_g)
 * Arguments     : 2 int pointer
 * Return value	: none
 *******************************************************************************/
-void transfer_position_pol(int *dist,int *angl)
+void transfer_position_pol(int *dist,double *angl)
 {
 	int recup_d,recup_g;
 	overflow_mtu1(&recup_d);
 	overflow_mtu2(&recup_g);
 	/* ajouter el reset des decoder pck tu l'a oublié gros con*/
 	/* test if we try to turn or to moving forward*/
-	if(abs(recup_d-recup_g)>30)
+	if(abs(recup_d-recup_g)>5)
 	{
-		odo.theta+=(int) asin((recup_d-recup_g)/F_ROBOT_L);
+		odo.theta+=(1800*asin((double)(recup_d-recup_g)/F_ROBOT_L)/3.14);
+		//odo.theta+= asin(0.5)*180/3.14;
 	}
 	else
 	{
@@ -97,7 +106,9 @@ void transfer_position_pol(int *dist,int *angl)
 	}
 //	odo.x += (int)TCK_TO_MM(odo.delta*cos(odo.theta));
 //	odo.y += (int)TCK_TO_MM(odo.delta*sin(odo.theta));
-
+    
+	//*dist = (int) (180*asin(0.5)/3.14);
+	//*angl = compteur_g-INIT_COD;
 	*dist = odo.delta;
 	*angl = odo.theta;
 }

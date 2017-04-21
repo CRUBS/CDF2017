@@ -24,7 +24,7 @@
  /*****************************************************************************
  Private global variables and function
  ****************************************************************************/
-void (*hach_sht[NB_ADR])(unsigned short *value);
+void (*hach_sht[NB_ADR])(short *value);
 void (*hach_int[NB_ADR])(int *value);
 void (*hach_flt[NB_ADR])(float *value);
 void (*hach_char[NB_ADR])(char *value);
@@ -88,7 +88,7 @@ void adress_chr_table(char *adr,char *value)
  * Arguments     : none
  * Return value  : none
  *******************************************************************************/
-void adress_sht_table(char *adr,unsigned short *value)
+void adress_sht_table(char *adr,short *value)
 {
 	hach_sht[*adr](value);
 }
@@ -167,7 +167,7 @@ void read_int(char *trame,int *value)
  * Arguments     : none
  * Return value  : none
  *******************************************************************************/
-void read_sht(char *trame,unsigned short *value)
+void read_sht(char *trame,short *value)
 {
 	char sign =(trame[0] & sign_mask)>>2;			//read sign
 	char i =0;
@@ -211,7 +211,7 @@ void send_int(char* adresse, int *value)
 	char byte_one = 0, signe = 0, checksum = 0;
 	char byte_to_send[int_size];
 	byte_one = *adresse;
-	if(*value<0){signe=1;}
+	if(*value>0x80000000){signe=1;}
 	byte_one=byte_one<<1;
 	byte_one += signe;
 	byte_one = byte_one<<2;
@@ -246,9 +246,12 @@ void send_int(char* adresse, int *value)
 
 void send_char(char *adresse, char *value)
 {
-	char byte_one = 0, signe = 0,checksum = 0;			//decla de variable
-	byte_one = *adresse;				//recopie de variable
-	if(*value<0){signe=1;}				//test if char is signed
+//decla de variable
+	char byte_one = 0, signe = 0,checksum = 0;			
+//recopie de variable
+//test if char is signed
+	byte_one = *adresse;				
+	if(*value<0){signe=1;}				
 	byte_one=byte_one<<1;					//decalaga and add signature
 	byte_one+=signe;
 	byte_one= byte_one<<2;					//decalage and add type
@@ -269,13 +272,13 @@ void send_char(char *adresse, char *value)
 * Return value	: void
 *******************************************************************************/
 
-void send_sht(char* adresse,unsigned short *value)		//verif le passage par référence d'un tableau
+void send_sht(char* adresse,short *value)		//verif le passage par référence d'un tableau
 {
 	char byte_one = 0, signe =0,checksum =0;	//declaration of var
 	char to_send[sht_size];						//array to store the byte to send
 
 	to_send[0] = *adresse;						//save the adress
-	if(*value<0){signe=1;}						//save the sign
+	if(*value < 0){signe=1;}						//save the sign
 	to_send[0] = (to_send[0] <<1)+signe;			//put sign in the first byte
 	to_send[0] = (to_send[0] <<2)+sht_mask;			//finish to prepare the first byte
 	to_send[1]= *value >> 8;					//cut the short and put it in table
@@ -307,7 +310,7 @@ void send_flt(char* adresse,float *value)		//verif le passage par référence d'
 	char to_send[flt_size];						//array to store the byte to send
 	int int_flt=0;
 	to_send[0] = *adresse;						//save the adress
-	if(*value<0){signe=1;}						//save the sign
+	if(*value<0){signe=1;}
 	to_send[0] = (to_send[0] <<1)+signe;			//put sign in the first byte
 	to_send[0] = (to_send[0] <<2)+flt_mask;			//finish to prepare the first byte
 

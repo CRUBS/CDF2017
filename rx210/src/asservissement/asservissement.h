@@ -39,6 +39,8 @@ struct PID{
 };
 typedef struct CMD CMD;
 struct CMD{
+    int dist_p;
+    int orient_p;
 	int dist;
 	int orient;
 	short pwmG;
@@ -58,8 +60,8 @@ int erreur_prec_dist_2;int erreur_prec_orient_2;
 int delta_erreur_dist;int delta_erreur_orient;
 //communication
 
-void send_pilot_mg(unsigned short *pwm);	//send the value of the pmw left cmd
-void send_pilot_md(unsigned short *pwm);	// send the value of the pwm right cmd
+void send_pilot_mg( short *pwm);	//send the value of the pmw left cmd
+void send_pilot_md( short *pwm);	// send the value of the pwm right cmd
 
 void load_dist(int *dist);//change the value of distance pilotage
 void load_angle(int *angl);	//change the value of angle driver
@@ -69,7 +71,7 @@ void send_ia(float *i);
 void send_da(float *d);
 
 void send_dist();			//fonction de reglage de l'asserve
-void send_angl();			//idem
+void send_angle();			//idem
 
 void load_pd(float *p);		//change value of pid distance
 void load_id(float *i);

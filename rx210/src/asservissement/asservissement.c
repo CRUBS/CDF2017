@@ -6,20 +6,20 @@
 
 #include "asservissement.h"
 
- PID pid_dist = {2.4,0,0,0,0};	// initialisation du pid pour la distance
- PID pid_orient = {1.2,0,0,0,0};	//inititalisation du pid pour l'orientation
- CMD cmd = {0,0,0,0};
+ PID pid_dist = {5,0,0,0,0};	// initialisation du pid pour la distance
+ PID pid_orient = {3,0,0,0,0};	//inititalisation du pid pour l'orientation
+ CMD cmd = {0,0,0,0,0,0};
 
  char transmit_data=0;
 /***********************************************************************************************
  * function of communication
  *********************************************************************************************/
-void send_pilot_mg(unsigned short *pwm)	//send the value of the pmw left cmd
+void send_pilot_mg( short *pwm)	//send the value of the pmw left cmd
 {
 	char adresse= 3;
 	send_sht(&adresse,&(cmd.pwmG));
 }
-void send_pilot_md(unsigned short *pwm)	// send the value of the pwm right cmd
+void send_pilot_md( short *pwm)	// send the value of the pwm right cmd
 {
 	char adresse = 4;
 	send_sht(&adresse,&(cmd.pwmD));
@@ -63,17 +63,17 @@ void send_dist()
 	int value = (int)(compteur_d+compteur_g)/2;
 	send_int(&adresse,&value);
 }
-void send_angl()
+void send_angle()
 {
-	char adr = 4;
-	int value =(int) compteur_d-compteur_g/10;
+	char adr = 5;//5 le temps du debug4;
+	int value = compteur_d-compteur_g;
 	send_int(&adr,&value);
 }
 //fonction of receiption
 //reprendre ces fonction pour les rentrer dans la reception de int
-void load_dist(int *dist){cmd.dist += *dist;}
+void load_dist(int *dist){cmd.dist_p += *dist;}
 
-void load_angle(int *angl){cmd.orient += *angl;}	//change the value of angle driver
+void load_angle(int *angl){cmd.orient_p += *angl;}	//change the value of angle driver
 
 void load_pd(float *p){pid_dist.kp = *p;}		//change value of pid distance
 void load_id(float *i){pid_dist.ki = *i;}
@@ -156,17 +156,20 @@ void inverser_gauche(int pwm){
 *============================================================*/
 
 void Excep_MTU0_TCIV0(void) {
-	int mesure_dist, mesure_angl;
-	//load the value of the position in tck
+	int mesure_dist;
+    double mesure_angl;
+	//loadouble value of the position in tck
 	transfer_position_pol(&mesure_dist,&mesure_angl);
-	if(transmit_data==1)
-	{
-		unsigned char adr = 5;
-		send_delta(&mesure_dist);//fonction qui envoi le somme de (compteur_d + compteur_g)/2
-		send_int(&adr,&cmd.dist);
- 		//send_angl();
-		asservissement(&cmd.dist,&cmd.orient,&mesure_dist,&mesure_angl);
-	}
+    //if(transmit_data==1)
+    //{
+        LED1=~LED1;       //debug
+		unsigned char adr = 3;
+        send_int(&adr,&mesure_dist);
+        adr = 13;
+        send_flt(&adr,&mesure_angl);
+        /**** bim we start the asserv*******/
+		//asservissement(&cmd.dist_p,&cmd.orient_p,&mesure_dist,&mesure_angl);
+//	}
 	flag_over_te = 0;		//remise à zero du flag
 	reset_timer_te;			// remise a la bonne valeur du compteur
 }
