@@ -6,8 +6,8 @@
 
 #include "asservissement.h"
 
- PID pid_dist = {5,0,0,0,0};	// initialisation du pid pour la distance
- PID pid_orient = {3,0,0,0,0};	//inititalisation du pid pour l'orientation
+ PID pid_dist = {2.5,0,0,0,0};	// initialisation du pid pour la distance
+ PID pid_orient = {0,0,0,0,0};	//inititalisation du pid pour l'orientation
  CMD cmd = {0,0,0,0,0,0};
 
  char transmit_data=0;
@@ -156,8 +156,7 @@ void inverser_gauche(int pwm){
 *============================================================*/
 
 void Excep_MTU0_TCIV0(void) {
-	int mesure_dist;
-    double mesure_angl;
+	int mesure_dist, mesure_angl;
 	//loadouble value of the position in tck
 	transfer_position_pol(&mesure_dist,&mesure_angl);
     //if(transmit_data==1)
@@ -165,10 +164,10 @@ void Excep_MTU0_TCIV0(void) {
         LED1=~LED1;       //debug
 		unsigned char adr = 3;
         send_int(&adr,&mesure_dist);
-        adr = 13;
-        send_flt(&adr,&mesure_angl);
+        adr = 5;
+        send_int(&adr,&mesure_angl);
         /**** bim we start the asserv*******/
-		//asservissement(&cmd.dist_p,&cmd.orient_p,&mesure_dist,&mesure_angl);
+		asservissement(&cmd.dist_p,&cmd.orient_p,&mesure_dist,&mesure_angl);
 //	}
 	flag_over_te = 0;		//remise à zero du flag
 	reset_timer_te;			// remise a la bonne valeur du compteur

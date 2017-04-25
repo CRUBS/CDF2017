@@ -54,7 +54,10 @@ struct odometrie{
 	short y;
 // calcul in polaire mode
 	int delta;	//distance
-	float theta;	//angle
+	double theta;	//angle
+/* calcul with tck  */
+    int dist_tck;
+    int angl_tck;
 };
 
 /*******************************************************************************
@@ -67,7 +70,7 @@ struct odometrie{
 //*********************************************************
 void overflow_mtu1(int *comp_d);		//function to manage the over&underflow of mtu1
 void overflow_mtu2(int *comp_g);		//function to manage the over&underflow of mtu2
-void transfer_position_pol(int *dist, double *angl);	//transfert the position tck
+void transfer_position_pol(int *dist, int *angl);	//transfert the position tck
 /**********************************************************
 * 		DECODER
 **********************************************************/

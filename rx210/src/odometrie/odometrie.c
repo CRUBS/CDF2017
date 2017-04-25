@@ -32,7 +32,7 @@ Macro definitions
 Private global variables and functions
 ******************************************************************************/
 
-volatile struct odometrie odo = {0,0,0,0};
+volatile struct odometrie odo = {0,0,0,0,0,0};
 
 /******************************************************************************
 * Function Name	: overflow_mtu1
@@ -88,27 +88,26 @@ void overflow_mtu2(int *compt_g)
 * Arguments     : 2 int pointer
 * Return value	: none
 *******************************************************************************/
-void transfer_position_pol(int *dist,double *angl)
+void transfer_position_pol(int *dist,int *angl)
 {
 	int recup_d,recup_g;
 	overflow_mtu1(&recup_d);
 	overflow_mtu2(&recup_g);
-	/* ajouter el reset des decoder pck tu l'a oublié gros con*/
+    /***** pre calcul of odometrie in tck ******/
+    odo.angl_tck = recup_d-recup_g;
+    odo.dist_tck = (int) ((recup_d+recup_g)/2); 
 	/* test if we try to turn or to moving forward*/
-	if(abs(recup_d-recup_g)>5)
+	if(abs(odo.angl_tck)>5)
 	{
-		odo.theta+=(1800*asin((double)(recup_d-recup_g)/F_ROBOT_L)/3.14);
-		//odo.theta+= asin(0.5)*180/3.14;
+		odo.theta+=(180*asin((double)(odo.angl_tck)/F_ROBOT_L)/3.14);
 	}
 	else
 	{
-		odo.delta+= (int) (recup_d+recup_g)/2;
+		odo.delta+= (int) TCK_TO_MM(odo.dist_tck);
 	}
-//	odo.x += (int)TCK_TO_MM(odo.delta*cos(odo.theta));
-//	odo.y += (int)TCK_TO_MM(odo.delta*sin(odo.theta));
+	odo.x += (int)TCK_TO_MM(odo.delta*cos(odo.theta));
+	odo.y += (int)TCK_TO_MM(odo.delta*sin(odo.theta));
     
-	//*dist = (int) (180*asin(0.5)/3.14);
-	//*angl = compteur_g-INIT_COD;
-	*dist = odo.delta;
-	*angl = odo.theta;
+	*dist = odo.dist_tck;
+	*angl = odo.angl_tck;
 }
