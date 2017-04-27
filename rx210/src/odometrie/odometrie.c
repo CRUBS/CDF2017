@@ -27,7 +27,7 @@ Macro definitions
 #define MAX_Y 2000			//largeur de la table
 #define TCK_TO_MM(tck)	tck*PERIMETRE_W/TCK_TR	//convert tck to mm
 
-#define F_ROBOT_L 3500.0	//dist between the wheel of codeur
+#define F_ROBOT_L 3784.5	//dist between the wheel of codeur
 /******************************************************************************
 Private global variables and functions
 ******************************************************************************/
@@ -94,19 +94,21 @@ void transfer_position_pol(int *dist,int *angl)
 	overflow_mtu1(&recup_d);
 	overflow_mtu2(&recup_g);
     /***** pre calcul of odometrie in tck ******/
-    odo.angl_tck = recup_d-recup_g;
-    odo.dist_tck = (int) ((recup_d+recup_g)/2); 
+    odo.angl_tck += recup_d-recup_g;
+    odo.dist_tck += (int) ((recup_d+recup_g)/2); 
 	/* test if we try to turn or to moving forward*/
-	if(abs(odo.angl_tck)>5)
+/*	if(abs(odo.angl_tck)>5)
 	{
-		odo.theta+=(180*asin((double)(odo.angl_tck)/F_ROBOT_L)/3.14);
+        double a = odo.angl_tck/F_ROBOT_L;
+		//odo.theta+=(180*asin(odo.angl_tck/F_ROBOT_L)/3.14);
+//		odo.theta+=(180*asin(a)/3.14);
 	}
 	else
 	{
 		odo.delta+= (int) TCK_TO_MM(odo.dist_tck);
-	}
-	odo.x += (int)TCK_TO_MM(odo.delta*cos(odo.theta));
-	odo.y += (int)TCK_TO_MM(odo.delta*sin(odo.theta));
+	}*/
+//	odo.x += (int)TCK_TO_MM(odo.delta*cos(odo.theta));
+//	odo.y += (int)TCK_TO_MM(odo.delta*sin(odo.theta));
     
 	*dist = odo.dist_tck;
 	*angl = odo.angl_tck;
