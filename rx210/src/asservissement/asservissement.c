@@ -6,11 +6,12 @@
 
 #include "asservissement.h"
 
- PID pid_dist = {2.5,0,0,0,0};	// initialisation du pid pour la distance
- PID pid_orient = {0,0,0,0,0};	//inititalisation du pid pour l'orientation
+ PID pid_dist = {0.6,0.02,2,0,0};	// initialisation du pid pour la distance
+ PID pid_orient = {0.5,0.02,1,0,0};	//inititalisation du pid pour l'orientation
  CMD cmd = {0,0,0,0,0,0};
 
  char transmit_data=0;
+ extern int match_counter;
 /***********************************************************************************************
  * function of communication
  *********************************************************************************************/
@@ -83,7 +84,13 @@ void load_pa(float *p){pid_orient.kp = *p;}		//change value of pid orient
 void load_ia(float *i){pid_orient.ki = *i;}
 void load_da(float *d){pid_orient.kd = *d;}
 
-void transmission_data(char *value){transmit_data = *value;}
+
+/* function to enable asservissement by uart */
+
+void transmission_data(char *value){
+    if(*value == 1){start_asserv();}
+    else{ stop_asserv();}
+}
 
 
 
@@ -91,14 +98,6 @@ void transmission_data(char *value){transmit_data = *value;}
 /**********************************************************************************************
  * function of asservissement
 **********************************************************************************************/
-void init_variable_echant(){
-	mesure_dist=0;
-	mesure_orient=0;
-	erreur_dist=0;erreur_orient=0;
-	erreur_prec_dist=0;
-	erreur_prec_dist_2=0;erreur_prec_orient=0;
-	cmd_dist=0;cmd_orient=0;erreur_prec_orient_2=0;
-}
 
 /**********************************************************************************************
 *	I/O functions
@@ -123,13 +122,13 @@ void asservissement(int *c_dist,int *c_angle,int *dist,int *angle)
 	pid_dist.delta_err = pid_dist.err[0] - pid_dist.err[1];
 
  // PID distance
-    cmd.dist = cmd.dist+(pid_dist.kp*pid_dist.delta_err)+(pid_dist.ki*pid_dist.err[0])\
+    cmd.dist = (int) cmd.dist+(pid_dist.kp*pid_dist.delta_err)+(pid_dist.ki*pid_dist.err[0])\
 	+(pid_dist.kd*(pid_dist.err[0]-2*pid_dist.err[1]+pid_dist.err[2]));
 // PID orientation
-    cmd.orient = cmd.orient+(pid_orient.kp*pid_orient.delta_err)+(pid_orient.ki*pid_orient.err[0])+(pid_orient.kd*(pid_orient.err[0]-2*pid_orient.err[1]+pid_orient.err[2]));
+    cmd.orient = (int) cmd.orient+(pid_orient.kp*pid_orient.delta_err)+(pid_orient.ki*pid_orient.err[0])+(pid_orient.kd*(pid_orient.err[0]-2*pid_orient.err[1]+pid_orient.err[2]));
     // appliquer les cmds aux moteur
-    cmd.pwmG = cmd.dist + cmd.orient;
-    cmd.pwmD = cmd.dist - cmd.orient;
+    cmd.pwmG = cmd.dist - cmd.orient;
+    cmd.pwmD = cmd.dist + cmd.orient;
 
     // Normalisation des cmds PWM de sortie (le moteur ne bouge pas avec un pwm < 240)
     if (cmd.pwmD < -900) {cmd.pwmD = -900;}
@@ -141,12 +140,12 @@ void asservissement(int *c_dist,int *c_angle,int *dist,int *angle)
 }
 
 void inverser_droit(int pwm){
-  if (pwm > 0) {INA_D=0;INB_D=1;}
-  else {INA_D=1;INB_D=0;pwm = -pwm;}
+  if (pwm > 0) {INA_D=1;INB_D=0;}
+  else {INA_D=0;INB_D=1;pwm = -pwm;}
   pwm_d=pwm;}
 void inverser_gauche(int pwm){
-  if (pwm > 0) {INA_G=0;INB_G=1;}
-  else {INA_G=1;INB_G=0;pwm = -pwm;}
+  if (pwm > 0) {INA_G=1;INB_G=0;}
+  else {INA_G=0;INB_G=1;pwm = -pwm;}
   pwm_g=pwm;}
 
 /*=============================================================
@@ -159,16 +158,27 @@ void Excep_MTU0_TCIV0(void) {
 	int mesure_dist, mesure_angl;
 	//loadouble value of the position in tck
 	transfer_position_pol(&mesure_dist,&mesure_angl);
+    /* part of the function that allow to stop robot at 90 sec */
     if(transmit_data==1)
     {
-        LED1=~LED1;       //debug
-		unsigned char adr = 3;
-        send_int(&adr,&mesure_dist);
-        adr = 5;
-        send_int(&adr,&mesure_angl);
-        /**** bim we start the asserv*******/
-//		asservissement(&cmd.dist_p,&cmd.orient_p,&mesure_dist,&mesure_angl);
-	}
+        if(match_counter >=9000)
+        {
+            /* here all function which  need to be stop */
+            stop_asserv();
+        }
+        match_counter ++;
+    }
+    LED1=~LED1;       //debug
+    unsigned char adr = 3;
+    //send_int(&adr,&cmd.pwmG);
+    send_int(&adr,&mesure_angl);
+    adr = 5;
+    send_int(&adr,&cmd.orient_p);
+    //send_int(&adr,&cmd.pwmD);
+    /**** bim we start the asserv*******/
+    asservissement(&cmd.dist_p,&cmd.orient_p,&mesure_dist,&mesure_angl);
+
+    /* reset du timer */
 	flag_over_te = 0;		//remise à zero du flag
 	reset_timer_te;			// remise a la bonne valeur du compteur
 }

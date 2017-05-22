@@ -11,7 +11,9 @@
 
 // function which initialyze the PWM of motor driver
 // it take a parameter which is the frequencie (between 0x0000 & 0xFFFF) of mcu speed
-void init_pwm_asser( int frequence){
+void init_pwm_asser(void){
+    int frequence = 1000;
+
 	MTU3.TCR.BYTE=0x20; // CCLR[2,0]=001 : cleaned by TGRA
 						// CKEG[1,0]=00  : count on raise front
 						// TPSC[2,0]=000 : clk/1

@@ -23,8 +23,16 @@ void init_echant(){
 
 }
 
-void start_echant()
+void start_asserv()
 {
 	MTU.TSTR.BIT.CST0=1;	// activation du compteur
 }
 
+void stop_asserv()
+{
+    MTU.TSTR.BIT.CST0=0;        //desactiver l'echantillonnage
+    pwm_g = 0;
+    pwm_d = 0;
+    /* ajouter allumage d'une LED */
+    LED2_ON;
+}

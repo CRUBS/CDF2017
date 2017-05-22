@@ -21,7 +21,7 @@
 #define echant_on MTU0.TIER.BYTE=0x10
 #define echant_off MTU0.TIER.BYTE=0x00
 
-// definition du compteur
+//definition du compteur
 #define reset_timer_te MTU0.TCNT=60535//donc le compteur comptera 5000 avant de déborder soit pour 32Mhz/64 10ms
 
 /**********************************************************
@@ -43,8 +43,8 @@ struct CMD{
     int orient_p;
 	int dist;
 	int orient;
-	short pwmG;
-	short pwmD;
+    int pwmG;
+	int pwmD;
 };
 
 //définition de toutes les variables necessaires au fonctionnement de la fonction d'asservissement
@@ -89,8 +89,9 @@ void transmission_data(char *value);	//active la transmission des données
 
 //hardware
 void init_echant(void);			// Configuration des registres
-void start_echant(void);		// activation du compteur
-void init_variable_echant(void);// initialisation des variables
+void start_asserv(void);		// activation du compteur
+void stop_asserv(void);
+
 //asserv
 void asservissement(int *c_dist,int *c_angle,int*dist,int *angle); // Fonction d'asservissement
 void inverser_droit(int pwm); 	// inverse le sens de rot du moteur droit en fonction du signe de pwm

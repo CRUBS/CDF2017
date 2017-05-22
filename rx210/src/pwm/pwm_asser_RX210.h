@@ -15,7 +15,7 @@
 
 // declaration des fonctions
 
-void init_pwm_asser(int frequence);//initialisation des registres
+void init_pwm_asser(void);//initialisation des registres
 
 
 
