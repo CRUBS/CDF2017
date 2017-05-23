@@ -56,6 +56,12 @@ PORT3.PMR.BYTE  = 0x00 ;    // all port use in I/O
 PORT3.PODR.BYTE = 0x00 ; 	// all output are low
 PORT3.PDR.BYTE = 0x00 ;		// all are input 
 
+/* Port 5 - LED */
+PORT5.PODR.BYTE = 0x00;
+PORT5.PMR.BYTE = 0x00;      /* All in GPIO mode */
+PORT5.PDR.BYTE = 0xFF;      /* All port as output */
+PORT5.PODR.BYTE = 0X00;     /*  All port are low */
+
 /* Port A - MTCLKA & MTCLKB & MTCLKC & MTCLKD */
 PORTA.PODR.BYTE = 0x00 ;    /* */
 PORTA.PMR.BYTE  = 0x00 ;    /* All GPIO for now */
@@ -87,7 +93,7 @@ MPC.PC0PFS.BYTE = 0x01 ;    // port = MTIOC3C (output)
 MPC.PC1PFS.BYTE = 0x01 ;	// port = MTIOC3A (output)
 PORTC.PMR.BYTE  = 0b00000011 ;    // port 0 & 1 use as function
 PORTC.PODR.BYTE = 0x00 ; 	// all output are low
-PORTC.PDR.BYTE = 0xFF ;	// all are output
+PORTC.PDR.BYTE = 0x83 ;	// 2-6 input 0-1 output (pwm)
 
 //Fin des droits d'écriture des registres PFS
 MPC.PWPR.BIT.B0WI=1;

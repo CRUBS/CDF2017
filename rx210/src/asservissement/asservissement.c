@@ -6,8 +6,10 @@
 
 #include "asservissement.h"
 
- PID pid_dist = {0.6,0.02,2,0,0};	// initialisation du pid pour la distance
- PID pid_orient = {0.5,0.02,1,0,0};	//inititalisation du pid pour l'orientation
+#define ACC_LIMIT 10
+
+ PID pid_dist = {3.2,0.10,3.8,0,0};	// initialisation du pid pour la distance
+ PID pid_orient = {1.8,0.10,2.0,0,0};	//inititalisation du pid pour l'orientation
  CMD cmd = {0,0,0,0,0,0};
 
  char transmit_data=0;
@@ -109,6 +111,8 @@ void transmission_data(char *value){
 //changer cette fonction pour prendre en param de lecture dist et orient
 void asservissement(int *c_dist,int *c_angle,int *dist,int *angle)
 { 
+    int vitesse_d=0,vitesse_g=0;
+
 	// Calcul des erreurs d'orientation
 	pid_orient.err[2]=pid_orient.err[1];
 	pid_orient.err[1]=pid_orient.err[0];
@@ -127,16 +131,40 @@ void asservissement(int *c_dist,int *c_angle,int *dist,int *angle)
 // PID orientation
     cmd.orient = (int) cmd.orient+(pid_orient.kp*pid_orient.delta_err)+(pid_orient.ki*pid_orient.err[0])+(pid_orient.kd*(pid_orient.err[0]-2*pid_orient.err[1]+pid_orient.err[2]));
     // appliquer les cmds aux moteur
-    cmd.pwmG = cmd.dist - cmd.orient;
-    cmd.pwmD = cmd.dist + cmd.orient;
+    cmd.pwmG[0] = cmd.dist - cmd.orient;
+    cmd.pwmD[0] = cmd.dist + cmd.orient;
 
-    // Normalisation des cmds PWM de sortie (le moteur ne bouge pas avec un pwm < 240)
-    if (cmd.pwmD < -900) {cmd.pwmD = -900;}
-    else if (cmd.pwmD > 900) {cmd.pwmD = 900;}
-    if (cmd.pwmG < -900) {cmd.pwmG = -900;}
-    else if (cmd.pwmG > 900) {cmd.pwmG = 900;}
-    inverser_droit(cmd.pwmD);
-    inverser_gauche(cmd.pwmG);
+    /* regul speed more or less */
+    vitesse_d = -cmd.pwmD[1]+cmd.pwmD[0];
+    vitesse_g = -cmd.pwmG[1]+cmd.pwmG[0];
+
+ //   if(vitesse_d > ACC_LIMIT){cmd.pwmD[0]=cmd.pwmD[1]+ACC_LIMIT;}
+//    else if(vitesse_d < -ACC_LIMIT){cmd.pwmD[0] = cmd.pwmD[1]-ACC_LIMIT;}
+
+//    if(vitesse_g>ACC_LIMIT){cmd.pwmG[0]=cmd.pwmG[1]+ACC_LIMIT;}
+//    else if(vitesse_g < -ACC_LIMIT){cmd.pwmG[0] = cmd.pwmG[1]-ACC_LIMIT;}
+
+    cmd.pwmD[1] = cmd.pwmD[0];
+    cmd.pwmG[1] = cmd.pwmG[0];
+
+
+    // Normalisation des cmds PWM de sortie (le moteur ne bouge pas avec un pwm < 240)if (cmd.pwmD < -800) {cmd.pwmD = -800;}
+    if (cmd.pwmD[0] < -800) {cmd.pwmD[0] = -800;}
+    else if (cmd.pwmD[0] > 800) {cmd.pwmD[0] = 800;}
+    else if ((cmd.pwmD[0] >-260) && (cmd.pwmD[0] <= -100)){cmd.pwmD[0] = -260;}
+    else if ((cmd.pwmD[0]<260) && cmd.pwmD[0] >= 100){cmd.pwmD[0] = 260;}
+    else if (abs(cmd.pwmD[0])<100){cmd.pwmD[0] = 0;}
+
+    if (cmd.pwmG[0] < -800) {cmd.pwmG[0] = -800;}
+    else if (cmd.pwmG[0] > 800) {cmd.pwmG[0] = 800;}
+    else if (cmd.pwmG[0] <260 && cmd.pwmG[0] >= 100){cmd.pwmG[0] = 260;}
+    else if (cmd.pwmG[0] >-260 && cmd.pwmG[0] <=-100){cmd.pwmG[0] = -260;}
+    else if (abs(cmd.pwmG[0])<100){cmd.pwmG[0] = 0;}
+
+        
+    inverser_droit(cmd.pwmD[0]);
+    inverser_gauche(cmd.pwmG[0]);
+
 }
 
 void inverser_droit(int pwm){
@@ -155,9 +183,12 @@ void inverser_gauche(int pwm){
 *============================================================*/
 
 void Excep_MTU0_TCIV0(void) {
-	int mesure_dist, mesure_angl;
-	//loadouble value of the position in tck
-	transfer_position_pol(&mesure_dist,&mesure_angl);
+    LED1=~LED1;       //debug
+    int mesure_dist, mesure_angl;
+
+    /*  get value from coder */
+    transfer_position_pol(&mesure_dist,&mesure_angl);
+
     /* part of the function that allow to stop robot at 90 sec */
     if(transmit_data==1)
     {
@@ -168,17 +199,20 @@ void Excep_MTU0_TCIV0(void) {
         }
         match_counter ++;
     }
-    LED1=~LED1;       //debug
     unsigned char adr = 3;
-    //send_int(&adr,&cmd.pwmG);
+//    send_int(&adr,&cmd.pwmG);
     send_int(&adr,&mesure_angl);
+    //send_int(&adr,&mesure_dist);
     adr = 5;
-    send_int(&adr,&cmd.orient_p);
-    //send_int(&adr,&cmd.pwmD);
+    send_int(&adr,&mesure_dist);
+   // send_int(&adr,&cmd.orient_p);
+    //send_int(&adr,&cmd.dist_p);
+//    send_int(&adr,&cmd.pwmD);
     /**** bim we start the asserv*******/
     asservissement(&cmd.dist_p,&cmd.orient_p,&mesure_dist,&mesure_angl);
 
     /* reset du timer */
 	flag_over_te = 0;		//remise à zero du flag
 	reset_timer_te;			// remise a la bonne valeur du compteur
+//    LED1_OFF;       //debug
 }

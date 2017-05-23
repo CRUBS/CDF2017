@@ -113,3 +113,10 @@ void transfer_position_pol(int *dist,int *angl)
 	*dist = odo.dist_tck;
 	*angl = odo.angl_tck;
 }
+
+void rmz_odo(void)
+{
+    odo.dist_tck = 0;
+    odo.angl_tck = 0;
+    reset_cod();
+}

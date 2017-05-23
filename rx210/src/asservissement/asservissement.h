@@ -12,7 +12,8 @@
 #include "pwm_asser_RX210.h"
 #include "uart.h"
 #include "odometrie.h"
-#include "math.h"
+#include "stdlib.h"
+
 
 //definition des différentes flags
 #define flag_over_te IR(MTU0,TCIV0)	//flag overflow timer
@@ -43,21 +44,10 @@ struct CMD{
     int orient_p;
 	int dist;
 	int orient;
-    int pwmG;
-	int pwmD;
+    int pwmG[2];
+	int pwmD[2];
 };
 
-//définition de toutes les variables necessaires au fonctionnement de la fonction d'asservissement
-int erreur_prec_dist;int erreur_prec_orient;
-int somme_erreur_dist;int somme_erreur_orient;
-int mesure_dist;
-int mesure_orient;
-int cmd_dist;int cmd_orient;
-int mesure_dist;int mesure_orient;
-int erreur_dist;int erreur_orient;
-int erreur_prec_dist;int erreur_prec_orient;
-int erreur_prec_dist_2;int erreur_prec_orient_2;
-int delta_erreur_dist;int delta_erreur_orient;
 //communication
 
 void send_pilot_mg( short *pwm);	//send the value of the pmw left cmd
