@@ -33,6 +33,8 @@ Private global variables and functions
 ******************************************************************************/
 
 volatile struct odometrie odo = {0,0,0,0,0,0};
+extern struct CMD cmd;
+
 
 /******************************************************************************
 * Function Name	: overflow_mtu1
@@ -114,9 +116,34 @@ void transfer_position_pol(int *dist,int *angl)
 	*angl = odo.angl_tck;
 }
 
+/**********************************************************
+* Function Name	: rmz_odo
+* Description	: function to reset var of odo
+* Arguments     : none
+* Return value	: none
+***********************************************************/
 void rmz_odo(void)
 {
     odo.dist_tck = 0;
     odo.angl_tck = 0;
     reset_cod();
+}
+
+/**********************************************************
+* Function Name	: dont_mouv
+* Description	: function to stop the mvt of the robot
+* Arguments     : non for now !!
+* Return value	: none
+***********************************************************/
+void dont_mouv(void)
+{
+    int dist,angl;
+
+    /* here turn off the position generator */
+
+    /* get the actual position of the robot */
+    transfer_position_pol(&dist,&angl);
+    /* keep asserv at this position */
+    cmd.dist_p = dist - 100;
+    cmd.orient_p = angl;
 }

@@ -6,14 +6,33 @@
 
 #include "asservissement.h"
 
-#define ACC_LIMIT 10
+#define ACC_LIMIT 5
+#define PWM_MAX 500
+#define PWM_MIN 100
+#define PWM_ZERO 100
+#define MIN_ERR 50
 
- PID pid_dist = {3.2,0.10,3.8,0,0};	// initialisation du pid pour la distance
- PID pid_orient = {1.8,0.10,2.0,0,0};	//inititalisation du pid pour l'orientation
+
+
+ PID pid_dist = {8.0,0.0,18.0,0,0};	// initialisation du pid pour la distance
+ PID pid_orient = {5.0,0.0,25.0,0,0};	//inititalisation du pid pour l'orientation
  CMD cmd = {0,0,0,0,0,0};
 
  char transmit_data=0;
  extern int match_counter;
+
+/* tableau de trajectoire à l'arrache comme dab ;) */
+#define TAILLE_TAB_TRAJ 18
+
+int traj_dist[TAILLE_TAB_TRAJ]={0,0,200,0,200,0,0,0,4500,0,450,0,5000,0,3000,0,4000,0};
+int traj_orient[TAILLE_TAB_TRAJ]={0,600,0,600,0,600,0,450,0,0,0,4000,0,6000,0,6000,0,0};
+
+//int traj_dist[TAILLE_TAB_TRAJ]={0,0,200,0,200,0,100,0,1000,0,0};
+//int traj_orient[TAILLE_TAB_TRAJ]={0,660,0,660,0,660,0,660,0,350,0};
+
+int j = 0;
+
+
 /***********************************************************************************************
  * function of communication
  *********************************************************************************************/
@@ -25,7 +44,7 @@ void send_pilot_mg( short *pwm)	//send the value of the pmw left cmd
 void send_pilot_md( short *pwm)	// send the value of the pwm right cmd
 {
 	char adresse = 4;
-	send_sht(&adresse,&(cmd.pwmD));
+    send_sht(&adresse,&(cmd.pwmD));
 }
 
 
@@ -134,32 +153,21 @@ void asservissement(int *c_dist,int *c_angle,int *dist,int *angle)
     cmd.pwmG[0] = cmd.dist - cmd.orient;
     cmd.pwmD[0] = cmd.dist + cmd.orient;
 
-    /* regul speed more or less */
-    vitesse_d = -cmd.pwmD[1]+cmd.pwmD[0];
-    vitesse_g = -cmd.pwmG[1]+cmd.pwmG[0];
 
- //   if(vitesse_d > ACC_LIMIT){cmd.pwmD[0]=cmd.pwmD[1]+ACC_LIMIT;}
-//    else if(vitesse_d < -ACC_LIMIT){cmd.pwmD[0] = cmd.pwmD[1]-ACC_LIMIT;}
-
-//    if(vitesse_g>ACC_LIMIT){cmd.pwmG[0]=cmd.pwmG[1]+ACC_LIMIT;}
-//    else if(vitesse_g < -ACC_LIMIT){cmd.pwmG[0] = cmd.pwmG[1]-ACC_LIMIT;}
-
-    cmd.pwmD[1] = cmd.pwmD[0];
-    cmd.pwmG[1] = cmd.pwmG[0];
 
 
     // Normalisation des cmds PWM de sortie (le moteur ne bouge pas avec un pwm < 240)if (cmd.pwmD < -800) {cmd.pwmD = -800;}
-    if (cmd.pwmD[0] < -800) {cmd.pwmD[0] = -800;}
-    else if (cmd.pwmD[0] > 800) {cmd.pwmD[0] = 800;}
-    else if ((cmd.pwmD[0] >-260) && (cmd.pwmD[0] <= -100)){cmd.pwmD[0] = -260;}
-    else if ((cmd.pwmD[0]<260) && cmd.pwmD[0] >= 100){cmd.pwmD[0] = 260;}
-    else if (abs(cmd.pwmD[0])<100){cmd.pwmD[0] = 0;}
+    if (cmd.pwmD[0] < -PWM_MAX) {cmd.pwmD[0] = -PWM_MAX;}
+    else if (cmd.pwmD[0] > PWM_MAX) {cmd.pwmD[0] = PWM_MAX;}
+    else if ((cmd.pwmD[0] >-PWM_MIN) && (cmd.pwmD[0] <= -PWM_ZERO)){cmd.pwmD[0] = -260;}
+    else if ((cmd.pwmD[0]<PWM_MIN) && cmd.pwmD[0] >= PWM_ZERO){cmd.pwmD[0] = PWM_MIN;}
+    else if (abs(cmd.pwmD[0])<PWM_ZERO){cmd.pwmD[0] = 0;}
 
-    if (cmd.pwmG[0] < -800) {cmd.pwmG[0] = -800;}
-    else if (cmd.pwmG[0] > 800) {cmd.pwmG[0] = 800;}
-    else if (cmd.pwmG[0] <260 && cmd.pwmG[0] >= 100){cmd.pwmG[0] = 260;}
-    else if (cmd.pwmG[0] >-260 && cmd.pwmG[0] <=-100){cmd.pwmG[0] = -260;}
-    else if (abs(cmd.pwmG[0])<100){cmd.pwmG[0] = 0;}
+    if (cmd.pwmG[0] < -PWM_MAX) {cmd.pwmG[0] = -PWM_MAX;}
+    else if (cmd.pwmG[0] > PWM_MAX) {cmd.pwmG[0] = PWM_MAX;}
+    else if (cmd.pwmG[0] <PWM_MIN && cmd.pwmG[0] >= PWM_ZERO){cmd.pwmG[0] = PWM_MIN;}
+    else if (cmd.pwmG[0] >-PWM_MIN && cmd.pwmG[0] <=-PWM_ZERO){cmd.pwmG[0] = -PWM_MIN;}
+    else if (abs(cmd.pwmG[0])<PWM_ZERO){cmd.pwmG[0] = 0;}
 
         
     inverser_droit(cmd.pwmD[0]);
@@ -182,37 +190,61 @@ void inverser_gauche(int pwm){
 *	reglage à 10ms
 *============================================================*/
 
-void Excep_MTU0_TCIV0(void) {
-    LED1=~LED1;       //debug
+void Excep_MTU4_TCIV4(void) {
+//    LED1=~LED1;       //debug
     int mesure_dist, mesure_angl;
 
     /*  get value from coder */
     transfer_position_pol(&mesure_dist,&mesure_angl);
 
+
     /* part of the function that allow to stop robot at 90 sec */
     if(transmit_data==1)
     {
-        if(match_counter >=9000)
-        {
-            /* here all function which  need to be stop */
-            stop_asserv();
-        }
         match_counter ++;
     }
-    unsigned char adr = 3;
+#if UART
+   unsigned char adr = 3;
 //    send_int(&adr,&cmd.pwmG);
     send_int(&adr,&mesure_angl);
-    //send_int(&adr,&mesure_dist);
+//    send_int(&adr,&mesure_dist);
     adr = 5;
     send_int(&adr,&mesure_dist);
-   // send_int(&adr,&cmd.orient_p);
-    //send_int(&adr,&cmd.dist_p);
+//    send_int(&adr,&cmd.orient_p);
+//    send_int(&adr,&cmd.dist_p);
 //    send_int(&adr,&cmd.pwmD);
+
+#endif
+
+    /* get the next trajectory point */
+
+    if(INT_DETECT!=1)
+    {
+        if((pid_dist.err[0] < MIN_ERR) && (pid_orient.err[0] < MIN_ERR))
+        {
+            cmd.orient_p -=traj_orient[j];
+            cmd.dist_p += traj_dist[j];
+            j++;
+            if(j >= TAILLE_TAB_TRAJ){j--;}
+
+        }
+    }
     /**** bim we start the asserv*******/
     asservissement(&cmd.dist_p,&cmd.orient_p,&mesure_dist,&mesure_angl);
 
     /* reset du timer */
-	flag_over_te = 0;		//remise à zero du flag
-	reset_timer_te;			// remise a la bonne valeur du compteur
+    flag_over_te = 0;   //remise à zero du flag
+    reset_timer_te;     // remise a la bonne valeur du compteur
 //    LED1_OFF;       //debug
+}
+
+
+/***************************************************
+* function to manage time
+***************************************************/
+
+int time_end(void)
+{
+    if(match_counter<9000){return 1;}
+    else{return 0;}
 }

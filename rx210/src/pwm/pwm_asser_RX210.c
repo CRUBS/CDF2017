@@ -8,6 +8,7 @@
 #include "RPBRX210.h"
 #include "typedefine.h"
 
+#define FUNNY_VERROU 500
 
 // function which initialyze the PWM of motor driver
 // it take a parameter which is the frequencie (between 0x0000 & 0xFFFF) of mcu speed
@@ -25,4 +26,32 @@ void init_pwm_asser(void){
 	MTU3.TGRB=0; // duty cycle pwm 1 = 0%
 	MTU3.TGRD=0; // duty cylce pwm 2 = 0%
 	MTU.TSTR.BIT.CST3=1; // active la pwm
-	}
+}
+
+
+/**********************************************************
+*
+*   Function: init_pwm_funny
+*   description: init register to create a pwm on mtu5
+*
+**********************************************************/
+
+void init_pwm_funny(void)
+{
+    MTU0.TCR.BYTE=0x23; // CCLR[2,0]=001 : cleaned by TGR
+                        // CKEG[1,0]=00  : count on raise fron
+                       // TPSC[2,0]=011 : clk/64
+    MTU0.TIORH.BYTE=0x52;  // TGRA up and TGRB down the output signal
+    //MTU4.TIORL.BYTE=0x00;  // no output on TGRC/D
+    MTU0.TMDR.BYTE=0x02; //MD[3,0]=0010 : pwm mode 1
+    MTU0.TGRA=10000; //définie la frequence du pwm, ici 50hz pour piloter un cerveau moteur
+    MTU0.TGRB=280; //évite au moteur de se bloquer en 0°
+    MTU.TSTR.BIT.CST0=1; // active la pwm
+}
+
+
+void send_funny(void)
+{
+    MTU0.TGRB = 500;
+}
+

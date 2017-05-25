@@ -126,15 +126,14 @@
 #define        SW1               PORT3.PIDR.BIT.B1
 #define        SW_RMZ_ODO        PORTC.PIDR.BIT.B2
 #define        SW_INIT_ROBOT     PORTC.PIDR.BIT.B3
-#define        SW_RUN            PORTC.PIDR.BIT.B4
+#define        SW_RUN            PORT5.PIDR.BIT.B0
 #define        SW_AU             PORTC.PIDR.BIT.B5
 #define        INT_DETECT        PORTC.PIDR.BIT.B6
+#define        R_FUNNY           PORT5.PIDR.BIT.B1
 
 /*  LED on the big robot */
-#define         LED_ASSERV       PORT5.PODR.BIT.B0
-#define         LED_R1           PORT5.PODR.BIT.B1
-#define         LED_R2           PORT5.PODR.BIT.B2
-#define         LED_R3           PORT5.PODR.BIT.B3
+#define         LED_DETECT       PORT5.PODR.BIT.B2
+#define         MOS_STOP         PORT5.PODR.BIT.B3
 #define         LED_RUN          PORT5.PODR.BIT.B4
 /*  LED to display time */
 #define         LED_T1

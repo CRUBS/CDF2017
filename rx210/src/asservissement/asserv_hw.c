@@ -11,28 +11,57 @@ void init_echant(){
 	SYSTEM.PRCR.WORD=0xA502;
 	SYSTEM.MSTPCRA.BIT.ACSE=0;
 	MSTP(MTU)=0;
-	MTU0.TCR.BYTE=0x03;			//clock frequencies divise by 64
-	MTU0.TMDR.BYTE=0x00;		//timer in normal mode
+	MTU4.TCR.BYTE=0x03;			//clock frequencies divise by 64
+	MTU4.TMDR.BYTE=0x00;		//timer in normal mode
 	reset_timer_te;				//initialize the value of timer
-	MTU0.TIER.BYTE=0x10;		// set the interrupt but don't active the counter
-	IEN(MTU0,TCIV0)=1;
-	IPR(MTU0,TCIV0)=13;
+    MTU4.TIER.BYTE=0x10;		// set the interrupt but don't active the counter
 
-	while(MTU0.TIER.BYTE!=0x10);
-	SYSTEM.PRCR.WORD=0xA500;
+    IEN(MTU4,TCIV4)=1;
+    IPR(MTU4,TCIV4)=13;
+
+    while(MTU4.TIER.BYTE!=0x10);
+    SYSTEM.PRCR.WORD=0xA500;
 
 }
 
+    /*  function to start slave */
 void start_asserv()
 {
-	MTU.TSTR.BIT.CST0=1;	// activation du compteur
+	MTU.TSTR.BIT.CST4=1;	// activation du compteur
 }
 
+    /* function to stop slave */
 void stop_asserv()
 {
-    MTU.TSTR.BIT.CST0=0;        //desactiver l'echantillonnage
     pwm_g = 0;
     pwm_d = 0;
+    INA_D = 0;
+    INB_D = 0;
+    INA_G = 0;
+    INB_G = 0;
     /* ajouter allumage d'une LED */
-    LED2_ON;
 }
+
+extern char transmit_data;
+
+
+/******************************************************************************
+* Function Name	: init_base_temps
+* Description	: timer to count at 90 sec
+* Arguments     : none
+* Return value	: none
+*******************************************************************************/
+
+void init_base_temps(void)
+{
+    match_counter = 0;
+}
+
+void start_match(void)
+{
+    /* active interruption of asservissement and start time counter */
+    transmit_data =1 ;
+    /* enable timer */
+    start_asserv();
+}
+

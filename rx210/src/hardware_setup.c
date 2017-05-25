@@ -30,9 +30,10 @@ void
 HardwareSetup (void)
 {
 //Modification de l'horloge
-SYSTEM.PRCR.WORD=0xA501; //write enable for clock register
+SYSTEM.PRCR.WORD=0xA503; //write enable for clock register
 SYSTEM.SCKCR3.BIT.CKSEL=1; //modification de la main clock ( 001 -> HOCO -> 32MHz)
 SYSTEM.SCKCR.LONG=0x00000000;
+MSTP(MTU) = 0; // MTU(MTU0 to MTU5) module stop state is canceled
 SYSTEM.PRCR.WORD=0xA500; //write disable for all register
 
 
@@ -48,19 +49,33 @@ PORT1.PMR.BYTE  = 0x00 ;    // all port use in I/O
 PORT1.PODR.BYTE = 0x00 ; 	// all output are low
 PORT1.PDR.BYTE = 0xFF ;		// all are output
 
+
+/* Port 2 - PWM/MOS */
+PORT2.PODR.BYTE = 0x00 ;    /* */
+PORT2.PMR.BYTE  = 0x00 ;    /* All GPIO for now */
+MPC.P24PFS.BYTE = 0x01 ;    // port  = MTI0C4B (output)
+MPC.P25PFS.BYTE = 0x01 ;    // port  = MTI0C4B (output)
+PORT2.PMR.BYTE  = 0b00110000;// port 4 use as function
+PORT2.PODR.BYTE = 0x00 ; 	// all output are low
+PORT2.PDR.BYTE = 0x30 ;	// 0-3/5-7 input 4 output (pwm)
+
+
+
 /* Port 3 - SW1 */
 PORT3.PODR.BYTE = 0x00 ;    /* */
 PORT3.PMR.BYTE  = 0x00 ;    /* All GPIO for now */
 MPC.P31PFS.BYTE = 0x00 ;    //
-PORT3.PMR.BYTE  = 0x00 ;    // all port use in I/O
+MPC.P34PFS.BYTE = 0x01 ;    /* pwm MTIOCA0 port j1-16*/
+PORT3.PMR.BYTE  = 0x10 ;    // all port use in I/O
 PORT3.PODR.BYTE = 0x00 ; 	// all output are low
-PORT3.PDR.BYTE = 0x00 ;		// all are input 
+PORT3.PDR.BYTE = 0x10 ;		// all are input port4 output pwm
 
 /* Port 5 - LED */
 PORT5.PODR.BYTE = 0x00;
 PORT5.PMR.BYTE = 0x00;      /* All in GPIO mode */
-PORT5.PDR.BYTE = 0xFF;      /* All port as output */
+PORT5.PDR.BYTE = 0xFC;      /* All port as output 0/1 input*/
 PORT5.PODR.BYTE = 0X00;     /*  All port are low */
+PORT5.PCR.BYTE = 0x03;
 
 /* Port A - MTCLKA & MTCLKB & MTCLKC & MTCLKD */
 PORTA.PODR.BYTE = 0x00 ;    /* */
@@ -84,16 +99,18 @@ MPC.PB3PFS.BYTE = 0x00 ;	// port = 0/1 (output)
 MPC.PB6PFS.BYTE = 0x0A ;	// port = RXD9 (input)
 MPC.PB7PFS.BYTE = 0x0A ;	// port = TXD9 (output)
 PORTB.PMR.BYTE  = 0b01100000 ;    // port 6 & 7 use as function
-//ici peut ête une config sup à mettre 
+PORTB.PDR.BYTE = 0b11011111;	//port in output
+PORTB.PODR.BYTE = 0x00 ;    /* */
 
 /*Port C - MTIOC3A & MTIOC3C */
 PORTC.PODR.BYTE = 0x00 ;    /* */
 PORTC.PMR.BYTE  = 0x00 ;    /* All GPIO for now */
 MPC.PC0PFS.BYTE = 0x01 ;    // port = MTIOC3C (output)
-MPC.PC1PFS.BYTE = 0x01 ;	// port = MTIOC3A (output)
+MPC.PC1PFS.BYTE = 0x01 ;    // port = MTIOC3A (output)
 PORTC.PMR.BYTE  = 0b00000011 ;    // port 0 & 1 use as function
 PORTC.PODR.BYTE = 0x00 ; 	// all output are low
-PORTC.PDR.BYTE = 0x83 ;	// 2-6 input 0-1 output (pwm)
+PORTC.PDR.BYTE = 0x03 ;	// 2-6 input 0-1 output (pwm)
+PORTC.PCR.BYTE = 0xBC;  // pull-up on all 2-6 port
 
 //Fin des droits d'écriture des registres PFS
 MPC.PWPR.BIT.B0WI=1;

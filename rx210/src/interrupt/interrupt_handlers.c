@@ -158,7 +158,7 @@ void Excep_MTU0_TGIC0(void) {  }
 void Excep_MTU0_TGID0(void) {  }
 
 // MTU0 TCIV0
-//void Excep_MTU0_TCIV0(void) {}
+void Excep_MTU0_TCIV0(void) {}
 // MTU0 TGIE0
 void Excep_MTU0_TGIE0(void) {  }
 
@@ -217,7 +217,7 @@ void Excep_MTU4_TGIC4(void) {  }
 void Excep_MTU4_TGID4(void) {  }
 
 // MTU4 TCIV4
-void Excep_MTU4_TCIV4(void) {  }
+//void Excep_MTU4_TCIV4(void) {  }
 
 // MTU5 TGIU5
 void Excep_MTU5_TGIU5(void) {  }

@@ -71,8 +71,14 @@ struct odometrie{
 void overflow_mtu1(int *comp_d);		//function to manage the over&underflow of mtu1
 void overflow_mtu2(int *comp_g);		//function to manage the over&underflow of mtu2
 void transfer_position_pol(int *dist, int *angl);	//transfert the position tck
+
+
+
 /* reset of odometrie use with switch */
 void rmz_odo(void);
+
+/* function to manage trajectory */
+void dont_mouv(void);
 
 /**********************************************************
 * 		DECODER

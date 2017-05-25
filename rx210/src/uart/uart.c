@@ -131,9 +131,9 @@ int uart_put_char(unsigned char message)
 
 void active_reception(void)
 {
-	IR(SCI9,RXI9)=0;			//clear the flag
-	IEN(SCI9,RXI9)=1;			//enable interrupt from controller
-	SCI9.SCR.BIT.RIE=1;			//enable interrupt from register
+    IR(SCI9,RXI9)=0;			//clear the flag
+    IEN(SCI9,RXI9)=1;			//enable interrupt from controller
+    SCI9.SCR.BIT.RIE=1;			//enable interrupt from register
 }
 
 /******************************************************************************
@@ -386,5 +386,6 @@ int read_uart()
 
 		}
 	}
+    LED0_ON;
 	return 0;
 }

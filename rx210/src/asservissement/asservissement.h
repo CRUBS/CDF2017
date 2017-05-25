@@ -16,15 +16,16 @@
 
 
 //definition des différentes flags
-#define flag_over_te IR(MTU0,TCIV0)	//flag overflow timer
+#define flag_over_te IR(MTU4,TCIV4)	//flag overflow timer
 
 //definition activation/désactivation timer echantillonnage
-#define echant_on MTU0.TIER.BYTE=0x10
-#define echant_off MTU0.TIER.BYTE=0x00
+#define echant_on MTU4.TIER.BYTE=0x10
+#define echant_off MTU4.TIER.BYTE=0x00
 
 //definition du compteur
-#define reset_timer_te MTU0.TCNT=60535//donc le compteur comptera 5000 avant de déborder soit pour 32Mhz/64 10ms
+#define reset_timer_te MTU4.TCNT=60535//donc le compteur comptera 5000 avant de déborder soit pour 32Mhz/64 10ms
 
+int match_counter;
 /**********************************************************
 *		Struct define
 **********************************************************/
@@ -77,14 +78,26 @@ void load_da(float *d);
 
 void transmission_data(char *value);	//active la transmission des données
 
+/**********************************************************
 //hardware
+**********************************************************/
 void init_echant(void);			// Configuration des registres
 void start_asserv(void);		// activation du compteur
 void stop_asserv(void);
 
+/**********************************************************
 //asserv
+**********************************************************/
+
 void asservissement(int *c_dist,int *c_angle,int*dist,int *angle); // Fonction d'asservissement
 void inverser_droit(int pwm); 	// inverse le sens de rot du moteur droit en fonction du signe de pwm
 void inverser_gauche(int pwm);	// inverse le sens de rot du moteur gauche en fonction du signe de pwm
 
+/**********************************************************
+* gestion match
+**********************************************************/
+
+void init_base_temps(void);
+void start_match(void);
+int time_end(void);
 #endif

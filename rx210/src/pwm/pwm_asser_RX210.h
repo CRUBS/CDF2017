@@ -16,7 +16,8 @@
 // declaration des fonctions
 
 void init_pwm_asser(void);//initialisation des registres
-
+void init_pwm_funny(void);
+void send_funny(void);
 
 
 #endif
