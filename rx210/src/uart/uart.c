@@ -386,6 +386,6 @@ int read_uart()
 
 		}
 	}
-    LED0_ON;
+  //  LED0_ON;
 	return 0;
 }

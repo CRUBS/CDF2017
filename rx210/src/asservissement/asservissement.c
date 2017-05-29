@@ -7,28 +7,42 @@
 #include "asservissement.h"
 
 #define ACC_LIMIT 5
-#define PWM_MAX 500
-#define PWM_MIN 100
-#define PWM_ZERO 100
-#define MIN_ERR 50
+#define PWM_MAX 550
+#define PWM_MIN 0
+#define PWM_ZERO 0
+#define MIN_ERR 80
 
 
 
- PID pid_dist = {8.0,0.0,18.0,0,0};	// initialisation du pid pour la distance
- PID pid_orient = {5.0,0.0,25.0,0,0};	//inititalisation du pid pour l'orientation
+ PID pid_dist = {5.0,0.00,20.0,0,0};	// initialisation du pid pour la distance
+// PID pid_orient = {0.0,0.00,00.0,0,0};	//inititalisation du pid pour l'orientation
+PID pid_orient = {5.5,0.000,24.0,0,0};	//inititalisation du pid pour l'orientation
  CMD cmd = {0,0,0,0,0,0};
 
  char transmit_data=0;
  extern int match_counter;
 
 /* tableau de trajectoire à l'arrache comme dab ;) */
-#define TAILLE_TAB_TRAJ 18
+#define TAILLE_TAB_TRAJ 44
 
-int traj_dist[TAILLE_TAB_TRAJ]={0,0,200,0,200,0,0,0,4500,0,450,0,5000,0,3000,0,4000,0};
-int traj_orient[TAILLE_TAB_TRAJ]={0,600,0,600,0,600,0,450,0,0,0,4000,0,6000,0,6000,0,0};
+/* coté bleu */
+//int traj_dist[TAILLE_TAB_TRAJ]={\
+0,0,400,0,   0,0,5500,0,   0,0,0,0,   0,5000,0,0,   0,0,0,3500,   0,0,0,0,   0,0,5000,0,  1500,0,0,-4000,  0,0,0,-6000,   0,0,0,3000, 0,-8500,0,2500,  0};
+//int traj_orient[TAILLE_TAB_TRAJ]={\
+0,1200,0,1000,  0,0,0,0,   0,0,4000,0,  0,0,0,5500,  0,0,0,0,   0,0,6200,0,  0,0,0,0,  0,0,0,0,  0,3000,0,0,   0,-5000,0,0,  0,0,0,0,  0};
 
-//int traj_dist[TAILLE_TAB_TRAJ]={0,0,200,0,200,0,100,0,1000,0,0};
-//int traj_orient[TAILLE_TAB_TRAJ]={0,660,0,660,0,660,0,660,0,350,0};
+
+/* coté jaune */
+int traj_dist[TAILLE_TAB_TRAJ]={\
+0,0,400,0,   0,0,5500,0,   0,0,0,0,   0,5000,0,0,   0,0,0,3500,   0,0,0,0,   0,0,5000,0,  1500,0,0,-4000,  0,0,0,-6000,   0,0,0,3000, 0,-8500,0,2500,  0};
+int traj_orient[TAILLE_TAB_TRAJ]={\
+0,-1200,0,-1000,  0,0,0,0,   0,0,-4000,0,  0,0,0,-5500,  0,0,0,0,   0,0,-6200,0,  0,0,0,0,  0,0,0,0,  0,-3000,0,0,   0,5000,0,0,  0,0,0,0,  0};
+
+
+//int traj_dist[TAILLE_TAB_TRAJ]={0,7000,0,100,0,0,0,0,5500,0,500,0,5000,0,4000,0,6500,0,-6000,0,5000,0,0};
+//int traj_orient[TAILLE_TAB_TRAJ]={0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0};
+//int traj_dist[TAILLE_TAB_TRAJ]={0,0,200,0,200,0,0,0,5500,0,500,0,5000,0,4000,0,6500,0,0};
+//int traj_orient[TAILLE_TAB_TRAJ]={0,-600,0,-600,0,-600,0,-450,0,0,0,-4000,0,-6000,0,-6000,0,800,0};
 
 int j = 0;
 
@@ -93,7 +107,7 @@ void send_angle()
 }
 //fonction of receiption
 //reprendre ces fonction pour les rentrer dans la reception de int
-void load_dist(int *dist){cmd.dist_p += *dist;}
+void load_dist(int *dist){cmd.dist_p += *dist;LED2_ON;}
 
 void load_angle(int *angl){cmd.orient_p += *angl;}	//change the value of angle driver
 
@@ -189,6 +203,7 @@ void inverser_gauche(int pwm){
 *	Interuption timer d'echantillonnage 
 *	reglage à 10ms
 *============================================================*/
+int k = 0;
 
 void Excep_MTU4_TCIV4(void) {
 //    LED1=~LED1;       //debug
@@ -206,10 +221,10 @@ void Excep_MTU4_TCIV4(void) {
 #if UART
    unsigned char adr = 3;
 //    send_int(&adr,&cmd.pwmG);
-    send_int(&adr,&mesure_angl);
+//    send_int(&adr,&mesure_angl);
 //    send_int(&adr,&mesure_dist);
     adr = 5;
-    send_int(&adr,&mesure_dist);
+//    send_int(&adr,&mesure_dist);
 //    send_int(&adr,&cmd.orient_p);
 //    send_int(&adr,&cmd.dist_p);
 //    send_int(&adr,&cmd.pwmD);
@@ -220,14 +235,20 @@ void Excep_MTU4_TCIV4(void) {
 
     if(INT_DETECT!=1)
     {
-        if((pid_dist.err[0] < MIN_ERR) && (pid_orient.err[0] < MIN_ERR))
-        {
-            cmd.orient_p -=traj_orient[j];
-            cmd.dist_p += traj_dist[j];
-            j++;
-            if(j >= TAILLE_TAB_TRAJ){j--;}
+        if((pid_dist.err[0] < MIN_ERR) && (pid_orient.err[0] < MIN_ERR)){
+            k++;
+            if(k>50){
+                cmd.orient_p +=traj_orient[j];
+                cmd.dist_p += traj_dist[j];
+               // cmd.orient_p =0;
+               // cmd.dist_p =0;
+                j++;
+                if(j >= TAILLE_TAB_TRAJ){j--;MOS_STOP=1;}
+                k=0;
+               }
+            }
 
-        }
+     //   }
     }
     /**** bim we start the asserv*******/
     asservissement(&cmd.dist_p,&cmd.orient_p,&mesure_dist,&mesure_angl);
